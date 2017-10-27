@@ -1,0 +1,7 @@
+Uma empresa organiza castings para programas de televisão e pretende desenvolver um sistema para suportar esses processos. O processo involve um conjunto de jurados, caracterizados pelo nome, morada, telemóvel e o género de arte performativa que
+é sua especialidade. Esses jurados são responsáveis pela avaliação de candidatos nas sessões de castings.
+Cada sessão possui 3 jurados, sendo um deles o responsável pela sessão. Cada sessão incide sobre um género de arte performativa que será avaliada. A empresa nunca organiza duas sessões de casting de uma arte performativa no mesmo dia.
+Finalmente, é preciso registar informação sobre os candidatos, incluindo o nome, morada, data de nascimento, género de arte performativa em que se consideram mais aptos, um número único de inscrição que lhes é atribuído quando se inscrevem pela primeira vez e também as suas parcipações em sessões de casting.
+Cada candidato pode participar em várias sessões e, para cada uma delas, é registada a ordem (1o, 2o, 3o, etc.) e a classificação final (número de 1 a 10) atribuida pelo jurado responsável pela sessão. O processo de seleção do candidato vencedor ocorre em duas fases. Numa primeira fase, a pontuação é calculada como a média das pontuações dadas por cada jurado. Numa segunda fase, a pontuação do jurado responsável pela sessão tem o dobro do peso das restantes. Na segunda fase, parcipam os 5 candidatos com
+maior pontuação da primeira fase.
+O sistema deve gerir todo o processo de organização dos castings, incluindo inscrições, seleção de jurados e registo de resultados.
