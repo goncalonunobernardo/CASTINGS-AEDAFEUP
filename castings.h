@@ -31,6 +31,7 @@ private:
 	int ordem; //1,2,3,...
 	vector <int> classificacao;//Em que  a primeira classificação é dada pelo primeiro jurado, a segunda pelo segundo e a terceira pelo terceiro
 	int fase; //1 ou 2
+	int numMaxCandidatos; 
 	string responsavel;
 	string genero;
 	string data; //A empresa não organiza mais que uma sessao do mesmo género por dia
@@ -39,9 +40,10 @@ private:
 	vector <Candidato> concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
 	int getOrdem() const;
-	int getClassificacao() const;
+	vector<int> getClassificacao() const;
 	string getResponsavel() const;
-
+	vector<Jurado> getJurados_sessao() const;
+	vector <Candidato> getConcorrentes_iniciais() const;
 };
 class Candidato : Pessoa {
 private:
