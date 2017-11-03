@@ -13,15 +13,17 @@ public:
 	string getNome() const;
 	string getMorada() const;
 	string getGenero() const;
-	void setMorada();
+	void setMorada(string morada);
 };
 
 class Jurado : Pessoa {
 private:
-	int telemovel;
+	string telemovel;
 public:
-	int getTelemovel() const;
 	Jurado(string nome, string morada, string genero, string telemovel);
+	string getTelemovel() const;
+	void setTelemovel(string telemovel) const;
+	
 
 };
 class Sessao {
@@ -30,8 +32,8 @@ private:
 	int classificacao;//1-10
 	string responsavel;
 public:
-	string getOrdem() const;
-	string getClassificacao() const;
+	int getOrdem() const;
+	int getClassificacao() const;
 	string getResponsavel() const;
 	void setOrdem();
 	void setClassificacao();
@@ -41,13 +43,13 @@ public:
 class Candidato : Pessoa {
 private:
 	string data_nascimento;
-	static int numInscricao; //atribuido  automaticamente quando realizam a 1Âªinscricao
+	static int numInscricao; //atribuido  automaticamente quando realizam a 1ªinscricao
 	vector<Sessao> sessoes;
 public:
 	Candidato(string nome, string morada, string genero, string data_nascimento);
 	string getDataNascimento() const;
 	vector<Sessao> getSessoes() const;
-	};
+};
 
 
 class Castings {
