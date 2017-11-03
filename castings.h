@@ -29,15 +29,18 @@ public:
 class Sessao {
 private:
 	int ordem; //1,2,3,...
-	int classificacao;//1-10
+	vector <int> classificacao;//Em que  a primeira classificação é dada pelo primeiro jurado, a segunda pelo segundo e a terceira pelo terceiro
+	int fase; //1 ou 2
 	string responsavel;
+	string genero;
+	string data; //A empresa não organiza mais que uma sessao do mesmo género por dia
+	vector<Jurado> jurados_sessao; //Cada sessao é composta por 3 jurados
+	vector <Candidato> concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
+	vector <Candidato> concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
 	int getOrdem() const;
 	int getClassificacao() const;
 	string getResponsavel() const;
-	void setOrdem();
-	void setClassificacao();
-	void setResponsavel();
 
 };
 class Candidato : Pessoa {
