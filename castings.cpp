@@ -54,6 +54,9 @@ bool Jurado::operator==(Jurado & j1)
 
 
 
+int Sessao::getId() const {
+	return id;
+}
 
 string Sessao::getGenero() const
 {
@@ -154,7 +157,7 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 			if (sessoes.at(i).getNumVagas() > 0)
 			{
 				for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
-					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) throw CandidatoRepetido(c1->getNome());
+					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) throw CandidatoRepetido(c1);
 				}
 				sessoes.at(i).getConcorrentes_iniciais().push_back(c1);
 				return true;
@@ -175,7 +178,7 @@ bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao & s1)
 			j = j1;
 	}
 	if (j == nullptr) {
-		//throw JuradoInexistente(j1);
+		throw JuradoInexistente(j1);
 		return false;
 	}
 	for (size_t j = 0; j < sessoes.size(); j++) {
@@ -184,18 +187,18 @@ bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao & s1)
 		}
 	}
 	if (countS == 0) {
-	//	throw SessaoInexistente(s1);
+		throw SessaoInexistente(s1);
 		return false;
 	}
 	for (size_t k = 0; k < sessoes.at(countS).getJurados_sessao().size(); k++) {
 		if (sessoes.at(countS).getJurados_sessao().at(k) == j1) {
-			//throw JuradoRepetido(j1);
+			throw JuradoRepetido(j1);
 			return false;
 		}
 	}
 	if (sessoes.at(countS).getJurados_sessao().size() == 3)
 	{
-		//throw JuradosCompleto;
+		//throw JuradosCompleto();
 		return false;
 	}
 	else
@@ -224,7 +227,7 @@ bool Castings::eliminaCandidato(Candidato * c1)
 	c1->getNome();
 
 	if (c == nullptr) {
-		throw CandidatoInexistente(c1->getNome());
+		throw CandidatoInexistente(c1);
 	}
 	return false;
 }

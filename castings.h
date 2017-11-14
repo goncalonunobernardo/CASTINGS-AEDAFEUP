@@ -75,6 +75,7 @@ private:
 	vector <Candidato*> &concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
 	vector <Candidato*> &concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
+	int getId() const;
 	string getGenero() const;
 	string getData() const;
 	string getResponsavel() const;
