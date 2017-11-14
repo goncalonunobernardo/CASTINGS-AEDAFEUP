@@ -26,7 +26,7 @@ public:
 	virtual bool operator==(Pessoa &p1);
 };
 
-class Jurado : Pessoa {
+class Jurado : public Pessoa {
 private:
 	string telemovel;
 public:
@@ -37,7 +37,7 @@ public:
 	
 
 };
-class Candidato : Pessoa {
+class Candidato : public Pessoa {
 private:
 	string data_nascimento;
 	static int numInscricao; //atribuido  automaticamente quando realizam a 1ªinscricao
@@ -101,26 +101,26 @@ public:
 	bool eliminaCandidato(Candidato *c1);
 };
 class CandidatoRepetido {
-	
+	string nome;
 public:
-	Candidato *c;
-	CandidatoRepetido(Candidato *c2) : c(c2) {};
+	CandidatoRepetido(string nome) : nome(nome) {}
+	friend ostream & operator<<(ostream &os, const CandidatoRepetido & c1);
 
 };
-ostream & operator<<(ostream &os, CandidatoRepetido *c1) {
+ostream & operator<<(ostream &os, const CandidatoRepetido & c1) {
 	os << "CANDIDATO REPETIDO" << endl;
-	//os << "NOME: " << c1.c->getNome();
+	os << "NOME: " << c1.nome;
 	return os;
 
 }
 class CandidatoInexistente {
+	string nome;
 public: 
-	Candidato *c;
-	CandidatoInexistente(Candidato *c2) : c(c2) {};
-	
-
+	CandidatoInexistente(string nome) : nome(nome) {}
+	friend ostream & operator<<(ostream &os, const CandidatoInexistente & c1);
 };
-ostream & operator<<(ostream &os, const CandidatoInexistente &c1) {
-//	os << c1.c->getNome;
+ostream & operator<<(ostream &os, const CandidatoInexistente & c1) {
+	os << "CANDIDATO INEXISTENTE" << endl;
+	os << "NOME: " << c1.nome;
 	return os;
 }

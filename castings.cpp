@@ -148,13 +148,12 @@ bool Castings::adicionaJurado(Jurado *j1)
 
 bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 {
-
 	for (size_t i = 0; i < sessoes.size(); i++) {
 		if (s1 == sessoes.at(i)) {
 			if (sessoes.at(i).getNumVagas() > 0)
 			{
 				for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
-					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) throw CandidatoRepetido(c1);
+					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) throw CandidatoRepetido(c1->getNome());
 				}
 				sessoes.at(i).getConcorrentes_iniciais().push_back(c1);
 				return true;
@@ -221,8 +220,10 @@ bool Castings::eliminaCandidato(Candidato * c1)
 		}
 	}
 
+	c1->getNome();
+
 	if (c == nullptr) {
-		throw CandidatoInexistente(c1);
+		throw CandidatoInexistente(c1->getNome());
 	}
 	return false;
 }
