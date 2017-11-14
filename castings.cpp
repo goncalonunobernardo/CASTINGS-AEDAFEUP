@@ -1,5 +1,6 @@
 #include "castings.h"
 #include "exceptions.h"
+
 using namespace std;
 
 string Pessoa::getNome() const
@@ -107,6 +108,14 @@ bool Sessao::eliminaCandidatoSessao(Candidato * c1)
 	return false;
 }
 
+bool Sessao::juradoPresente(Jurado * j1)
+{
+	for (size_t i = 0; i < getJurados_sessao().size(); i++) {
+		if (getJurados_sessao().at(i) == j1)return true;
+	}
+	return false;
+}
+
 
 Candidato::Candidato(string nome, string morada, string genero, string data_nascimento):Pessoa(nome,morada,genero)
 {
@@ -168,7 +177,7 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 	}
 }
 
-bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao & s1)
+bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao &s1)
 {	
 	Jurado *j = nullptr;
 	int countS = 0;
@@ -229,6 +238,24 @@ bool Castings::eliminaCandidato(Candidato * c1)
 	if (c == nullptr) {
 		throw CandidatoInexistente(c1);
 	}
+	return false;
+}
+
+bool Castings::eliminaJurado(Jurado * j1)
+{
+	bool presente = false;
+	for (size_t j = 0; j < sessoes.size(); j++) {
+		if (sessoes.at(j).juradoPresente(j1))
+			return false; //Não é possível eliminar um jurado quando ele está presente numa sessão
+	}
+	for (size_t i = 0; i < jurados.size(); i++) {
+		if (jurados.at(i) == j1) {
+			jurados.erase(jurados.begin() + i);
+			return true;
+		}
+	}
+	getchar(); getchar();
+	return false;
 	return false;
 }
 

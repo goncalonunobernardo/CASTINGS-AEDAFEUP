@@ -1,7 +1,11 @@
+#pragma once
+
 #include <iostream>
 #include <iomanip>
 #include <vector>
 #include <string>
+
+
 using namespace std;
 
 class Pessoa;
@@ -10,8 +14,7 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
-class CandidatoRepetido;
-class CandidatoInexistente;
+
 class Pessoa {
 protected:
 	string nome;
@@ -64,7 +67,7 @@ public:
 };
 class Sessao {
 private:
-	static int id;
+	 int id;
 	int fase; //1 ou 2
 	int numMaxCandidatos; 
 	int numVagas;
@@ -84,6 +87,7 @@ public:
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
 	bool eliminaCandidatoSessao(Candidato *c1);
+	bool juradoPresente(Jurado *j1);
 };
 
 
@@ -100,4 +104,5 @@ public:
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
 	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
 	bool eliminaCandidato(Candidato *c1);
+	bool eliminaJurado(Jurado *j1);
 };
