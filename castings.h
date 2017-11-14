@@ -100,27 +100,3 @@ public:
 	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
 	bool eliminaCandidato(Candidato *c1);
 };
-class CandidatoRepetido {
-	string nome;
-public:
-	CandidatoRepetido(string nome) : nome(nome) {}
-	friend ostream & operator<<(ostream &os, const CandidatoRepetido & c1);
-
-};
-ostream & operator<<(ostream &os, const CandidatoRepetido & c1) {
-	os << "CANDIDATO REPETIDO" << endl;
-	os << "NOME: " << c1.nome;
-	return os;
-
-}
-class CandidatoInexistente {
-	string nome;
-public: 
-	CandidatoInexistente(string nome) : nome(nome) {}
-	friend ostream & operator<<(ostream &os, const CandidatoInexistente & c1);
-};
-ostream & operator<<(ostream &os, const CandidatoInexistente & c1) {
-	os << "CANDIDATO INEXISTENTE" << endl;
-	os << "NOME: " << c1.nome;
-	return os;
-}

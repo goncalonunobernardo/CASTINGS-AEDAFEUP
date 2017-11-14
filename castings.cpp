@@ -1,4 +1,5 @@
 #include "castings.h"
+#include "exceptions.h"
 using namespace std;
 
 string Pessoa::getNome() const
