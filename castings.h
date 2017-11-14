@@ -11,6 +11,7 @@ class Sessao;
 class Pontuacao;
 class Castings;
 class CandidatoRepetido;
+class CandidatoInexistente;
 class Pessoa {
 protected:
 	string nome;
@@ -70,17 +71,18 @@ private:
 	string responsavel;
 	string genero;
 	string data; //A empresa não organiza mais que uma sessao do mesmo género por dia
-	vector<Jurado> &jurados_sessao; //Cada sessao é composta por 3 jurados
-	vector <Candidato> &concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
-	vector <Candidato> &concorrentes_finais; //concorrentes que passam à 2ªfase;
+	vector<Jurado*> &jurados_sessao; //Cada sessao é composta por 3 jurados
+	vector <Candidato*> &concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
+	vector <Candidato*> &concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
 	string getGenero() const;
 	string getData() const;
 	string getResponsavel() const;
-	vector<Jurado> & getJurados_sessao() const;
-	vector <Candidato> & getConcorrentes_iniciais() const;
+	vector<Jurado*> & getJurados_sessao() const;
+	vector <Candidato*> & getConcorrentes_iniciais() const;
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
+	bool eliminaCandidatoSessao(Candidato *c1);
 };
 
 
@@ -94,20 +96,31 @@ public:
 	Castings();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
-	bool adicionaCandidatoSessao(Candidato &c1, Sessao &s1);
+	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
+	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
+	bool eliminaCandidato(Candidato *c1);
 };
 class CandidatoRepetido {
-	Candidato &c1;
+	
 public:
-	CandidatoRepetido(Candidato &c2) : c1(c2) {};
-	Candidato & getCandidato() const {
-		return c1;
-	}
+	Candidato *c;
+	CandidatoRepetido(Candidato *c2) : c(c2) {};
 
 };
-ostream & operator<<(ostream &os, const CandidatoRepetido &c1) {
+ostream & operator<<(ostream &os, CandidatoRepetido *c1) {
 	os << "CANDIDATO REPETIDO" << endl;
-	//os << "NOME: " << c1.getCandidato().getNome();
+	//os << "NOME: " << c1.c->getNome();
 	return os;
 
+}
+class CandidatoInexistente {
+public: 
+	Candidato *c;
+	CandidatoInexistente(Candidato *c2) : c(c2) {};
+	
+
+};
+ostream & operator<<(ostream &os, const CandidatoInexistente &c1) {
+//	os << c1.c->getNome;
+	return os;
 }

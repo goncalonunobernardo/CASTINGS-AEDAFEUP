@@ -69,12 +69,14 @@ string Sessao::getResponsavel() const
 	return responsavel;
 }
 
-vector<Jurado> & Sessao::getJurados_sessao()const 
+vector<Jurado*>& Sessao::getJurados_sessao() const
 {
 	return jurados_sessao;
+	// TODO: inserir instrução de retorno aqui
 }
 
-vector<Candidato> & Sessao::getConcorrentes_iniciais() const
+
+vector<Candidato*> & Sessao::getConcorrentes_iniciais() const
 {
 	return concorrentes_iniciais;
 }
@@ -88,6 +90,16 @@ int Sessao::getNumVagas() const
 bool Sessao::operator==(Sessao & s1)
 {
 	if (s1.getGenero() == this->genero && this->data == s1.getData()) return true;
+	return false;
+}
+
+bool Sessao::eliminaCandidatoSessao(Candidato * c1)
+{
+	for (size_t i = 0; i < concorrentes_iniciais.size(); i++) {
+		concorrentes_iniciais.erase(concorrentes_iniciais.begin() + i);
+		return true;
+	}
+
 	return false;
 }
 
@@ -134,7 +146,7 @@ bool Castings::adicionaJurado(Jurado *j1)
 	return true;
 }
 
-bool Castings::adicionaCandidatoSessao(Candidato & c1, Sessao &s1)
+bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 {
 
 	for (size_t i = 0; i < sessoes.size(); i++) {
@@ -151,6 +163,68 @@ bool Castings::adicionaCandidatoSessao(Candidato & c1, Sessao &s1)
 				return false;
 		}
 	}
+}
+
+bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao & s1)
+{	
+	Jurado *j = nullptr;
+	int countS = 0;
+
+	for (size_t i = 0; i < jurados.size(); j++) {
+		if (jurados.at(i) == j1)
+			j = j1;
+	}
+	if (j == nullptr) {
+		//throw JuradoInexistente(j1);
+		return false;
+	}
+	for (size_t j = 0; j < sessoes.size(); j++) {
+		if (s1 == sessoes.at(j)) {
+			countS = j;
+		}
+	}
+	if (countS == 0) {
+	//	throw SessaoInexistente(s1);
+		return false;
+	}
+	for (size_t k = 0; k < sessoes.at(countS).getJurados_sessao().size(); k++) {
+		if (sessoes.at(countS).getJurados_sessao().at(k) == j1) {
+			//throw JuradoRepetido(j1);
+			return false;
+		}
+	}
+	if (sessoes.at(countS).getJurados_sessao().size() == 3)
+	{
+		//throw JuradosCompleto;
+		return false;
+	}
+	else
+		sessoes.at(countS).getJurados_sessao().push_back(j1);
+		return true;
+}
+
+bool Castings::eliminaCandidato(Candidato * c1)
+{
+	Candidato *c = nullptr;
+	for (size_t i = 0; i < sessoes.size(); i++) {
+		for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
+			if (sessoes.at(i).getConcorrentes_iniciais().at(j) == c1) {
+				sessoes.at(i).getConcorrentes_iniciais().erase(sessoes.at(i).getConcorrentes_iniciais().begin() + j);
+			}
+		}
+	}
+	for (size_t i = 0; i < candidatos.size(); i++) {
+		if (candidatos.at(i) == c1) {
+			c = candidatos.at(i);
+			candidatos.erase(candidatos.begin() + i);
+			return true;
+		}
+	}
+
+	if (c == nullptr) {
+		throw CandidatoInexistente(c1);
+	}
+	return false;
 }
 
 int Pontuacao::getId() const
