@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -18,6 +20,7 @@ protected:
 	string morada;
 	string genero;
 public:
+	Pessoa();
 	Pessoa(string nome, string morada, string genero);
 	string getNome() const;
 	string getMorada() const;
@@ -30,6 +33,7 @@ class Jurado : public Pessoa {
 private:
 	string telemovel;
 public:
+	Jurado();
 	Jurado(string nome, string morada, string genero, string telemovel);
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);
@@ -44,6 +48,7 @@ private:
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
+	Candidato();
 	Candidato(string nome, string morada, string genero, string data_nascimento);
 	string getDataNascimento() const;
 	vector<Sessao> getSessoes() const;
@@ -75,6 +80,7 @@ private:
 	vector <Candidato*> &concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
 	vector <Candidato*> &concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
+	Sessao();
 	int getId() const;
 	string getGenero() const;
 	string getData() const;
@@ -94,7 +100,6 @@ private:
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
 public:
-	Castings();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);

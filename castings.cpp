@@ -23,6 +23,7 @@ bool Pessoa::operator==(Pessoa & p1)
 	
 	return false;
 }
+Pessoa::Pessoa() {} // DEFAULT CONSTRUCTOR
 Pessoa::Pessoa(string nome, string morada, string genero) {
 	this->nome = nome;
 	this->morada = morada;
@@ -33,7 +34,7 @@ Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pess
 {
 	this->telemovel = telemovel;
 }
-
+Jurado::Jurado() {} // DEFAULT CONSTRUCTOR
 string Jurado::getTelemovel() const
 {
 	return telemovel;
@@ -51,8 +52,6 @@ bool Jurado::operator==(Jurado & j1)
 
 	return false;
 }
-
-
 
 int Sessao::getId() const {
 	return id;
@@ -112,7 +111,7 @@ Candidato::Candidato(string nome, string morada, string genero, string data_nasc
 {
 	this->data_nascimento = data_nascimento;
 }
-
+Candidato::Candidato() {}; // DEFAULT CONSTRUCTOR
 string Candidato::getDataNascimento() const
 {
 	return data_nascimento;

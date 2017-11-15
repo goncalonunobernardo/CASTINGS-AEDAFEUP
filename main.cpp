@@ -9,5 +9,7 @@ int main() {
 
 	//Função para tratar do Menu Principal
 	Menu_Principal();
+	system("PAUSE");
 
+	return 0;
 }
