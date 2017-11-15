@@ -14,7 +14,20 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
+class Data;
 
+class Data {
+private:
+	int dia;
+	int mes;
+	int ano;
+public:
+	int getDia() const;
+	int getMes() const;
+	int getAno() const;
+	bool operator==(Data &d1);
+
+};
 class Pessoa {
 protected:
 	string nome;
@@ -44,13 +57,13 @@ public:
 };
 class Candidato : public Pessoa {
 private:
-	string data_nascimento;
+	Data data_nascimento;
 	static int numInscricao; //atribuido  automaticamente quando realizam a 1ªinscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
-	Candidato(string nome, string morada, string genero, string data_nascimento);
-	string getDataNascimento() const;
+	Candidato(string nome, string morada, string genero, Data data_nascimento);
+	Data getDataNascimento() const;
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 };
@@ -67,26 +80,28 @@ public:
 	double getClassificacao() const;
 
 };
+
 class Sessao {
-private:
+protected:
 	 int id;
 	int fase; //1 ou 2
 	int numMaxCandidatos; 
 	int numVagas;
 	string responsavel;
 	string genero;
-	string data; //A empresa não organiza mais que uma sessao do mesmo género por dia
+	Data data; //A empresa não organiza mais que uma sessao do mesmo género por dia
 	vector<Jurado*> &jurados_sessao; //Cada sessao é composta por 3 jurados
 	vector <Candidato*> &concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
 	vector <Candidato*> &concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
 	int getId() const;
 	string getGenero() const;
-	string getData() const;
+	Data getData() const;
 	string getResponsavel() const;
 	vector<Jurado*> & getJurados_sessao() const;
 	vector <Candidato*> & getConcorrentes_iniciais() const;
 	int getNumVagas() const;
+	void setData(Data data);
 	bool operator==(Sessao &s1);
 	bool eliminaCandidatoSessao(Candidato *c1);
 	bool juradoPresente(Jurado *j1);
@@ -107,4 +122,7 @@ public:
 	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
 	bool eliminaCandidato(Candidato *c1);
 	bool eliminaJurado(Jurado *j1);
+	
 };
+
+

@@ -30,7 +30,7 @@ Pessoa::Pessoa(string nome, string morada, string genero) {
 	this->genero = genero;
 }
 
-Jurado::Jurado(string ficheiro)
+/*Jurado::Jurado(string ficheiro)
 {
 	istringstream juradoS(ficheiro);
 	string nome;
@@ -52,7 +52,7 @@ Jurado::Jurado(string ficheiro)
 
 
 
-}
+}*/
 
 Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pessoa(nome, morada,genero)
 {
@@ -88,7 +88,7 @@ string Sessao::getGenero() const
 	return genero;
 }
 
-string Sessao::getData() const
+Data Sessao::getData() const
 {
 	return data;
 }
@@ -116,6 +116,11 @@ int Sessao::getNumVagas() const
 	return vagas;
 }
 
+void Sessao::setData(Data data)
+{
+	this->data = data;
+}
+
 bool Sessao::operator==(Sessao & s1)
 {
 	if (s1.getGenero() == this->genero && this->data == s1.getData()) return true;
@@ -141,12 +146,12 @@ bool Sessao::juradoPresente(Jurado * j1)
 }
 
 
-Candidato::Candidato(string nome, string morada, string genero, string data_nascimento):Pessoa(nome,morada,genero)
+Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento):Pessoa(nome,morada,genero)
 {
 	this->data_nascimento = data_nascimento;
 }
 
-string Candidato::getDataNascimento() const
+Data Candidato::getDataNascimento() const
 {
 	return data_nascimento;
 }
@@ -190,7 +195,10 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 			if (sessoes.at(i).getNumVagas() > 0)
 			{
 				for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
-					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) throw CandidatoRepetido(c1);
+					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) {
+						throw CandidatoRepetido(c1);
+						return false;
+					}
 				}
 				sessoes.at(i).getConcorrentes_iniciais().push_back(c1);
 				return true;
@@ -316,4 +324,25 @@ double Pontuacao::getClassificacao() const
 	}
 		
 	return classificacao;
+}
+
+int Data::getDia() const
+{
+	return dia;
+}
+
+int Data::getMes() const
+{
+	return mes;
+}
+
+int Data::getAno() const
+{
+	return ano;
+}
+
+bool Data::operator==(Data & d1)
+{
+	if (this->getDia() == d1.getDia() && this->getMes() == d1.getMes() && this->getAno() == d1.getAno())return true;
+	return false;
 }
