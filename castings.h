@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <vector>
 #include <string>
-
+#include <sstream>
 
 using namespace std;
 
@@ -21,7 +21,8 @@ protected:
 	string morada;
 	string genero;
 public:
-	Pessoa(string nome, string morada, string genero);
+	Pessoa();
+	Pessoa (string nome, string morada, string genero);
 	string getNome() const;
 	string getMorada() const;
 	string getGenero() const;
@@ -33,6 +34,7 @@ class Jurado : public Pessoa {
 private:
 	string telemovel;
 public:
+	Jurado(string ficheiro);
 	Jurado(string nome, string morada, string genero, string telemovel);
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);

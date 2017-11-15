@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+
 #include "castings.h"
 
 class CandidatoRepetido {
@@ -35,6 +36,6 @@ public:
 class SessaoInexistente {
 	int id;
 public:
-	SessaoInexistente(Sessao * s);
+	SessaoInexistente(Sessao & s);
 	friend ostream & operator<<(ostream &os, const SessaoInexistente & s1);
 };

@@ -46,7 +46,7 @@ ostream & operator<<(ostream &os, const JuradoInexistente & j1) {
 
 // Definição da classe SessaoInexistente
 
-SessaoInexistente::SessaoInexistente(Sessao * s) : id(s->getId()) {}
+SessaoInexistente::SessaoInexistente(Sessao &s) : id(s.getId()) {}
 
 ostream & operator<<(ostream &os, const SessaoInexistente & s1) {
 	os << "SESSÃO INEXISTENTE" << endl;

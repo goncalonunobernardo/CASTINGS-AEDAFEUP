@@ -30,6 +30,30 @@ Pessoa::Pessoa(string nome, string morada, string genero) {
 	this->genero = genero;
 }
 
+Jurado::Jurado(string ficheiro)
+{
+	istringstream juradoS(ficheiro);
+	string nome;
+	string morada;
+	string genero;
+	string telemovel;
+	
+	juradoS >> nome;
+	juradoS.ignore(1000, ';');
+
+	juradoS >> morada;
+	juradoS.ignore(1000, ';');
+
+	juradoS >> genero;
+	juradoS.ignore(1000, ';');
+
+	juradoS >> telemovel;
+	juradoS.ignore(1000, ';');
+
+
+
+}
+
 Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pessoa(nome, morada,genero)
 {
 	this->telemovel = telemovel;
