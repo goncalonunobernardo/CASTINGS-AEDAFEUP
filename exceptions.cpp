@@ -3,53 +3,80 @@
 #include <iomanip>
 #include <string>
 
-// Definição da classe CandidatoRepetido
+// Definiï¿½ï¿½o da classe ExcecaoPessoa
+ExcecaoPessoa::ExcecaoPessoa(string nome) : nome(nome) {}
 
-CandidatoRepetido::CandidatoRepetido(Candidato * c) : nome(c->getNome()) {}
+ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
+	os << "NOME: " << p1.nome << endl;
 
-ostream & operator<<(ostream &os, const CandidatoRepetido & c1) {
-	os << "CANDIDATO REPETIDO" << endl;
-	os << "NOME: " << c1.nome;
-	return os;
-
-}
-
-// Definição da classe CandidatoInexistente
-
-CandidatoInexistente::CandidatoInexistente(Candidato * c) : nome(c->getNome()) {}
-
-ostream & operator<<(ostream &os, const CandidatoInexistente & c1) {
-	os << "CANDIDATO INEXISTENTE" << endl;
-	os << "NOME: " << c1.nome;
 	return os;
 }
 
-// Definição da classe JuradoRepetido
+// Definiï¿½ï¿½o da classe ExcecaoSessao
 
-JuradoRepetido::JuradoRepetido(Jurado * j) : nome(j->getNome()) {}
+ExcecaoSessao::ExcecaoSessao(int id) : id(id) {}
 
-ostream & operator<<(ostream &os, const JuradoRepetido & j1) {
-	os << "JURADO REPETIDO" << endl;
-	os << "NOME: " << j1.nome;
+ostream & operator<<(ostream &os, const ExcecaoSessao & s1) {
+	cout << "ID: " << s1.id << endl;
+	
 	return os;
 }
 
-// Definição da classe JuradoInexistente
+// Definiï¿½ï¿½o da classe CandidatoRepetido
 
-JuradoInexistente::JuradoInexistente(Jurado * j) : nome(j->getNome()) {}
+CandidatoRepetido::CandidatoRepetido(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
-ostream & operator<<(ostream &os, const JuradoInexistente & j1) {
-	os << "JURADO INEXISTENTE" << endl;
-	os << "NOME: " << j1.nome;
-	return os;
+void CandidatoRepetido::handler() {
+	ExcecaoPessoa * p1 = this;
+	cout << "CANDIDATO REPETIDO" << endl;
+	cout << *p1;
 }
 
-// Definição da classe SessaoInexistente
+// Definiï¿½ï¿½o da classe CandidatoInexistente
 
-SessaoInexistente::SessaoInexistente(Sessao &s) : id(s.getId()) {}
+CandidatoInexistente::CandidatoInexistente(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
-ostream & operator<<(ostream &os, const SessaoInexistente & s1) {
-	os << "SESSÃO INEXISTENTE" << endl;
-	os << "ID: " << s1.id;
-	return os;
+void CandidatoInexistente::handler() {
+	ExcecaoPessoa * p1 = this;
+	cout << "CANDIDATO INEXISTENTE" << endl;
+	cout << *p1;
+}
+
+// Definiï¿½ï¿½o da classe JuradoRepetido
+
+JuradoRepetido::JuradoRepetido(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
+
+void JuradoRepetido::handler() {
+	ExcecaoPessoa * p1 = this;
+	cout << "JURADO REPETIDO" << endl;
+	cout << *p1;
+}
+
+// Definiï¿½ï¿½o da classe JuradoInexistente
+
+JuradoInexistente::JuradoInexistente(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
+
+void JuradoInexistente::handler() {
+	ExcecaoPessoa * p1 = this;
+	cout << "JURADO INEXISTENTE" << endl;
+	cout << *p1;
+}
+
+// Definiï¿½ï¿½o da classe SessaoInexistente
+
+SessaoInexistente::SessaoInexistente(Sessao  &s) : ExcecaoSessao(s.getId()) {}
+
+void SessaoInexistente::handler() {
+	ExcecaoSessao * s1 = this;
+	cout << "SESSï¿½O INEXISTENTE" << endl;
+	cout << *s1;
+}
+
+// Definiï¿½ï¿½o da classe JuradosCompleto
+
+JuradosCompleto::JuradosCompleto() {}
+
+void JuradosCompleto::handler() {
+	cout << "JURI COMPLETO" << endl;
+	cout << "Nï¿½o pode adicionar mais jurados ï¿½ sessï¿½o." << endl;
 }

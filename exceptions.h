@@ -4,38 +4,54 @@
 
 #include "castings.h"
 
-class CandidatoRepetido {
+class ExcecaoPessoa {
 	string nome;
+protected:
+	ExcecaoPessoa(string nome);
+	friend ostream & operator<<(ostream &os, const ExcecaoPessoa & p1);
+	virtual void handler();
+};
+
+class ExcecaoSessao {
+	int id;
+protected:
+	ExcecaoSessao(int id);
+	friend ostream & operator<<(ostream &os, const ExcecaoSessao & s1);
+	virtual void handler();
+};
+
+class CandidatoRepetido : public ExcecaoPessoa {
 public:
 	CandidatoRepetido(Candidato * c);
-	friend ostream & operator<<(ostream &os, const CandidatoRepetido & c1);
-
+	void handler();
 };
 
-class CandidatoInexistente {
-	string nome;
+class CandidatoInexistente : public ExcecaoPessoa {
 public:
 	CandidatoInexistente(Candidato * c);
-	friend ostream & operator<<(ostream &os, const CandidatoInexistente & c1);
+	void handler();
 };
 
-class JuradoRepetido {
-	string nome;
+class JuradoRepetido : public ExcecaoPessoa {
 public:
 	JuradoRepetido(Jurado * j);
-	friend ostream & operator<<(ostream &os, const JuradoRepetido & j1);
+	void handler();
 };
 
-class JuradoInexistente {
-	string nome;
+class JuradoInexistente : public ExcecaoPessoa {
 public:
 	JuradoInexistente(Jurado * j);
-	friend ostream & operator<<(ostream &os, const JuradoInexistente & j1);
+	void handler();
 };
 
-class SessaoInexistente {
-	int id;
+class SessaoInexistente : public ExcecaoSessao{
 public:
-	SessaoInexistente(Sessao & s);
-	friend ostream & operator<<(ostream &os, const SessaoInexistente & s1);
+	SessaoInexistente(Sessao  &s);
+	void handler();
+};
+
+class JuradosCompleto {
+public:
+	JuradosCompleto();
+	void handler();
 };
