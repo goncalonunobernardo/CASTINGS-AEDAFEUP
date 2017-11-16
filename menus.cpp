@@ -37,6 +37,7 @@ int opcao = -1;
 	cout << " 3) Alterar...\n";
 	cout << " 4) Informacoes.\n";
 	cout << " 5) Gravar Ficheiro\n";
+	cout << " 6) Exibir classificações \n";
 	cout << " 0) Terminar programa.\n";
 	cout << "=============================================================================================================\n";
 	while (!cin.fail())
@@ -58,6 +59,9 @@ int opcao = -1;
 			Menu_Informacoes();
 		case 5:
 			Menu_Gravar_Ficheiros();
+			break;
+		case 6:
+			Menu_MostrarResultados();
 			break;
 		default:
 			InvalidInputMenu();
@@ -83,6 +87,7 @@ void Menu_Adicionar() {
 	cout << "2) Candidato a Sessão";
 	cout << "3) Jurado ao CASTINGTORIUM 2000\n";
 	cout << "4) Jurado a Sessão";
+	cout << "5) Classificações";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -102,8 +107,18 @@ void Menu_Adicionar() {
 			try {
 				casting.adicionaCandidatoSessao(&candidato, s1);
 			}
+			catch (CandidatoInexistente candidato) {
+				candidato.handler();
+				Menu_Adicionar();
+				break;
+			}
 			catch (CandidatoRepetido candidato) {
 				candidato.handler();
+				Menu_Adicionar();
+				break;
+			}
+			catch (SessaoInexistente sessao) {
+				sessao.handler();
 				Menu_Adicionar();
 				break;
 			}
@@ -195,10 +210,15 @@ void Menu_Remover() {
 			break;
 		case 2:
 			try {
-				s1.eliminaCandidatoSessao(&candidato);
+				casting.eliminaCandidatoSessao(&candidato, s1);
 			}
 			catch (CandidatoInexistente candidato) {
 				candidato.handler();
+				Menu_Remover();
+				break;
+			}
+			catch (SessaoInexistente sessao) {
+				sessao.handler();
 				Menu_Remover();
 				break;
 			}

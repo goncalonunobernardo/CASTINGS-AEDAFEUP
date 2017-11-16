@@ -18,6 +18,8 @@ void Menu_Informacoes();
 void Menu_Artes();
 void Termina_Programa();
 
-void Menu_Grava_Ficheiros();
+void Menu_Gravar_Ficheiros();
 void Grava_Ficheiro_Candidatos();
 void Grava_Ficheiro_Jurados();
+
+void Menu_MostrarResultados();

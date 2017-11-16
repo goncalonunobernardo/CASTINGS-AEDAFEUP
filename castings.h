@@ -12,8 +12,6 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
-class CandidatoRepetido;
-class CandidatoInexistente;
 class Pessoa {
 protected:
 	string nome;
@@ -53,8 +51,9 @@ public:
 	string getDataNascimento() const;
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
+	void adicionarSessao(Sessao &s1);
 };
-class Pontuacao {
+class Pontuacao { //resultados de um candidato numa determinada sessão e fase
 private:
 	int id_sessao;
 	int fase;
@@ -87,9 +86,9 @@ public:
 	string getResponsavel() const;
 	vector<Jurado*> & getJurados_sessao() const;
 	vector <Candidato*> & getConcorrentes_iniciais() const;
+	vector <Candidato*> & getConcorrentes_finais() const;
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
-	bool eliminaCandidatoSessao(Candidato *c1);
 };
 
 
@@ -105,4 +104,6 @@ public:
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
 	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
 	bool eliminaCandidato(Candidato *c1);
+	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
+	bool eliminaJurado(Jurado * j1);
 };
