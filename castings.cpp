@@ -2,6 +2,10 @@
 #include "exceptions.h"
 using namespace std;
 
+// Classe Pessoa
+
+Pessoa::Pessoa() {} // DEFAULT CONSTRUCTOR
+
 string Pessoa::getNome() const
 {
 	return nome;
@@ -17,9 +21,17 @@ string Pessoa::getGenero() const
 	return genero;
 }
 
+void Pessoa::setNome(string nome) {
+	this->nome = nome;
+}
+
 void Pessoa::setMorada(string morada)
 {
 	this->morada = morada;
+}
+
+void Pessoa::setGenero(string genero) {
+	this->genero = genero;
 }
 
 bool Pessoa::operator==(Pessoa & p1)
@@ -28,13 +40,15 @@ bool Pessoa::operator==(Pessoa & p1)
 	return false;
 }
 
-Pessoa::Pessoa() {} // DEFAULT CONSTRUCTOR
-
 Pessoa::Pessoa(string nome, string morada, string genero) {
 	this->nome = nome;
 	this->morada = morada;
 	this->genero = genero;
 }
+
+// Classe Jurado
+
+Jurado::Jurado() {} // DEFAULT CONSTRUCTOR
 
 Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pessoa(nome, morada,genero)
 {
@@ -72,6 +86,8 @@ bool Jurado::operator==(Jurado & j1)
 	return false;
 }
 
+// Classe Sessao
+
 int Sessao::getId() const {
 	return id;
 }
@@ -86,24 +102,23 @@ string Sessao::getData() const
 	return data;
 }
 
-string Sessao::getResponsavel() const
+Jurado Sessao::getResponsavel() const
 {
 	return responsavel;
 }
 
-vector<Jurado*>& Sessao::getJurados_sessao() const
+vector<Jurado*>& Sessao::getJurados_sessao() 
 {
 	return jurados_sessao;
-	// TODO: inserir instrução de retorno aqui
+	// TODO: inserir instruï¿½ï¿½o de retorno aqui
 }
 
-
-vector<Candidato*> & Sessao::getConcorrentes_iniciais() const
+vector<Candidato*> & Sessao::getConcorrentes_iniciais() 
 {
 	return concorrentes_iniciais;
 }
 
-vector <Candidato*> & Sessao::getConcorrentes_finais() const {
+vector <Candidato*> & Sessao::getConcorrentes_finais()  {
 	return concorrentes_finais;
 }
 
@@ -113,11 +128,21 @@ int Sessao::getNumVagas() const
 	return vagas;
 }
 
+void Sessao::setResponsavel(Jurado j1) {
+	responsavel = j1;
+}
+
 bool Sessao::operator==(Sessao & s1)
 {
 	if (s1.getGenero() == this->genero && this->data == s1.getData()) return true;
 	return false;
 }
+
+bool Sessao::juriCompleto() const {
+	return (jurados_sessao.size() >= 3);
+}
+
+// Classe Candidato
 
 Candidato::Candidato(string nome, string morada, string genero, string data_nascimento):Pessoa(nome,morada,genero)
 {
@@ -183,6 +208,50 @@ void Castings::setUpJurados()
 }
 
 
+// Classe Castings
+
+size_t Castings::juradoExiste(Jurado * j1) {
+	size_t ind = -1;
+	for (size_t i = 0; i < jurados.size(); i++) {
+		if (j1 == jurados.at(i))
+			ind = i;
+	}
+	return ind;
+}
+
+size_t Castings::candidatoExiste(Candidato * c1) {
+	size_t ind = -1;
+	
+	for (size_t i = 0; i < candidatos.size(); i++) {
+		if (c1 == candidatos.at(i))
+			ind = i;
+	}
+	return ind;
+}
+
+size_t Castings::sessaoExiste(Sessao &s1) {
+	size_t ind = -1;
+
+	for (size_t j = 0; j < sessoes.size(); j++) {
+		if (s1 == sessoes.at(j))
+			ind = j;
+	}
+
+	return ind;
+}
+
+size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
+	size_t i, ind = -1;
+	i = sessaoExiste(s1);
+	
+	for (size_t j = 0; j < sessoes.at(i).getJurados_sessao().size(); j++) {
+		if (j1 == sessoes.at(i).getJurados_sessao().at(j))
+			ind = j;
+	}
+
+	return ind;
+}
+
 bool Castings::adicionaCandidato(Candidato *c1)
 {
 	for (size_t i = 0; i < candidatos.size(); i++) {
@@ -195,25 +264,16 @@ bool Castings::adicionaCandidato(Candidato *c1)
 
 bool Castings::adicionaJurado(Jurado *j1)
 {
-	for (size_t i = 0; i < jurados.size(); i++) {
-		if (jurados.at(i) == j1) return false;
-	}
+	if (juradoExiste(j1) != -1)
+		throw JuradoRepetido(j1);
 	jurados.push_back(j1);
 	return true;
 }
 
 bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 {
-	bool existe = false;
-	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (*c1 == *candidatos.at(i)) {
-			existe = true;
-		}
-	}
-	if (!existe){
+	if (candidatoExiste(c1) == -1)
 		throw CandidatoInexistente(c1);
-		return false;
-	}
 
 	for (size_t i = 0; i < sessoes.size(); i++) {
 		if (s1 == sessoes.at(i)) {
@@ -227,7 +287,7 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 				return true;
 			}
 			else {
-				cout << "Não existem mais vagas na sessão indicada. \n";
+				cout << "Nï¿½o existem mais vagas na sessï¿½o indicada. \n";
 				return false;
 			}
 		}
@@ -238,21 +298,11 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 
 bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao &s1)
 {	
-	Jurado *j = nullptr;
-	int countS = -1;
+	int countS = sessaoExiste(s1);
 
-	for (size_t i = 0; i < jurados.size(); j++) {
-		if (jurados.at(i) == j1)
-			j = j1;
-	}
-	if (j == nullptr) 
+	if (juradoExiste(j1) == -1)
 		throw JuradoInexistente(j1);
 
-	for (size_t j = 0; j < sessoes.size(); j++) {
-		if (s1 == sessoes.at(j)) {
-			countS = j;
-		}
-	}
 	if (countS == -1) 
 		throw SessaoInexistente(s1);
 	
@@ -261,7 +311,7 @@ bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao &s1)
 			throw JuradoRepetido(j1);	
 	}
 
-	if (sessoes.at(countS).getJurados_sessao().size() == 3)
+	if (sessoes.at(countS).juriCompleto())
 		throw JuradosCompleto();
 	else {
 		sessoes.at(countS).getJurados_sessao().push_back(j1);
@@ -347,6 +397,35 @@ bool Castings::eliminaJurado(Jurado * j1) {
 	return true; //TO DO 
 }
 
+bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
+	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
+	vector<Jurado *> temp(3);
+	vector<Jurado *> * vj;
+
+	if (juradoExiste(j1) == -1)
+		throw JuradoInexistente(j1);
+	if (i == -1)
+		throw SessaoInexistente(s1);
+	if (j == -1)
+		throw JuradoInexistente(j1);
+	if (sessoes.at(i).juriCompleto())
+		throw JuradosCompleto();
+	
+	sessoes.at(i).setResponsavel(*j1);
+	temp.at(0) = j1;
+
+	for (size_t k = 0; i < sessoes.at(i).getJurados_sessao().size(); k++) {
+		if (sessoes.at(i).getJurados_sessao().at(k) != nullptr)
+			temp.push_back(sessoes.at(i).getJurados_sessao().at(k));
+	}
+
+	vj = &sessoes.at(i).getJurados_sessao();
+
+	sessoes.at(i).getJurados_sessao() = temp;
+	return true;
+}
+
+// Classe Pontuacao
 
 int Pontuacao::getId() const
 {
@@ -371,13 +450,13 @@ double Pontuacao::getClassificacao() const
 			classificacao += classificacoes.at(i);
 		}
 		classificacao = classificacao / 3;
-		//1ªFASE
-		//Média das 3 classificações
+		//1ï¿½FASE
+		//Mï¿½dia das 3 classificaï¿½ï¿½es
 	}
 	else {
 		classificacao = 0.5*classificacoes.at(0)+0.50*((classificacoes.at(1)+classificacoes.at(2))/2);
-		//2ªFASE
-		//Pois está estabelecido que, por pre-definição, o jurado responsável é o primeiro.
+		//2ï¿½FASE
+		//Pois estï¿½ estabelecido que, por pre-definiï¿½ï¿½o, o jurado responsï¿½vel ï¿½ o primeiro.
 	}
 		
 	return classificacao;
