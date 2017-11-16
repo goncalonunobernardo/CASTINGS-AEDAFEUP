@@ -97,6 +97,7 @@ void Menu_Adicionar() {
 		case 0:
 			Menu_Principal();
 		case 1:
+
 			casting.adicionaCandidato(&candidato);
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado ao CASTINGTORIUM 200! \nRetornando ao Menu Principal...\n";

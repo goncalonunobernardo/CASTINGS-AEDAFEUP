@@ -296,6 +296,7 @@ bool Castings::eliminaJurado(Jurado * j1) {
 
 		}
 	}
+	return true; //TO DO 
 }
 
 

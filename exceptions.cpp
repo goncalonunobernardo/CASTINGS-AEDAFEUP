@@ -8,6 +8,8 @@ ExcecaoPessoa::ExcecaoPessoa(string nome) : nome(nome) {}
 
 ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
 	os << "NOME: " << p1.nome << endl;
+
+	return os;
 }
 
 // Definição da classe ExcecaoSessao
@@ -16,6 +18,8 @@ ExcecaoSessao::ExcecaoSessao(int id) : id(id) {}
 
 ostream & operator<<(ostream &os, const ExcecaoSessao & s1) {
 	cout << "ID: " << s1.id << endl;
+	
+	return os;
 }
 
 // Definição da classe CandidatoRepetido
