@@ -43,6 +43,18 @@ Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pess
 
 Jurado::Jurado() {} // DEFAULT CONSTRUCTOR
 
+Jurado::Jurado(string ficheiro_jurados)
+{
+	string nome, morada, genero, telemovel;
+	istringstream juradoStream(ficheiro_jurados);
+
+	getline(juradoStream, nome, ';');
+	getline(juradoStream, morada, ';');
+	getline(juradoStream, genero, ';');
+	getline(juradoStream, telemovel);
+
+}
+
 string Jurado::getTelemovel() const
 {
 	return telemovel;
@@ -55,8 +67,7 @@ void Jurado::setTelemovel(string telemovel)
 
 bool Jurado::operator==(Jurado & j1)
 {
-	if (this->getNome() == j1.getNome() && this->getMorada() == j1.getMorada() && this->getTelemovel()==j1.getTelemovel()) return true;
-	return true;
+	if (this->getNome() == j1.getNome() && this->getMorada() == j1.getMorada()) return true;
 
 	return false;
 }
@@ -113,6 +124,22 @@ Candidato::Candidato(string nome, string morada, string genero, string data_nasc
 	this->data_nascimento = data_nascimento;
 }
 
+Candidato::Candidato(string ficheiro_candidatos)
+{
+	istringstream candidatosStream(ficheiro_candidatos);
+	string nome, morada, genero;
+	//DATA
+
+	getline(candidatosStream, nome, ';');
+	getline(candidatosStream, morada, ';');
+	getline(candidatosStream, genero, ';');
+
+	//FOR DATA TO DO 
+	//...
+
+
+}
+
 Candidato::Candidato() {}; // DEFAULT CONSTRUCTOR
 
 string Candidato::getDataNascimento() const
@@ -127,13 +154,34 @@ vector<Sessao> Candidato::getSessoes() const
 
 bool Candidato::operator==(Candidato & c1)
 {
-	if (this->getNome() == c1.getNome() && this->getMorada() == c1.getMorada() && this->getDataNascimento()==c1.getDataNascimento()) return true;
+	if (this->getNome() == c1.getNome() && this->getMorada() == c1.getMorada()) return true;
 	return false;
 }
 
 void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
+
+void Castings::setUpCandidatos()
+{
+	ifstream file(ficheiroCandidatos);
+	string candidato;
+
+	while (getline(file, candidato))
+	{
+		candidatos.push_back(&Candidato(candidato));
+	}
+}
+
+void Castings::setUpJurados()
+{
+	ifstream file(ficheiroJurados);
+	string  jurado;
+	while (getline(file, jurado)) {
+		jurados.push_back(&Jurado(jurado));
+	}
+}
+
 
 bool Castings::adicionaCandidato(Candidato *c1)
 {

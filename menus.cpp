@@ -290,6 +290,7 @@ void Menu_Informacoes() {
 	cout << "3) Tipos de Sessão";
 	cout << "4) Ficheiro de Candidatos";
 	cout << "5) Ficheiro de Jurados";
+	cout << "6) Ficheiro de Sessoes";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -312,6 +313,8 @@ void Menu_Informacoes() {
 			break;
 		case 5:
 			//FUNÇÃO QUE MOSTRA FICHEIRO DE JURADOS COMO SE FOSSE LER NUM .TXT
+		case 6:
+			//FUNÇÃO QUE MOSTRA FICHEIRO DE SESSOES COMO SE FOSSE LER NUM .TXT
 		default:
 			InvalidInputMenu();
 			break;
@@ -372,6 +375,7 @@ void Menu_Gravar_Ficheiro() {
 	cout << "Insira a sua opcao (1,2,...)\n";
 	cout << "1) Gravar ficheiro de candidatos\n";
 	cout << "2) Gravar ficheiro de jurados\n";
+	cout << "3) Gravar ficheiro de sessoes";
 	cout << "0) Menu Principal\n";
 	cout << "========================================================================================================\n\n";
 
@@ -385,6 +389,8 @@ void Menu_Gravar_Ficheiro() {
 			Grava_Ficheiro_Candidatos();
 		case 2:
 			Grava_Ficheiro_Jurados();
+		case 3:
+			//Grava_Ficheiro_Sessoes();
 		default:
 			InvalidInputMenu();
 			break;

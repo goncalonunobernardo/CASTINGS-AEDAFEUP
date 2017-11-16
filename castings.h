@@ -4,6 +4,9 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <fstream>
+
 using namespace std;
 
 class Pessoa;
@@ -32,6 +35,7 @@ private:
 	string telemovel;
 public:
 	Jurado();
+	Jurado(string ficheiro_jurados);
 	Jurado(string nome, string morada, string genero, string telemovel);
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);
@@ -47,6 +51,7 @@ private:
 	vector<Pontuacao> pontuacoes;
 public:
 	Candidato();
+	Candidato(string ficheiro_candidatos);
 	Candidato(string nome, string morada, string genero, string data_nascimento);
 	string getDataNascimento() const;
 	vector<Sessao> getSessoes() const;
@@ -98,7 +103,12 @@ private:
 	vector<Jurado*> jurados;
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
+	string ficheiroCandidatos;
+	string ficheiroJurados;
+	string ficheiroSessoes;
 public:
+	void setUpCandidatos();
+	void setUpJurados();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
