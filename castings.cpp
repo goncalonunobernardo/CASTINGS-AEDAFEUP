@@ -89,23 +89,23 @@ string Sessao::getData() const
 	return data;
 }
 
-string Sessao::getResponsavel() const
+Jurado Sessao::getResponsavel() const
 {
 	return responsavel;
 }
 
-vector<Jurado*>& Sessao::getJurados_sessao() const
+vector<Jurado*>& Sessao::getJurados_sessao() 
 {
 	return jurados_sessao;
 	// TODO: inserir instrução de retorno aqui
 }
 
-vector<Candidato*> & Sessao::getConcorrentes_iniciais() const
+vector<Candidato*> & Sessao::getConcorrentes_iniciais() 
 {
 	return concorrentes_iniciais;
 }
 
-vector <Candidato*> & Sessao::getConcorrentes_finais() const {
+vector <Candidato*> & Sessao::getConcorrentes_finais()  {
 	return concorrentes_finais;
 }
 
@@ -113,6 +113,10 @@ int Sessao::getNumVagas() const
 {
 	int vagas = numMaxCandidatos - concorrentes_iniciais.size();
 	return vagas;
+}
+
+void Sessao::setResponsavel(Jurado j1) {
+	responsavel = j1;
 }
 
 bool Sessao::operator==(Sessao & s1)
@@ -343,8 +347,32 @@ bool Castings::eliminaJurado(Jurado * j1) {
 	return true; //TO DO 
 }
 
-bool Castings::adicionaJuradoResponsavel(Jurado * j1) {
+bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
+	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
+	vector<Jurado *> temp(3);
+	vector<Jurado *> * vj;
+
+	if (juradoExiste(j1) == -1)
+		throw JuradoInexistente(j1);
+	if (i == -1)
+		throw SessaoInexistente(s1);
+	if (j == -1)
+		throw JuradoInexistente(j1);
+	if (sessoes.at(i).juriCompleto())
+		throw JuradosCompleto();
 	
+	sessoes.at(i).setResponsavel(*j1);
+	temp.at(0) = j1;
+
+	for (size_t k = 0; i < sessoes.at(i).getJurados_sessao().size(); k++) {
+		if (sessoes.at(i).getJurados_sessao().at(k) != nullptr)
+			temp.push_back(sessoes.at(i).getJurados_sessao().at(k));
+	}
+
+	vj = &sessoes.at(i).getJurados_sessao();
+
+	sessoes.at(i).getJurados_sessao() = temp;
+	return true;
 }
 
 // Classe Pontuacao

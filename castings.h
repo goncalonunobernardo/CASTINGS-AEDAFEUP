@@ -74,22 +74,23 @@ private:
 	int fase; //1 ou 2
 	int numMaxCandidatos; 
 	int numVagas;
-	string responsavel;
+	Jurado responsavel;
 	string genero;
 	string data; //A empresa não organiza mais que uma sessao do mesmo género por dia
-	vector<Jurado*> &jurados_sessao; //Cada sessao é composta por 3 jurados
-	vector <Candidato*> &concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
-	vector <Candidato*> &concorrentes_finais; //concorrentes que passam à 2ªfase;
+	vector<Jurado*> jurados_sessao; //Cada sessao é composta por 3 jurados
+	vector <Candidato*> concorrentes_iniciais; //vector composto por todos os candidatos à 1ªfase
+	vector <Candidato*> concorrentes_finais; //concorrentes que passam à 2ªfase;
 public:
 	Sessao();
 	int getId() const;
 	string getGenero() const;
 	string getData() const;
-	string getResponsavel() const;
-	vector<Jurado*> & getJurados_sessao() const;
-	vector <Candidato*> & getConcorrentes_iniciais() const;
-	vector <Candidato*> & getConcorrentes_finais() const;
+	Jurado getResponsavel() const;
+	vector<Jurado*> & getJurados_sessao();
+	vector <Candidato*> & getConcorrentes_iniciais();
+	vector <Candidato*> & getConcorrentes_finais();
 	int getNumVagas() const;
+	void setResponsavel(Jurado j1);
 	bool operator==(Sessao &s1);
 	bool juriCompleto() const;
 };
@@ -113,6 +114,6 @@ public:
 	bool eliminaCandidato(Candidato *c1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	bool eliminaJurado(Jurado * j1);
-	bool adicionaJuradoResponsavel(Jurado * j1);
-	bool substituiJuradoResponsavel(Jurado * j1);
+	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
+	bool substituiJuradoResponsavel(Jurado * j1, Sessao &s1);
 };
