@@ -186,7 +186,7 @@ bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao & s1)
 		}
 	}
 	if (countS == 0) {
-		throw SessaoInexistente(s1);
+		//throw SessaoInexistente(s1);
 		return false;
 	}
 	for (size_t k = 0; k < sessoes.at(countS).getJurados_sessao().size(); k++) {
