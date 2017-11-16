@@ -5,6 +5,7 @@
 #include <string>
 #include "menus.h"
 #include "castings.h"
+#include "exceptions.h"
 
 using namespace std;
 
@@ -98,7 +99,14 @@ void Menu_Adicionar() {
 			Menu_Principal();
 			break;
 		case 2:
-			casting.adicionaCandidatoSessao(&candidato, s1);
+			try {
+				casting.adicionaCandidatoSessao(&candidato, s1);
+			}
+			catch (CandidatoRepetido candidato) {
+				candidato.handler();
+				Menu_Adicionar();
+				break;
+			}
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado à Sessão! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
@@ -112,8 +120,29 @@ void Menu_Adicionar() {
 			Menu_Principal();
 			break;
 		case 4:
-			casting.adicionaJuradoSessao(&jurado, s1);
-
+			try {
+				casting.adicionaJuradoSessao(&jurado, s1);
+			}
+			catch (JuradoInexistente jurado){
+				jurado.handler();
+				Menu_Adicionar();
+				break;
+			}
+			catch (SessaoInexistente sessao) {
+				sessao.handler();
+				Menu_Adicionar();
+				break;
+			}
+			catch (JuradoRepetido jurado) {
+				jurado.handler();
+				Menu_Adicionar();
+				break;
+			}
+			catch (JuradosCompleto completo) {
+				completo.handler();
+				Menu_Principal();
+				break;
+			}
 			cout << "=============================================================\n";
 			cout << "Jurado adicionado à Sessão! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
@@ -151,15 +180,28 @@ void Menu_Remover() {
 		case 0:
 			Menu_Principal();
 		case 1:
-			casting.eliminaCandidato(&candidato);
-
+			try {
+				casting.eliminaCandidato(&candidato);
+			}
+			catch (CandidatoInexistente candidato) {
+				candidato.handler();
+				Menu_Remover();
+				break;
+			}
 			cout << "=============================================================\n";
 			cout << "Candidato removido do CASTINGTORIUM2000... \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
 		case 2:
-			s1.eliminaCandidatoSessao(&candidato);
+			try {
+				s1.eliminaCandidatoSessao(&candidato);
+			}
+			catch (CandidatoInexistente candidato) {
+				candidato.handler();
+				Menu_Remover();
+				break;
+			}
 
 			cout << "=============================================================\n";
 			cout << "Candidato removido da Sessão... \nRetornando ao Menu Principal...\n";
