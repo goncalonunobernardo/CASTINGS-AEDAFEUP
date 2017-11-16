@@ -91,6 +91,7 @@ public:
 	vector <Candidato*> & getConcorrentes_finais() const;
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
+	bool juriCompleto() const;
 };
 
 
@@ -101,6 +102,10 @@ private:
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
 public:
+	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado não existir no vetor jurados, retorna o seu indice se existir
+	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato não existir no vetor candidatos, retorna o seu indice se existir
+	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sessão não existir no vetor sessoes, retorna o seu indice se existir
+	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado não existir no vetor jurados_sessao, retorna o seu indice se existir
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
@@ -108,4 +113,6 @@ public:
 	bool eliminaCandidato(Candidato *c1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	bool eliminaJurado(Jurado * j1);
+	bool adicionaJuradoResponsavel(Jurado * j1);
+	bool substituiJuradoResponsavel(Jurado * j1);
 };
