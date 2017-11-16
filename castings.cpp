@@ -17,9 +17,17 @@ string Pessoa::getGenero() const
 	return genero;
 }
 
+void Pessoa::setNome(string nome) {
+	this->nome = nome;
+}
+
 void Pessoa::setMorada(string morada)
 {
 	this->morada = morada;
+}
+
+void Pessoa::setGenero(string genero) {
+	this->genero = genero;
 }
 
 bool Pessoa::operator==(Pessoa & p1)

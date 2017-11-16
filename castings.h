@@ -23,7 +23,9 @@ public:
 	string getNome() const;
 	string getMorada() const;
 	string getGenero() const;
+	void setNome(string nome);
 	void setMorada(string morada);
+	void setGenero(string genero);
 	virtual bool operator==(Pessoa &p1);
 };
 
