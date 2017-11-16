@@ -47,46 +47,18 @@ Pessoa::Pessoa(string nome, string morada, string genero) {
 	this->genero = genero;
 }
 
-<<<<<<< HEAD
-/*Jurado::Jurado(string ficheiro)
-{
-	istringstream juradoS(ficheiro);
-	string nome;
-	string morada;
-	string genero;
-	string telemovel;
-	
-	juradoS >> nome;
-	juradoS.ignore(1000, ';');
-
-	juradoS >> morada;
-	juradoS.ignore(1000, ';');
-
-	juradoS >> genero;
-	juradoS.ignore(1000, ';');
-
-	juradoS >> telemovel;
-	juradoS.ignore(1000, ';');
-
-
-
-}*/
-=======
 // Classe Jurado
 
 Jurado::Jurado() {} // DEFAULT CONSTRUCTOR
->>>>>>> master
+
 
 Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pessoa(nome, morada,genero)
 {
 	this->telemovel = telemovel;
 }
 
-Jurado::Jurado() {} // DEFAULT CONSTRUCTOR
-
 Jurado::Jurado(string ficheiro_jurados)
 {
-	string nome, morada, genero, telemovel;
 	istringstream juradoStream(ficheiro_jurados);
 
 	getline(juradoStream, nome, ';');
@@ -115,6 +87,12 @@ bool Jurado::operator==(Jurado & j1)
 
 // Classe Sessao
 
+Sessao::Sessao(string ficheiro_sessao)
+{
+	string genero, nome;
+	istringstream sessaoStream(ficheiro_sessao);
+}
+
 int Sessao::getId() const {
 	return id;
 }
@@ -124,7 +102,7 @@ string Sessao::getGenero() const
 	return genero;
 }
 
-Data Sessao::getData() const
+Data Sessao::getData() 
 {
 	return data;
 }
@@ -155,14 +133,13 @@ int Sessao::getNumVagas() const
 	return vagas;
 }
 
-<<<<<<< HEAD
+
 void Sessao::setData(Data data)
 {
 	this->data = data;
-=======
+}
 void Sessao::setResponsavel(Jurado j1) {
-	responsavel = j1;
->>>>>>> master
+	this->responsavel = j1;
 }
 
 bool Sessao::operator==(Sessao & s1)
@@ -171,11 +148,14 @@ bool Sessao::operator==(Sessao & s1)
 	return false;
 }
 
+bool Sessao::eliminaCandidatoSessao(Candidato * c1)
+{
+	return false;
+}
+
 bool Sessao::juriCompleto() const {
 	return (jurados_sessao.size() >= 3);
 }
-
-<<<<<<< HEAD
 bool Sessao::juradoPresente(Jurado * j1)
 {
 	for (size_t i = 0; i < getJurados_sessao().size(); i++) {
@@ -184,27 +164,32 @@ bool Sessao::juradoPresente(Jurado * j1)
 	return false;
 }
 
-=======
 // Classe Candidato
->>>>>>> master
 
 Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento):Pessoa(nome,morada,genero)
 {
 	this->data_nascimento = data_nascimento;
 }
-
-<<<<<<< HEAD
-Data Candidato::getDataNascimento() const
-=======
 Candidato::Candidato(string ficheiro_candidatos)
 {
 	istringstream candidatosStream(ficheiro_candidatos);
-	string nome, morada, genero;
-	//DATA
-
+	string d, dia, mes, ano;
 	getline(candidatosStream, nome, ';');
 	getline(candidatosStream, morada, ';');
 	getline(candidatosStream, genero, ';');
+	getline(candidatosStream, d);
+	istringstream dataStream(d);
+	getline(dataStream, dia, '-');
+	int diaI = stoi(dia);
+	data_nascimento.setDia(diaI);
+	getline(dataStream, mes, '-');
+	int mesI=stoi(mes);
+	data_nascimento.setMes(mesI);
+	getline(dataStream, ano);
+	int anoI = stoi(ano);
+	data_nascimento.setAno(anoI);
+
+
 
 	//FOR DATA TO DO 
 	//...
@@ -214,8 +199,7 @@ Candidato::Candidato(string ficheiro_candidatos)
 
 Candidato::Candidato() {}; // DEFAULT CONSTRUCTOR
 
-string Candidato::getDataNascimento() const
->>>>>>> master
+Data Candidato::getDataNascimento() const
 {
 	return data_nascimento;
 }
@@ -257,6 +241,21 @@ void Castings::setUpJurados()
 
 
 // Classe Castings
+
+vector<Jurado*> Castings::getJurados()
+{
+	return jurados;
+}
+
+vector<Candidato*> Castings::getCandidatos()
+{
+	return candidatos;
+}
+
+vector<Sessao> Castings::getSessao()
+{
+	return sessoes;
+}
 
 size_t Castings::juradoExiste(Jurado * j1) {
 	size_t ind = -1;
@@ -396,7 +395,6 @@ bool Castings::eliminaCandidato(Candidato * c1)
 	return false;
 }
 
-<<<<<<< HEAD
 bool Castings::eliminaJurado(Jurado * j1)
 {
 	bool presente = false;
@@ -415,7 +413,6 @@ bool Castings::eliminaJurado(Jurado * j1)
 	return false;
 }
 
-=======
 bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 	Candidato * c = nullptr, * c2 = nullptr;
 	size_t index = -1;
@@ -458,15 +455,6 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 	return false;
 }
 
-// por completar
-bool Castings::eliminaJurado(Jurado * j1) {
-	for (unsigned int i = 0; i < sessoes.size(); i++) {
-		for (unsigned int j = 0; j < sessoes.at(i).getJurados_sessao().size(); j++) {
-
-		}
-	}
-	return true; //TO DO 
-}
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
@@ -485,20 +473,19 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	sessoes.at(i).setResponsavel(*j1);
 	temp.at(0) = j1;
 
-	for (size_t k = 0; i < sessoes.at(i).getJurados_sessao().size(); k++) {
+	for (size_t k = 0; k < sessoes.at(i).getJurados_sessao().size(); k++) {
 		if (sessoes.at(i).getJurados_sessao().at(k) != nullptr)
 			temp.push_back(sessoes.at(i).getJurados_sessao().at(k));
 	}
 
 	vj = &sessoes.at(i).getJurados_sessao();
 
-	sessoes.at(i).getJurados_sessao() = temp;
+	temp=sessoes.at(i).getJurados_sessao();
 	return true;
 }
 
 // Classe Pontuacao
 
->>>>>>> master
 int Pontuacao::getId() const
 {
 	return id_sessao;
@@ -534,20 +521,39 @@ double Pontuacao::getClassificacao() const
 	return classificacao;
 }
 
-int Data::getDia() const
+
+int Data::getDia()
 {
 	return dia;
 }
 
-int Data::getMes() const
+int Data::getMes()
 {
 	return mes;
 }
 
-int Data::getAno() const
+int Data::getAno()
 {
 	return ano;
 }
+
+void Data::setDia(int dia)
+{
+	this->dia = dia;
+}
+
+void Data::setMes(int mes)
+{
+	this->mes = mes;
+}
+
+void Data::setAno(int ano)
+{
+	this->ano = ano;
+}
+
+
+
 
 bool Data::operator==(Data & d1)
 {

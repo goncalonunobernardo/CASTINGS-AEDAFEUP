@@ -17,12 +17,27 @@ class Pontuacao;
 class Castings;
 class CandidatoRepetido;
 class CandidatoInexistente;
+class Data {
+private:
+	int dia;
+	int mes;
+	int ano;
+public:
+	int getDia();
+	int getMes();
+	int getAno();
+	void setDia(int dia);
+	void setMes(int mes);
+	void setAno(int ano);
+	bool operator==(Data &d1);
+};
 class Pessoa {
 protected:
 	string nome;
 	string morada;
 	string genero;
 public:
+	Pessoa();
 	Pessoa(string nome, string morada, string genero);
 	string getNome() const;
 	string getMorada() const;
@@ -37,6 +52,8 @@ class Jurado : public Pessoa {
 private:
 	string telemovel;
 public:
+	Jurado();
+	Jurado(string ficheiro_jurados);
 	Jurado(string nome, string morada, string genero, string telemovel);
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);
@@ -51,8 +68,10 @@ private:
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
-	Candidato(string nome, string morada, string genero, string data_nascimento);
-	string getDataNascimento() const;
+	Candidato();
+	Candidato(string ficheiro_candidatos);
+	Candidato(string nome, string morada, string genero, Data data_nascimento);
+	Data getDataNascimento() const;
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
@@ -79,21 +98,27 @@ protected:
 	int numVagas;
 	Jurado responsavel;
 	string genero;
-	string data; //A empresa n�o organiza mais que uma sessao do mesmo g�nero por dia
-	vector<Jurado*> &jurados_sessao; //Cada sessao � composta por 3 jurados
-	vector <Candidato*> &concorrentes_iniciais; //vector composto por todos os candidatos � 1�fase
-	vector <Candidato*> &concorrentes_finais; //concorrentes que passam � 2�fase;
+	Data data; //A empresa nao organiza mais que uma sessao do mesmo genero por dia
+	vector<Jurado*> jurados_sessao; //Cada sessao e composta por 3 jurados
+	vector <Candidato*> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
+	vector <Candidato*> concorrentes_finais; //concorrentes que passam  2fase;
 public:
 	Sessao();
+	Sessao(string ficheiro_sessao);
 	int getId() const;
 	string getGenero() const;
-	string getData() const;
-	string getResponsavel() const;
-	vector<Jurado*> & getJurados_sessao() const;
-	vector <Candidato*> & getConcorrentes_iniciais() const;
+	Data getData();
+	Jurado getResponsavel() const;
+	vector<Jurado*> & getJurados_sessao();
+	vector <Candidato*> & getConcorrentes_iniciais();
+	vector <Candidato *> &getConcorrentes_finais();
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
 	bool eliminaCandidatoSessao(Candidato *c1);
+	void setData(Data data);
+	void setResponsavel(Jurado j1);
+	bool juriCompleto() const;
+	bool juradoPresente(Jurado * j1);
 };
 
 
@@ -107,6 +132,9 @@ private:
 	string ficheiroJurados;
 	string ficheiroSessoes;
 public:
+	vector <Jurado *> getJurados();
+	vector< Candidato*> getCandidatos();
+	vector<Sessao> getSessao();
 	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado n�o existir no vetor jurados, retorna o seu indice se existir
 	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato n�o existir no vetor candidatos, retorna o seu indice se existir
 	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sess�o n�o existir no vetor sessoes, retorna o seu indice se existir
@@ -118,6 +146,9 @@ public:
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
 	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
 	bool eliminaCandidato(Candidato *c1);
+	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
+	bool eliminaJurado(Jurado * j1);
+	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 };
 
 
