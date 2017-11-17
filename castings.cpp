@@ -89,42 +89,37 @@ bool Jurado::operator==(Jurado & j1)
 
 Sessao::Sessao(string ficheiro_sessao)
 {
-	string concorrentes_iniciais, inicial_temp,concorrentes_finais,final_temp,jurados_S, resp,jurado_push;
+	string concorrentes_I, inicial_temp,concorrentes_F,final_temp,jurados_S, resp,jurado_push;
 	string d, dia, mes, ano;
-	Candidato *ci, *cf;
+
 	istringstream sessaoStream(ficheiro_sessao);
 	sessaoStream >> id;
 	sessaoStream.ignore(1000, ';');
 	sessaoStream >> fase;
 	sessaoStream.ignore(1000, ';');
 	getline(sessaoStream, genero, ';');
-	getline(sessaoStream, concorrentes_iniciais, ';');
-	istringstream concorrentesI_stream(concorrentes_iniciais);
+	getline(sessaoStream, concorrentes_I, ';');
+	istringstream concorrentesI_stream(concorrentes_I);
 	while (getline(concorrentesI_stream, inicial_temp, ','))
 	{
 		inicial_temp = inicial_temp.substr(1, inicial_temp.size());
-		ci->setNome(inicial_temp);
-		concorrentes_iniciais.push_back(ci);
+		concorrentes_iniciais.push_back(inicial_temp);
 	}
-	getline(sessaoStream, concorrentes_finais, ';');
-	istringstream concorrentesF_stream(concorrentes_finais);
+	getline(sessaoStream, concorrentes_F, ';');
+	istringstream concorrentesF_stream(concorrentes_F);
 	while (getline(concorrentesF_stream, final_temp,','))
 	{
 		final_temp = final_temp.substr(1, final_temp.size());
-		cf->setNome(final_temp);
-		concorrentes_finais.push_back(cf);
+		concorrentes_finais.push_back(final_temp);
 	}
 	getline(sessaoStream, jurados_S, ';');
 	istringstream juradoStream(jurados_S);
-	getline(juradoStream,resp, ',');
-	this->responsavel.setNome(resp);
-	Jurado *j1;
-	j1->setNome(resp);
-	jurados_sessao.push_back(j1);
+	getline(juradoStream, responsavel, ',');
+	jurados_sessao.push_back(responsavel);
+
 	while (getline(juradoStream, jurado_push, ',')) {
 		jurado_push = jurado_push.substr(1, jurado_push.size());
-		j1->setNome(jurado_push);
-		jurados_sessao.push_back(j1);
+		jurados_sessao.push_back(jurado_push);
 	}
 	getline(sessaoStream, d);
 	istringstream dataStream(d);
@@ -154,23 +149,23 @@ Data Sessao::getData()
 	return data;
 }
 
-Jurado Sessao::getResponsavel() const
+string Sessao::getResponsavel() const
 {
 	return responsavel;
 }
 
-vector<Jurado*>& Sessao::getJurados_sessao() 
+vector<string>& Sessao::getJurados_sessao() 
 {
 	return jurados_sessao;
 	// TODO: inserir instru��o de retorno aqui
 }
 
-vector<Candidato*> & Sessao::getConcorrentes_iniciais() 
+vector<string> & Sessao::getConcorrentes_iniciais() 
 {
 	return concorrentes_iniciais;
 }
 
-vector <Candidato*> & Sessao::getConcorrentes_finais()  {
+vector <string> & Sessao::getConcorrentes_finais()  {
 	return concorrentes_finais;
 }
 
@@ -185,7 +180,7 @@ void Sessao::setData(Data data)
 {
 	this->data = data;
 }
-void Sessao::setResponsavel(Jurado j1) {
+void Sessao::setResponsavel(string j1) {
 	this->responsavel = j1;
 }
 
@@ -206,7 +201,7 @@ bool Sessao::juriCompleto() const {
 bool Sessao::juradoPresente(Jurado * j1)
 {
 	for (size_t i = 0; i < getJurados_sessao().size(); i++) {
-		if (getJurados_sessao().at(i) == j1)return true;
+		if (getJurados_sessao().at(i) == j1->getNome())return true;
 	}
 	return false;
 }
@@ -235,12 +230,6 @@ Candidato::Candidato(string ficheiro_candidatos)
 	getline(dataStream, ano);
 	int anoI = stoi(ano);
 	data_nascimento.setAno(anoI);
-
-
-
-	//FOR DATA TO DO 
-	//...
-
 
 }
 
@@ -355,7 +344,7 @@ size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
 	i = sessaoExiste(s1);
 	
 	for (size_t j = 0; j < sessoes.at(i).getJurados_sessao().size(); j++) {
-		if (j1 == sessoes.at(i).getJurados_sessao().at(j))
+		if (j1->getNome() == sessoes.at(i).getJurados_sessao().at(j))
 			ind = j;
 	}
 
@@ -390,17 +379,17 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 			if (sessoes.at(i).getNumVagas() > 0)
 			{
 				for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
-					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1) {
+					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1->getNome()) {
 						throw CandidatoRepetido(c1);
 						return false;
 					}
 				}
-				sessoes.at(i).getConcorrentes_iniciais().push_back(c1);
+				sessoes.at(i).getConcorrentes_iniciais().push_back(c1->getNome());
 				c1->adicionarSessao(s1);
 				return true;
 			}
 			else {
-				cout << "N�o existem mais vagas na sess�o indicada. \n";
+				cout << "Nao existem mais vagas na sessao indicada. \n";
 				return false;
 			}
 		}
@@ -420,14 +409,14 @@ bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao &s1)
 		throw SessaoInexistente(s1);
 	
 	for (size_t k = 0; k < sessoes.at(countS).getJurados_sessao().size(); k++) {
-		if (sessoes.at(countS).getJurados_sessao().at(k) == j1) 
+		if (sessoes.at(countS).getJurados_sessao().at(k) == j1->getNome()) 
 			throw JuradoRepetido(j1);	
 	}
 
 	if (sessoes.at(countS).juriCompleto())
 		throw JuradosCompleto();
 	else {
-		sessoes.at(countS).getJurados_sessao().push_back(j1);
+		sessoes.at(countS).getJurados_sessao().push_back(j1->getNome());
 		return true;
 	}
 
@@ -439,7 +428,7 @@ bool Castings::eliminaCandidato(Candidato * c1)
 	Candidato *c = nullptr;
 	for (size_t i = 0; i < sessoes.size(); i++) {
 		for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
-			if (sessoes.at(i).getConcorrentes_iniciais().at(j) == c1) {
+			if (sessoes.at(i).getConcorrentes_iniciais().at(j) == c1->getNome()) {
 				sessoes.at(i).getConcorrentes_iniciais().erase(sessoes.at(i).getConcorrentes_iniciais().begin() + j);
 			}
 		}
@@ -497,7 +486,7 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 		throw SessaoInexistente(s1);
 
 	for (size_t i = 0; i < sessoes.at(index).getConcorrentes_iniciais().size(); i++) {
-		if (c1 == sessoes.at(index).getConcorrentes_iniciais().at(i)) {
+		if (c1->getNome() == sessoes.at(index).getConcorrentes_iniciais().at(i)) {
 			c2 = c1;
 			sessoes.at(index).getConcorrentes_iniciais().erase(sessoes.at(index).getConcorrentes_iniciais().begin() + i);
 			return true;
@@ -505,7 +494,7 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 	}
 
 	for (size_t i = 0; i < sessoes.at(index).getConcorrentes_finais().size(); i++) {
-		if (c1 == sessoes.at(index).getConcorrentes_finais().at(i)) {
+		if (c1->getNome() == sessoes.at(index).getConcorrentes_finais().at(i)) {
 			c2 = c1;
 			sessoes.at(index).getConcorrentes_finais().erase(sessoes.at(index).getConcorrentes_finais().begin() + i);
 			return true;
@@ -521,8 +510,8 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
-	vector<Jurado *> temp(3);
-	vector<Jurado *> * vj;
+	vector<string> temp(3);
+	vector<string> * vj;
 
 	if (juradoExiste(j1) == -1)
 		throw JuradoInexistente(j1);
@@ -533,11 +522,11 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	if (sessoes.at(i).juriCompleto())
 		throw JuradosCompleto();
 	
-	sessoes.at(i).setResponsavel(*j1);
-	temp.at(0) = j1;
+	sessoes.at(i).setResponsavel(j1->getNome());
+	temp.at(0) = j1->getNome();
 
 	for (size_t k = 0; k < sessoes.at(i).getJurados_sessao().size(); k++) {
-		if (sessoes.at(i).getJurados_sessao().at(k) != nullptr)
+		if (sessoes.at(i).getJurados_sessao().at(k)!= "")
 			temp.push_back(sessoes.at(i).getJurados_sessao().at(k));
 	}
 

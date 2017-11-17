@@ -96,27 +96,27 @@ protected:
 	int fase; //1 ou 2
 	int numMaxCandidatos; 
 	int numVagas;
-	Jurado responsavel;
+	string responsavel;
 	string genero;
 	Data data; //A empresa nao organiza mais que uma sessao do mesmo genero por dia
-	vector<Jurado*> jurados_sessao; //Cada sessao e composta por 3 jurados
-	vector <Candidato*> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
-	vector <Candidato*> concorrentes_finais; //concorrentes que passam  2fase;
+	vector<string> jurados_sessao; //Cada sessao e composta por 3 jurados
+	vector <string> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
+	vector <string> concorrentes_finais; //concorrentes que passam  2fase;
 public:
 	Sessao();
 	Sessao(string ficheiro_sessao);
 	int getId() const;
 	string getGenero() const;
 	Data getData();
-	Jurado getResponsavel() const;
-	vector<Jurado*> & getJurados_sessao();
-	vector <Candidato*> & getConcorrentes_iniciais();
-	vector <Candidato *> &getConcorrentes_finais();
+	string getResponsavel() const;
+	vector<string> & getJurados_sessao();
+	vector <string> & getConcorrentes_iniciais();
+	vector <string> &getConcorrentes_finais();
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
 	bool eliminaCandidatoSessao(Candidato *c1);
 	void setData(Data data);
-	void setResponsavel(Jurado j1);
+	void setResponsavel(string j1);
 	bool juriCompleto() const;
 	bool juradoPresente(Jurado * j1);
 };
