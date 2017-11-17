@@ -157,7 +157,6 @@ string Sessao::getResponsavel() const
 vector<string>& Sessao::getJurados_sessao() 
 {
 	return jurados_sessao;
-	// TODO: inserir instru��o de retorno aqui
 }
 
 vector<string> & Sessao::getConcorrentes_iniciais() 
@@ -506,7 +505,19 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 
 	return false;
 }
-
+bool Castings::compara(Candidato &c1, Candidato &c2)
+{
+	if (c1.getDataNascimento() < c2.getDataNascimento())
+		return true;
+	if (c1.getDataNascimento() == c2.getDataNascimento()) {
+		if (c1.getNome() < c2.getNome()) return true;
+	}
+	return false;
+}
+void Castings::ordenaCandidatosData()
+{
+	sort(candidatos.begin(), candidatos.end(), compara);
+}
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
@@ -561,13 +572,13 @@ double Pontuacao::getClassificacao() const
 			classificacao += classificacoes.at(i);
 		}
 		classificacao = classificacao / 3;
-		//1�FASE
-		//M�dia das 3 classifica��es
+		//1FASE
+		//Media das 3 classificacoes
 	}
 	else {
 		classificacao = 0.5*classificacoes.at(0)+0.50*((classificacoes.at(1)+classificacoes.at(2))/2);
-		//2�FASE
-		//Pois est� estabelecido que, por pre-defini��o, o jurado respons�vel � o primeiro.
+		//2FASE
+		//Pois esta estabelecido que, por pre-definicao, o jurado responsavel e o primeiro.
 	}
 		
 	return classificacao;
@@ -605,10 +616,20 @@ void Data::setAno(int ano)
 }
 
 
-
-
 bool Data::operator==(Data & d1)
 {
 	if (this->getDia() == d1.getDia() && this->getMes() == d1.getMes() && this->getAno() == d1.getAno())return true;
+	return false;
+}
+
+bool Data::operator<(Data & d1) const
+{
+	if (this->ano < d1.ano)return true;
+	else 
+		if (this->ano == d1.ano) {
+			if (this->mes < d1.mes)return true;
+			else
+				if (this->mes == d1.mes && this->dia < dia) return true;
+		}
 	return false;
 }

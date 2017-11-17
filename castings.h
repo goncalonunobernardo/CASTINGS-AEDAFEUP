@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -30,6 +31,7 @@ public:
 	void setMes(int mes);
 	void setAno(int ano);
 	bool operator==(Data &d1);
+	bool operator<(Data &d1) const;
 };
 class Pessoa {
 protected:
@@ -119,6 +121,7 @@ public:
 	void setResponsavel(string j1);
 	bool juriCompleto() const;
 	bool juradoPresente(Jurado * j1);
+
 };
 
 
@@ -151,6 +154,9 @@ public:
 	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
 	bool eliminaJurado(Jurado * j1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
+	bool compara(Candidato &c1, Candidato &c2);
+	void ordenaCandidatosData();
+	
 };
 
 
