@@ -437,6 +437,19 @@ void Grava_Ficheiro_Jurados() {
 	Menu_Principal();
 }
 
-Candidato * criar_Candidato() {
-	cout << ""
+void criar_Candidato(Candidato & novo) {
+	string nome, morada, genero, datastr;
+	cout << "Insira o nome. \n";
+	getline(cin, nome);
+	novo.setNome(nome);
+	cout << "Insira a morada. \n";
+	getline(cin, morada);
+	novo.setMorada(morada);
+	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
+	getline(cin, genero);
+	novo.setGenero(genero);
+	cout << "Insira a data de nascimento. (no formato dd/mm/aaaa) \n";
+	getline(cin, datastr);
+	novo.setDataNascimento(datastr);
+	
 }

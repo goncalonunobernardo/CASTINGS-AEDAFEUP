@@ -72,6 +72,8 @@ public:
 	Candidato(string ficheiro_candidatos);
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
+	void setDataNascimento(Data & data);
+	void setDataNascimento(string data);
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);

@@ -135,6 +135,7 @@ Sessao::Sessao(string ficheiro_sessao)
 
 
 }
+
 int Sessao::getId() const {
 	return id;
 }
@@ -180,6 +181,7 @@ void Sessao::setData(Data data)
 {
 	this->data = data;
 }
+
 void Sessao::setResponsavel(string j1) {
 	this->responsavel = j1;
 }
@@ -198,6 +200,7 @@ bool Sessao::eliminaCandidatoSessao(Candidato * c1)
 bool Sessao::juriCompleto() const {
 	return (jurados_sessao.size() >= 3);
 }
+
 bool Sessao::juradoPresente(Jurado * j1)
 {
 	for (size_t i = 0; i < getJurados_sessao().size(); i++) {
@@ -212,6 +215,7 @@ Candidato::Candidato(string nome, string morada, string genero, Data data_nascim
 {
 	this->data_nascimento = data_nascimento;
 }
+
 Candidato::Candidato(string ficheiro_candidatos)
 {
 	istringstream candidatosStream(ficheiro_candidatos);
@@ -255,35 +259,9 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
-void Castings::setUpCandidatos()
-{
-	ifstream file(ficheiroCandidatos);
-	string candidato;
-
-	while (getline(file, candidato))
-	{
-		candidatos.push_back(&Candidato(candidato));
-	}
+void Candidato::setDataNascimento(Data & data) {
+	data_nascimento = data;
 }
-
-void Castings::setUpJurados()
-{
-	ifstream file(ficheiroJurados);
-	string  jurado;
-	while (getline(file, jurado)) {
-		jurados.push_back(&Jurado(jurado));
-	}
-}
-
-void Castings::setUpSessoes()
-{
-	ifstream file(ficheiroSessoes);
-	string sessao;
-	while (getline(file, sessao)) {
-		sessoes.push_back(Sessao(sessao));
-	}
-}
-
 
 // Classe Castings
 
@@ -509,6 +487,34 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 	return false;
 }
 
+void Castings::setUpCandidatos()
+{
+	ifstream file(ficheiroCandidatos);
+	string candidato;
+
+	while (getline(file, candidato))
+	{
+		candidatos.push_back(&Candidato(candidato));
+	}
+}
+
+void Castings::setUpJurados()
+{
+	ifstream file(ficheiroJurados);
+	string  jurado;
+	while (getline(file, jurado)) {
+		jurados.push_back(&Jurado(jurado));
+	}
+}
+
+void Castings::setUpSessoes()
+{
+	ifstream file(ficheiroSessoes);
+	string sessao;
+	while (getline(file, sessao)) {
+		sessoes.push_back(Sessao(sessao));
+	}
+}
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
@@ -575,6 +581,7 @@ double Pontuacao::getClassificacao() const
 	return classificacao;
 }
 
+// definição da classe Data
 
 int Data::getDia()
 {
@@ -605,9 +612,6 @@ void Data::setAno(int ano)
 {
 	this->ano = ano;
 }
-
-
-
 
 bool Data::operator==(Data & d1)
 {
