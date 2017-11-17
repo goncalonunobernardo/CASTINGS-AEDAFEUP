@@ -80,7 +80,7 @@ void Jurado::setTelemovel(string telemovel)
 
 bool Jurado::operator==(Jurado & j1)
 {
-	if (this->getNome() == j1.getNome() && this->getMorada() == j1.getMorada()) return true;
+	if (this->getNome() == j1.getNome()) return true;
 
 	return false;
 }
@@ -89,10 +89,57 @@ bool Jurado::operator==(Jurado & j1)
 
 Sessao::Sessao(string ficheiro_sessao)
 {
-	string genero, nome;
+	string concorrentes_iniciais, inicial_temp,concorrentes_finais,final_temp,jurados_S, resp,jurado_push;
+	string d, dia, mes, ano;
+	Candidato *ci, *cf;
 	istringstream sessaoStream(ficheiro_sessao);
-}
+	sessaoStream >> id;
+	sessaoStream.ignore(1000, ';');
+	sessaoStream >> fase;
+	sessaoStream.ignore(1000, ';');
+	getline(sessaoStream, genero, ';');
+	getline(sessaoStream, concorrentes_iniciais, ';');
+	istringstream concorrentesI_stream(concorrentes_iniciais);
+	while (getline(concorrentesI_stream, inicial_temp, ','))
+	{
+		inicial_temp = inicial_temp.substr(1, inicial_temp.size());
+		ci->setNome(inicial_temp);
+		concorrentes_iniciais.push_back(ci);
+	}
+	getline(sessaoStream, concorrentes_finais, ';');
+	istringstream concorrentesF_stream(concorrentes_finais);
+	while (getline(concorrentesF_stream, final_temp,','))
+	{
+		final_temp = final_temp.substr(1, final_temp.size());
+		cf->setNome(final_temp);
+		concorrentes_finais.push_back(cf);
+	}
+	getline(sessaoStream, jurados_S, ';');
+	istringstream juradoStream(jurados_S);
+	getline(juradoStream,resp, ',');
+	this->responsavel.setNome(resp);
+	Jurado *j1;
+	j1->setNome(resp);
+	jurados_sessao.push_back(j1);
+	while (getline(juradoStream, jurado_push, ',')) {
+		jurado_push = jurado_push.substr(1, jurado_push.size());
+		j1->setNome(jurado_push);
+		jurados_sessao.push_back(j1);
+	}
+	getline(sessaoStream, d);
+	istringstream dataStream(d);
+	getline(dataStream, dia, '-');
+	int diaI = stoi(dia);
+	data.setDia(diaI);
+	getline(dataStream, mes, '-');
+	int mesI = stoi(mes);
+	data.setMes(mesI);
+	getline(dataStream, ano);
+	int anoI = stoi(ano);
+	data.setAno(anoI);
 
+
+}
 int Sessao::getId() const {
 	return id;
 }
@@ -211,7 +258,7 @@ vector<Sessao> Candidato::getSessoes() const
 
 bool Candidato::operator==(Candidato & c1)
 {
-	if (this->getNome() == c1.getNome() && this->getMorada() == c1.getMorada()) return true;
+	if (this->getNome() == c1.getNome()) return true;
 	return false;
 }
 
@@ -239,8 +286,24 @@ void Castings::setUpJurados()
 	}
 }
 
+void Castings::setUpSessoes()
+{
+	ifstream file(ficheiroSessoes);
+	string sessao;
+	while (getline(file, sessao)) {
+		sessoes.push_back(Sessao(sessao));
+	}
+}
+
 
 // Classe Castings
+
+Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes)
+{
+	this->ficheiroCandidatos = ficheiroCandidatos;
+	this->ficheiroJurados = ficheiroJurados;
+	this->ficheiroSessoes = ficheiroSessoes;
+}
 
 vector<Jurado*> Castings::getJurados()
 {

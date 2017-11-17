@@ -132,6 +132,7 @@ private:
 	string ficheiroJurados;
 	string ficheiroSessoes;
 public:
+	Castings(string ficheiroCandidatos,string ficheiroJurados,string ficheiroSessoes);
 	vector <Jurado *> getJurados();
 	vector< Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
@@ -141,6 +142,7 @@ public:
 	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado n�o existir no vetor jurados_sessao, retorna o seu indice se existir
 	void setUpCandidatos();
 	void setUpJurados();
+	void setUpSessoes();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
