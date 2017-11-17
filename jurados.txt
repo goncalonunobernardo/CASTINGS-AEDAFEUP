@@ -1,1 +1,6 @@
-João Santos ; Porto ; dança ; 914458245 
+Simone Pinheiro ; Rua Latino Coelho, Porto ; Escultura ; 923825737
+Eduardo Gamboa ; Avenida Brasil, Lisboa ; Malabarismo ; 946712381
+Gabriel Faria ; Rua do Marinheiro, Braga ; Escultura ; 977382939
+Mariana Aguiar ; Rua Belo Horizonte, Vila Nova de Gaia ; Escultura ; 978463228
+José Machado ; Rua do Coronel Salazar, Barcelos ; Malabarismo ; 957382950
+Pedro Garcia ; Rua Engenheiro Marcelo, Porto ; Malabarismo ; 957832571
