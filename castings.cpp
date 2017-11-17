@@ -213,6 +213,7 @@ bool Sessao::juradoPresente(Jurado * j1)
 
 Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento):Pessoa(nome,morada,genero)
 {
+	this->numInscricao = ++numInscricoesAtual;
 	this->data_nascimento = data_nascimento;
 }
 
@@ -234,6 +235,7 @@ Candidato::Candidato(string ficheiro_candidatos)
 	getline(dataStream, ano);
 	int anoI = stoi(ano);
 	data_nascimento.setAno(anoI);
+	this->numInscricao = ++numInscricoesAtual;
 
 }
 
