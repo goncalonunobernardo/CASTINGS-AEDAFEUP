@@ -7,9 +7,9 @@
 #include "castings.h"
 #include "exceptions.h"
 
-
-
 using namespace std;
+
+Castings casting;
 
 void Menu_Principal() {
 	cout << "=============================================================================================================\n\n";
@@ -75,7 +75,6 @@ int opcao = -1;
 	
 void Menu_Adicionar() {
 	int opcao;
-	Castings casting;
 	Candidato candidato;
 	Jurado jurado;
 	Sessao s1;
@@ -175,7 +174,6 @@ void Menu_Adicionar() {
 
 void Menu_Remover() {
 	int opcao;
-	Castings casting;
 	Candidato candidato;
 	Jurado jurado;
 	Sessao s1;
@@ -400,7 +398,6 @@ void Menu_Gravar_Ficheiro() {
 	}
 }
 void Grava_Ficheiro_Candidatos() {
-	Castings castings;
 	string ficheiro_candidatos;
 	cout << "=============================================================\n";
 	cout << "Insira o nome do ficheiro de candidatos que pretende gravar: \n";
@@ -438,4 +435,8 @@ void Grava_Ficheiro_Jurados() {
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
 	cout << "=============================================================\n\n";
 	Menu_Principal();
+}
+
+Candidato * criar_Candidato() {
+	cout << ""
 }

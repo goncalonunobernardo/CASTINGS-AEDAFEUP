@@ -132,6 +132,7 @@ private:
 	string ficheiroJurados;
 	string ficheiroSessoes;
 public:
+	Castings();
 	Castings(string ficheiroCandidatos,string ficheiroJurados,string ficheiroSessoes);
 	vector <Jurado *> getJurados();
 	vector< Candidato*> getCandidatos();

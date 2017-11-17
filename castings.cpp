@@ -298,6 +298,8 @@ void Castings::setUpSessoes()
 
 // Classe Castings
 
+Castings::Castings(){}
+
 Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes)
 {
 	this->ficheiroCandidatos = ficheiroCandidatos;
