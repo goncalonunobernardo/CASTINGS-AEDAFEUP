@@ -335,6 +335,8 @@ size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
 
 bool Castings::adicionaCandidato(Candidato *c1)
 {
+	if (candidatoExiste(c1) != -1)
+		throw CandidatoRepetido(c1);
 	for (size_t i = 0; i < candidatos.size(); i++) {
 			if (candidatos.at(i)==c1)
 			return false;
