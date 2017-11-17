@@ -64,7 +64,8 @@ public:
 class Candidato : public Pessoa {
 private:
 	Data data_nascimento;
-	static int numInscricao; //atribuido  automaticamente quando realizam a 1�inscricao
+	int numInscricao;
+	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1�inscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
@@ -78,6 +79,9 @@ public:
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
 };
+
+int Candidato::numInscricoesAtual = 0;
+
 class Pontuacao { //resultados de um candidato numa determinada sess�o e fase
 private:
 	int id_sessao;

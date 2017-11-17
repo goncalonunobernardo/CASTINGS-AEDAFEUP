@@ -98,14 +98,33 @@ void Menu_Adicionar() {
 		case 0:
 			Menu_Principal();
 		case 1:
-
-			casting.adicionaCandidato(&candidato);
+			criar_Candidato(candidato);
+			try {
+				casting.adicionaCandidato(&candidato);
+			}
+			catch (CandidatoRepetido c1) {
+				c1.handler();
+				Menu_Adicionar();
+				break;
+			}
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado ao CASTINGTORIUM 200! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
 		case 2:
+			cout << "Escolha uma opção (1/2)";
+			cout << "1 - Criar um novo candidato e inscrevê-lo numa sessão \n";
+			cout << "2 - Inscrever um candidato já existente numa sessão \n";
+			char op;
+			cin >> op;
+			switch (op) {
+			case 1:
+				criar_Candidato(candidato);
+			default: {
+				cout << "Não inseriu uma resposta válida.\n"; Menu_Adicionar(); break;
+			}
+			}
 			try {
 				casting.adicionaCandidatoSessao(&candidato, s1);
 			}
@@ -471,5 +490,7 @@ void criar_Candidato(Candidato & novo) {
 	cout << "Insira a data de nascimento. (no formato dd-mm-aaaa) \n";
 	getline(cin, datastr);
 	novo.setDataNascimento(datastr);
-	
+	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
+	cin >> genero;
+	novo.setGenero(genero);
 }
