@@ -154,9 +154,8 @@ public:
 	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
 	bool eliminaJurado(Jurado * j1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
-	bool compara(Candidato &c1, Candidato &c2);
 	void ordenaCandidatosData();
 	
 };
 
-
+bool  comparaDataNascimento(Candidato *c1, Candidato *c2);

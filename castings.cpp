@@ -505,18 +505,18 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 
 	return false;
 }
-bool Castings::compara(Candidato &c1, Candidato &c2)
+bool comparaDataNascimento(Candidato * c1, Candidato *c2)
 {
-	if (c1.getDataNascimento() < c2.getDataNascimento())
+	if (c1->getDataNascimento() < c2->getDataNascimento())
 		return true;
-	if (c1.getDataNascimento() == c2.getDataNascimento()) {
-		if (c1.getNome() < c2.getNome()) return true;
+	if (c1->getDataNascimento() == c2->getDataNascimento()) {
+		if (c1->getNome() < c2->getNome()) return true;
 	}
 	return false;
 }
 void Castings::ordenaCandidatosData()
 {
-	sort(candidatos.begin(), candidatos.end(), compara);
+	sort(candidatos.begin(), candidatos.end(), comparaDataNascimento);
 }
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
@@ -633,3 +633,6 @@ bool Data::operator<(Data & d1) const
 		}
 	return false;
 }
+
+
+
