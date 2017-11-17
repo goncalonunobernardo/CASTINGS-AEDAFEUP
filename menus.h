@@ -24,3 +24,4 @@ void Grava_Ficheiro_Candidatos();
 void Grava_Ficheiro_Jurados();
 
 void Menu_MostrarResultados();
+void criar_Candidato(Candidato & novo);

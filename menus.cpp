@@ -7,9 +7,9 @@
 #include "castings.h"
 #include "exceptions.h"
 
-
-
 using namespace std;
+
+Castings casting;
 
 void Menu_Principal() {
 	cout << "=============================================================================================================\n\n";
@@ -75,7 +75,6 @@ int opcao = -1;
 	
 void Menu_Adicionar() {
 	int opcao;
-	Castings casting;
 	Candidato candidato;
 	Jurado jurado;
 	Sessao s1;
@@ -99,14 +98,33 @@ void Menu_Adicionar() {
 		case 0:
 			Menu_Principal();
 		case 1:
-
-			casting.adicionaCandidato(&candidato);
+			criar_Candidato(candidato);
+			try {
+				casting.adicionaCandidato(&candidato);
+			}
+			catch (CandidatoRepetido c1) {
+				c1.handler();
+				Menu_Adicionar();
+				break;
+			}
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado ao CASTINGTORIUM 200! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
 		case 2:
+			cout << "Escolha uma opção (1/2)";
+			cout << "1 - Criar um novo candidato e inscrevê-lo numa sessão \n";
+			cout << "2 - Inscrever um candidato já existente numa sessão \n";
+			char op;
+			cin >> op;
+			switch (op) {
+			case 1:
+				criar_Candidato(candidato);
+			default: {
+				cout << "Não inseriu uma resposta válida.\n"; Menu_Adicionar(); break;
+			}
+			}
 			try {
 				casting.adicionaCandidatoSessao(&candidato, s1);
 			}
@@ -175,7 +193,6 @@ void Menu_Adicionar() {
 
 void Menu_Remover() {
 	int opcao;
-	Castings casting;
 	Candidato candidato;
 	Jurado jurado;
 	Sessao s1;
@@ -400,7 +417,6 @@ void Menu_Gravar_Ficheiro() {
 	}
 }
 void Grava_Ficheiro_Candidatos() {
-	Castings castings;
 	string ficheiro_candidatos;
 	cout << "=============================================================\n";
 	cout << "Insira o nome do ficheiro de candidatos que pretende gravar: \n";
@@ -438,4 +454,20 @@ void Grava_Ficheiro_Jurados() {
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
 	cout << "=============================================================\n\n";
 	Menu_Principal();
+}
+
+void criar_Candidato(Candidato & novo) {
+	string nome, morada, genero, datastr;
+	cout << "Insira o nome. \n";
+	getline(cin, nome);
+	novo.setNome(nome);
+	cout << "Insira a morada. \n";
+	getline(cin, morada);
+	novo.setMorada(morada);
+	cout << "Insira a data de nascimento. (no formato dd/mm/aaaa) \n";
+	getline(cin, datastr);
+	novo.setDataNascimento(datastr);
+	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
+	cin >> genero;
+	novo.setGenero(genero);
 }

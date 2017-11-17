@@ -135,6 +135,7 @@ Sessao::Sessao(string ficheiro_sessao)
 
 
 }
+
 int Sessao::getId() const {
 	return id;
 }
@@ -179,6 +180,7 @@ void Sessao::setData(Data data)
 {
 	this->data = data;
 }
+
 void Sessao::setResponsavel(string j1) {
 	this->responsavel = j1;
 }
@@ -197,6 +199,7 @@ bool Sessao::eliminaCandidatoSessao(Candidato * c1)
 bool Sessao::juriCompleto() const {
 	return (jurados_sessao.size() >= 3);
 }
+
 bool Sessao::juradoPresente(Jurado * j1)
 {
 	for (size_t i = 0; i < getJurados_sessao().size(); i++) {
@@ -209,8 +212,10 @@ bool Sessao::juradoPresente(Jurado * j1)
 
 Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento):Pessoa(nome,morada,genero)
 {
+	this->numInscricao = ++numInscricoesAtual;
 	this->data_nascimento = data_nascimento;
 }
+
 Candidato::Candidato(string ficheiro_candidatos)
 {
 	istringstream candidatosStream(ficheiro_candidatos);
@@ -229,6 +234,7 @@ Candidato::Candidato(string ficheiro_candidatos)
 	getline(dataStream, ano);
 	int anoI = stoi(ano);
 	data_nascimento.setAno(anoI);
+	this->numInscricao = ++numInscricoesAtual;
 
 }
 
@@ -254,37 +260,13 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
-void Castings::setUpCandidatos()
-{
-	ifstream file(ficheiroCandidatos);
-	string candidato;
-
-	while (getline(file, candidato))
-	{
-		candidatos.push_back(&Candidato(candidato));
-	}
+void Candidato::setDataNascimento(Data & data) {
+	data_nascimento = data;
 }
-
-void Castings::setUpJurados()
-{
-	ifstream file(ficheiroJurados);
-	string  jurado;
-	while (getline(file, jurado)) {
-		jurados.push_back(&Jurado(jurado));
-	}
-}
-
-void Castings::setUpSessoes()
-{
-	ifstream file(ficheiroSessoes);
-	string sessao;
-	while (getline(file, sessao)) {
-		sessoes.push_back(Sessao(sessao));
-	}
-}
-
 
 // Classe Castings
+
+Castings::Castings(){}
 
 Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes)
 {
@@ -352,6 +334,8 @@ size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
 
 bool Castings::adicionaCandidato(Candidato *c1)
 {
+	if (candidatoExiste(c1) != -1)
+		throw CandidatoRepetido(c1);
 	for (size_t i = 0; i < candidatos.size(); i++) {
 			if (candidatos.at(i)==c1)
 			return false;
@@ -451,7 +435,7 @@ bool Castings::eliminaJurado(Jurado * j1)
 	bool presente = false;
 	for (size_t j = 0; j < sessoes.size(); j++) {
 		if (sessoes.at(j).juradoPresente(j1))
-			return false; //Não é possível eliminar um jurado quando ele está presente numa sessão
+			return false; //Nï¿½o ï¿½ possï¿½vel eliminar um jurado quando ele estï¿½ presente numa sessï¿½o
 	}
 	for (size_t i = 0; i < jurados.size(); i++) {
 		if (jurados.at(i) == j1) {
@@ -519,6 +503,35 @@ void Castings::ordenaCandidatosData()
 	sort(candidatos.begin(), candidatos.end(), comparaDataNascimento);
 }
 
+void Castings::setUpCandidatos()
+{
+	ifstream file(ficheiroCandidatos);
+	string candidato;
+
+	while (getline(file, candidato))
+	{
+		candidatos.push_back(&Candidato(candidato));
+	}
+}
+
+void Castings::setUpJurados()
+{
+	ifstream file(ficheiroJurados);
+	string  jurado;
+	while (getline(file, jurado)) {
+		jurados.push_back(&Jurado(jurado));
+	}
+}
+
+void Castings::setUpSessoes()
+{
+	ifstream file(ficheiroSessoes);
+	string sessao;
+	while (getline(file, sessao)) {
+		sessoes.push_back(Sessao(sessao));
+	}
+}
+
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
 	vector<string> temp(3);
@@ -584,6 +597,7 @@ double Pontuacao::getClassificacao() const
 	return classificacao;
 }
 
+// definiï¿½ï¿½o da classe Data
 
 int Data::getDia()
 {

@@ -66,7 +66,8 @@ public:
 class Candidato : public Pessoa {
 private:
 	Data data_nascimento;
-	static int numInscricao; //atribuido  automaticamente quando realizam a 1�inscricao
+	int numInscricao;
+	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1�inscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
@@ -74,10 +75,15 @@ public:
 	Candidato(string ficheiro_candidatos);
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
+	void setDataNascimento(Data & data);
+	void setDataNascimento(string data);
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
 };
+
+int Candidato::numInscricoesAtual = 0;
+
 class Pontuacao { //resultados de um candidato numa determinada sess�o e fase
 private:
 	int id_sessao;
@@ -135,6 +141,7 @@ private:
 	string ficheiroJurados;
 	string ficheiroSessoes;
 public:
+	Castings();
 	Castings(string ficheiroCandidatos,string ficheiroJurados,string ficheiroSessoes);
 	vector <Jurado *> getJurados();
 	vector< Candidato*> getCandidatos();
