@@ -428,7 +428,7 @@ void Grava_Ficheiro_Candidatos() {
 
 	for (unsigned int i = 0; i < casting.getCandidatos().size(); i++)
 	{
-		Ficheiro_Candidato << casting.getCandidatos().at(i)->getNome() << " ; " << casting.getCandidatos().at(i)->getMorada() << " ; " << casting.getCandidatos().at(i)->getGenero() << " ; " << casting.getCandidatos().at(i)->getDataNascimento() << endl;
+		Ficheiro_Candidato << casting.getCandidatos().at(i)->getNome() << " ; " << casting.getCandidatos().at(i)->getMorada() << " ; " << casting.getCandidatos().at(i)->getGenero() << " ; " << casting.getCandidatos().at(i)->getDataNascimento().getDia() << "-" << casting.getCandidatos().at(i)->getDataNascimento().getMes() << "-" << casting.getCandidatos().at(i)->getDataNascimento().getAno() << endl;
 	}
 	Ficheiro_Candidato.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -466,7 +466,7 @@ void Grava_Ficheiro_Sessoes() {
 	Ficheiro_Sessoes.open(ficheiro_sessoes);
 	for (unsigned int i = 0; i < casting.getSessao().size(); i++)
 	{
-		Ficheiro_Sessoes << casting.get().at(i)->getNome() << " ; " << casting.getJurados().at(i)->getMorada() << " ; " << casting.getJurados().at(i)->getGenero() << " ; " << casting.getJurados().at(i)->getTelemovel() << endl;
+		//GETFASE???Ficheiro_Sessoes << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).g() << " ; " << casting.getJurados().at(i)->getGenero() << " ; " << casting.getJurados().at(i)->getTelemovel() << endl;
 	}
 	Ficheiro_Sessoes.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
