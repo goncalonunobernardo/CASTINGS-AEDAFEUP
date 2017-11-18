@@ -67,7 +67,7 @@ int opcao = -1;
 			Menu_Gravar_Ficheiro();
 			break;
 		case 6:
-			Menu_MostrarResultados();
+			//Menu_MostrarResultados();
 			break;
 		default:
 			InvalidInputMenu();
