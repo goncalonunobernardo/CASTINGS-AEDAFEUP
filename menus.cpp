@@ -492,7 +492,7 @@ void criar_Candidato(Candidato & novo) {
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);
-	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
+	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
 	cout << "Insira a data de nascimento. (no formato dd-mm-aaaa) \n";
@@ -507,7 +507,4 @@ void criar_Candidato(Candidato & novo) {
 	getline(dataS, ano);
 	int anoI = stoi(ano);
 	novo.setDataNascimento(d);
-	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
-	cin >> genero;
-	novo.setGenero(genero);
 }
