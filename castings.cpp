@@ -575,19 +575,19 @@ double Pontuacao::getClassificacao() const
 			classificacao += classificacoes.at(i);
 		}
 		classificacao = classificacao / 3;
-		//1�FASE
-		//M�dia das 3 classifica��es
+		//1aFASE
+		//Media das 3 classificacoes
 	}
 	else {
 		classificacao = 0.5*classificacoes.at(0)+0.50*((classificacoes.at(1)+classificacoes.at(2))/2);
-		//2�FASE
-		//Pois est� estabelecido que, por pre-defini��o, o jurado respons�vel � o primeiro.
+		//2aFASE
+		//Pois esta estabelecido que, por pre-definicao, o jurado responsavel e o primeiro.
 	}
 		
 	return classificacao;
 }
 
-// defini��o da classe Data
+// definicao da classe Data
 
 int Data::getDia()
 {

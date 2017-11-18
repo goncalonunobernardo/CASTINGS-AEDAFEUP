@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -122,7 +123,7 @@ void Menu_Adicionar() {
 			case 1:
 				criar_Candidato(candidato);
 			default: {
-				cout << "Não inseriu uma resposta válida.\n"; Menu_Adicionar(); break;
+				cout << "Não inseriu uma resposta valida.\n"; Menu_Adicionar(); break;
 			}
 			}
 			try {
