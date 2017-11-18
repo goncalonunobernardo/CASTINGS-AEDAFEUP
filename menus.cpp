@@ -67,7 +67,7 @@ int opcao = -1;
 			Menu_Gravar_Ficheiro();
 			break;
 		case 6:
-			//Menu_MostrarResultados();
+			Menu_MostrarResultados();
 			break;
 		default:
 			InvalidInputMenu();
@@ -344,7 +344,7 @@ void Menu_Informacoes() {
 			txt_jurados();
 			break;
 		case 6:
-			txt_sessoes();
+			//txt_sessoes();
 			break;
 		default:
 			InvalidInputMenu();
