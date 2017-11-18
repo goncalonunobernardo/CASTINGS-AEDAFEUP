@@ -338,13 +338,13 @@ void Menu_Informacoes() {
 			Menu_Artes();
 			break;
 		case 4:
-			//FUN��O QUE MOSTRA FICHEIRO DE CANDIDATOS COMO SE FOSSE LER NUM .TXT
+			txt_candidatos();
 			break;
 		case 5:
-			//FUN��O QUE MOSTRA FICHEIRO DE JURADOS COMO SE FOSSE LER NUM .TXT
+			txt_jurados();
 			break;
 		case 6:
-			//FUN��O QUE MOSTRA FICHEIRO DE SESSOES COMO SE FOSSE LER NUM .TXT
+			txt_sessoes();
 			break;
 		default:
 			InvalidInputMenu();
@@ -491,7 +491,7 @@ void criar_Candidato(Candidato & novo) {
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);
-	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
+	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
 	cout << "Insira a data de nascimento. (no formato dd-mm-aaaa) \n";
@@ -506,7 +506,55 @@ void criar_Candidato(Candidato & novo) {
 	getline(dataS, ano);
 	int anoI = stoi(ano);
 	novo.setDataNascimento(d);
-	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
-	cin >> genero;
-	novo.setGenero(genero);
+}
+
+void txt_candidatos() {
+	int input = -1;
+	for (unsigned int i = 0; i < casting.getCandidatos().size(); i++)
+	{
+		cout << casting.getCandidatos().at(i)->getNome() << " ; " << casting.getCandidatos().at(i)->getMorada() << " ; " << casting.getCandidatos().at(i)->getGenero() << " ; " << casting.getCandidatos().at(i)->getDataNascimento().getDia() << "-" << casting.getCandidatos().at(i)->getDataNascimento().getMes() << "-" << casting.getCandidatos().at(i)->getDataNascimento().getAno() << endl;
+	}
+	
+	cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
+	cin >> input;
+	if (input == 0)
+		Menu_Informacoes();
+	else
+		Menu_Principal();
+
+	return;
+}
+
+void txt_jurados() {
+	int input = -1;
+	for (unsigned int i = 0; i < casting.getJurados().size(); i++)
+	{
+		cout << casting.getJurados().at(i)->getNome() << " ; " << casting.getJurados().at(i)->getMorada() << " ; " << casting.getJurados().at(i)->getGenero() << " ; " << casting.getJurados().at(i)->getTelemovel() << endl;
+	}
+
+	cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
+	cin >> input;
+	if (input == 0)
+		Menu_Informacoes();
+	else
+		Menu_Principal();
+
+	return;
+}
+
+void txt_sessoes() {
+	int input = -1;
+	for (unsigned int i = 0; i < casting.getSessao().size(); i++)
+	{
+		//GETFASE?imcomplete?? cout << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).g() << " ; " << casting.getJurados().at(i)->getGenero() << " ; " << casting.getJurados().at(i)->getTelemovel() << endl;
+	}
+
+	cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
+	cin >> input;
+	if (input == 0)
+		Menu_Informacoes();
+	else
+		Menu_Principal();
+
+	return;
 }
