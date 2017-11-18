@@ -85,10 +85,10 @@ void Menu_Adicionar() {
 	cout << "Indique o elemento que pretende adicionar ao programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
 	cout << "1) Candidato ao CASTINGTORIUM 2000\n";
-	cout << "2) Candidato a Sess�o";
+	cout << "2) Candidato a Sessao";
 	cout << "3) Jurado ao CASTINGTORIUM 2000\n";
-	cout << "4) Jurado a Sess�o";
-	cout << "5) Classifica��es";
+	cout << "4) Jurado a Sessao";
+	cout << "5) Classificacoes";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -428,7 +428,7 @@ void Grava_Ficheiro_Candidatos() {
 
 	for (unsigned int i = 0; i < casting.getCandidatos().size(); i++)
 	{
-		Ficheiro_Candidato << casting.getCandidatos().at(i)->getNome() << " ; " << casting.getCandidatos().at(i)->getMorada() << " ; " << casting.getCandidatos().at(i)->getGenero() << " ; " << casting.getCandidatos().at(i)->getDataNascimento(). << endl;
+		Ficheiro_Candidato << casting.getCandidatos().at(i)->getNome() << " ; " << casting.getCandidatos().at(i)->getMorada() << " ; " << casting.getCandidatos().at(i)->getGenero() << " ; " << casting.getCandidatos().at(i)->getDataNascimento() << endl;
 	}
 	Ficheiro_Candidato.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -454,7 +454,7 @@ void Grava_Ficheiro_Jurados() {
 	cout << "=============================================================\n\n";
 	Menu_Principal();
 }
-Grava_Ficheiro_Sessoes() {
+void Grava_Ficheiro_Sessoes() {
 	Sessao sessoes;
 	string ficheiro_sessoes;
 	cout << "=============================================================\n";

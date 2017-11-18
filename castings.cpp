@@ -87,6 +87,8 @@ bool Jurado::operator==(Jurado & j1)
 
 // Classe Sessao
 
+Sessao::Sessao() { }
+
 Sessao::Sessao(string ficheiro_sessao)
 {
 	string concorrentes_I, inicial_temp,concorrentes_F,final_temp,jurados_S, resp,jurado_push;

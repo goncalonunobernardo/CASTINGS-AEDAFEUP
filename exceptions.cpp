@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <string>
 
-// Defini��o da classe ExcecaoPessoa
+// Definicao da classe ExcecaoPessoa
 ExcecaoPessoa::ExcecaoPessoa(string nome) : nome(nome) {}
 
 ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
@@ -12,7 +12,7 @@ ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
 	return os;
 }
 
-// Defini��o da classe ExcecaoSessao
+// Definicao da classe ExcecaoSessao
 
 ExcecaoSessao::ExcecaoSessao(int id) : id(id) {}
 
@@ -22,7 +22,7 @@ ostream & operator<<(ostream &os, const ExcecaoSessao & s1) {
 	return os;
 }
 
-// Defini��o da classe CandidatoRepetido
+// Definicao da classe CandidatoRepetido
 
 CandidatoRepetido::CandidatoRepetido(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
@@ -32,7 +32,7 @@ void CandidatoRepetido::handler() {
 	cout << *p1;
 }
 
-// Defini��o da classe CandidatoInexistente
+// Definicao da classe CandidatoInexistente
 
 CandidatoInexistente::CandidatoInexistente(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
@@ -42,7 +42,7 @@ void CandidatoInexistente::handler() {
 	cout << *p1;
 }
 
-// Defini��o da classe JuradoRepetido
+// Definicao da classe JuradoRepetido
 
 JuradoRepetido::JuradoRepetido(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
 
@@ -62,21 +62,21 @@ void JuradoInexistente::handler() {
 	cout << *p1;
 }
 
-// Defini��o da classe SessaoInexistente
+// Definicao da classe SessaoInexistente
 
 SessaoInexistente::SessaoInexistente(Sessao  &s) : ExcecaoSessao(s.getId()) {}
 
 void SessaoInexistente::handler() {
 	ExcecaoSessao * s1 = this;
-	cout << "SESS�O INEXISTENTE" << endl;
+	cout << "SESSAO INEXISTENTE" << endl;
 	cout << *s1;
 }
 
-// Defini��o da classe JuradosCompleto
+// Definicao da classe JuradosCompleto
 
 JuradosCompleto::JuradosCompleto() {}
 
 void JuradosCompleto::handler() {
 	cout << "JURI COMPLETO" << endl;
-	cout << "N�o pode adicionar mais jurados � sess�o." << endl;
+	cout << "Nao pode adicionar mais jurados a sessao." << endl;
 }
