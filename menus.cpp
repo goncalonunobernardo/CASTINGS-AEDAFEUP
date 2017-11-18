@@ -64,7 +64,7 @@ int opcao = -1;
 			Menu_Gravar_Ficheiro();
 			break;
 		case 6:
-			Menu_MostrarResultados();
+			//Menu_MostrarResultados();
 			break;
 		default:
 			InvalidInputMenu();
@@ -480,7 +480,8 @@ void Grava_Ficheiro_Sessoes() {
 
 void criar_Candidato(Candidato & novo) {
 	string nome, morada, genero, datastr;
-
+	Data d;
+	string dia, mes, ano;
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
@@ -493,7 +494,16 @@ void criar_Candidato(Candidato & novo) {
 	novo.setGenero(genero);
 	cout << "Insira a data de nascimento. (no formato dd-mm-aaaa) \n";
 	getline(cin, datastr);
-	novo.setDataNascimento(datastr);
+	istringstream dataS(datastr);
+	getline(dataS, dia, '-');
+	int diaI = stoi(dia);
+	d.setDia(diaI);
+	getline(dataS, mes, '-');
+	int mesI = stoi(mes);
+	d.setMes(mesI);
+	getline(dataS, ano);
+	int anoI = stoi(ano);
+	novo.setDataNascimento(d);
 	cout << "Insira o género de arte performativa em que o candidato é mais forte. \n";
 	cin >> genero;
 	novo.setGenero(genero);

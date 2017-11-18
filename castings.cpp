@@ -211,7 +211,7 @@ bool Sessao::juradoPresente(Jurado * j1)
 }
 
 // Classe Candidato
-
+int Candidato::numInscricoesAtual = 0;
 Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento):Pessoa(nome,morada,genero)
 {
 	this->numInscricao = ++numInscricoesAtual;
@@ -262,8 +262,11 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
-void Candidato::setDataNascimento(Data & data) {
-	data_nascimento = data;
+
+
+void Candidato::setDataNascimento(Data data)
+{
+	this->data_nascimento = data;
 }
 
 // Classe Castings
@@ -648,6 +651,14 @@ bool Data::operator<(Data & d1) const
 				if (this->mes == d1.mes && this->dia < dia) return true;
 		}
 	return false;
+}
+
+void Data::operator=(Data & d1)
+{
+	this->dia = d1.dia;
+	this->mes = d1.mes;
+	this->ano = d1.ano;
+
 }
 
 

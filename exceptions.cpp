@@ -6,6 +6,10 @@
 // Definicao da classe ExcecaoPessoa
 ExcecaoPessoa::ExcecaoPessoa(string nome) : nome(nome) {}
 
+void ExcecaoPessoa::handler()
+{
+}
+
 ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
 	os << "NOME: " << p1.nome << endl;
 
@@ -15,6 +19,10 @@ ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
 // Definicao da classe ExcecaoSessao
 
 ExcecaoSessao::ExcecaoSessao(int id) : id(id) {}
+
+void ExcecaoSessao::handler()
+{
+}
 
 ostream & operator<<(ostream &os, const ExcecaoSessao & s1) {
 	cout << "ID: " << s1.id << endl;

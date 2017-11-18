@@ -32,6 +32,7 @@ public:
 	void setAno(int ano);
 	bool operator==(Data &d1);
 	bool operator<(Data &d1) const;
+	void operator=(Data &d1);
 };
 class Pessoa {
 protected:
@@ -75,14 +76,12 @@ public:
 	Candidato(string ficheiro_candidatos);
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
-	void setDataNascimento(Data & data);
-	void setDataNascimento(string data);
+	void setDataNascimento(Data data);
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
 };
 
-int Candidato::numInscricoesAtual = 0;
 
 class Pontuacao { //resultados de um candidato numa determinada sess�o e fase
 private:
@@ -165,4 +164,4 @@ public:
 	
 };
 
-bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
+//bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
