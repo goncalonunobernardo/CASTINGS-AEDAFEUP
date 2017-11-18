@@ -33,6 +33,7 @@ public:
 	bool operator==(Data &d1);
 	bool operator<(Data &d1) const;
 	void operator=(Data &d1);
+	friend ostream & operator<<(ostream &os, const Data & d1);
 };
 class Pessoa {
 protected:
@@ -49,6 +50,7 @@ public:
 	void setMorada(string morada);
 	void setGenero(string genero);
 	virtual bool operator==(Pessoa &p1);
+	virtual void mostraInformacaoNome();
 };
 
 class Jurado : public Pessoa {
@@ -61,7 +63,8 @@ public:
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);
 	bool operator==(Jurado &j1);
-	
+	void mostraInformacao();
+
 
 };
 class Candidato : public Pessoa {
@@ -80,14 +83,15 @@ public:
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
+	void mostraInformacao();
 };
 
 
-class Pontuacao { //resultados de um candidato numa determinada sess�o e fase
+class Pontuacao { //resultados de um candidato numa determinada sess?o e fase
 private:
 	int id_sessao;
 	int fase;
-	vector<int> classificacoes; // vetor c/3 posi��es em que �ndice 0 equivale � primeira classifica��o.
+	vector<int> classificacoes; // vetor c/3 posi??es em que ?ndice 0 equivale ? primeira classifica??o.
 
 public:
 	int getId() const;
@@ -99,9 +103,9 @@ public:
 
 class Sessao {
 protected:
-	 int id;
+	int id;
 	int fase; //1 ou 2
-	int numMaxCandidatos; 
+	int numMaxCandidatos;
 	int numVagas;
 	string responsavel;
 	string genero;
@@ -141,17 +145,19 @@ private:
 	string ficheiroSessoes;
 public:
 	Castings();
-	Castings(string ficheiroCandidatos,string ficheiroJurados,string ficheiroSessoes);
+	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes);
 	vector <Jurado *> getJurados();
 	vector< Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
-	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado n�o existir no vetor jurados, retorna o seu indice se existir
-	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato n�o existir no vetor candidatos, retorna o seu indice se existir
-	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sess�o n�o existir no vetor sessoes, retorna o seu indice se existir
+	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado n?o existir no vetor jurados, retorna o seu indice se existir
+	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato n?o existir no vetor candidatos, retorna o seu indice se existir
+	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sess?o n?o existir no vetor sessoes, retorna o seu indice se existir
 	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
 	void setUpCandidatos();
 	void setUpJurados();
 	void setUpSessoes();
+	void mostraInformacaoCandidatos();
+	void mostraInformacaoJurados();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
@@ -161,7 +167,7 @@ public:
 	bool eliminaJurado(Jurado * j1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	void ordenaCandidatosData();
-	
+
 };
 
-//bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
+bool  comparaDataNascimento(Candidato *c1, Candidato *c2);

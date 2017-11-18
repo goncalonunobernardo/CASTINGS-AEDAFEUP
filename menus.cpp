@@ -379,7 +379,6 @@ void Menu_Artes() {
 			cout << "\t5.3)Speedrun\n";
 			cout << "\t5.4)Comedia\n";
 			cout << "0) Voltar Atras\n";
-
 			switch (opcao) {
 			case 0:
 				Menu_Artes();

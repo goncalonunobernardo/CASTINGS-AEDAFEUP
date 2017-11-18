@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-
 // Definicao da classe ExcecaoPessoa
 ExcecaoPessoa::ExcecaoPessoa(string nome) : nome(nome) {}
 
@@ -44,6 +43,12 @@ void CandidatoRepetido::handler() {
 
 CandidatoInexistente::CandidatoInexistente(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
+
+
+CandidatoInexistente::CandidatoInexistente(string nome) : ExcecaoPessoa(nome)
+
+{}
+
 void CandidatoInexistente::handler() {
 	ExcecaoPessoa * p1 = this;
 	cout << "CANDIDATO INEXISTENTE" << endl;
@@ -63,6 +68,14 @@ void JuradoRepetido::handler() {
 // Defini��o da classe JuradoInexistente
 
 JuradoInexistente::JuradoInexistente(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
+
+
+
+JuradoInexistente::JuradoInexistente(string nome):ExcecaoPessoa(nome)
+
+{
+
+}
 
 void JuradoInexistente::handler() {
 	ExcecaoPessoa * p1 = this;
