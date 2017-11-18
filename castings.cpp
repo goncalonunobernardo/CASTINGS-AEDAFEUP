@@ -438,7 +438,7 @@ bool Castings::eliminaJurado(Jurado * j1)
 	bool presente = false;
 	for (size_t j = 0; j < sessoes.size(); j++) {
 		if (sessoes.at(j).juradoPresente(j1))
-			return false; //Não é possível eliminar um jurado quando ele está presente numa sessão
+			return false; //Nï¿½o ï¿½ possï¿½vel eliminar um jurado quando ele estï¿½ presente numa sessï¿½o
 	}
 	for (size_t i = 0; i < jurados.size(); i++) {
 		if (jurados.at(i) == j1) {
@@ -587,7 +587,7 @@ double Pontuacao::getClassificacao() const
 	return classificacao;
 }
 
-// definição da classe Data
+// definiï¿½ï¿½o da classe Data
 
 int Data::getDia()
 {

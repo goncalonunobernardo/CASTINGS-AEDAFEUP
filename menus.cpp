@@ -39,7 +39,7 @@ int opcao = -1;
 	cout << " 3) Alterar...\n";
 	cout << " 4) Informacoes.\n";
 	cout << " 5) Gravar Ficheiro\n";
-	cout << " 6) Exibir classifica��es \n";
+	cout << " 6) Exibir classificacoes \n";
 	cout << " 0) Terminar programa.\n";
 	cout << "=============================================================================================================\n";
 	while (!cin.fail())
@@ -346,7 +346,7 @@ void Menu_Artes() {
 	opcao = -1;
 
 	cout << "=============================================================\n";
-	cout << "Artes dispon�veis para Sessoes no CASTINGTORIUM 2000: \n";
+	cout << "Artes disponiveis para Sessoes no CASTINGTORIUM 2000: \n";
 	cout << "1) Danca";
 	cout << "2) Teatro";
 	cout << "3) Musica";
@@ -401,21 +401,24 @@ void Menu_Gravar_Ficheiro() {
 	while (!cin.fail()) {
 		cin >> opcao;
 		switch (opcao) {
-		case 0:
-			Menu_Principal();
-			break;
-		case 1:
-			Grava_Ficheiro_Candidatos();
-		case 2:
-			Grava_Ficheiro_Jurados();
-		case 3:
-			Grava_Ficheiro_Sessoes();
+            case 0:
+
 		default:
 			InvalidInputMenu();
 			break;
 		}
 	}
 }
+/*
+            case 0: Menu_Principal();
+		    case 1:
+			Grava_Ficheiro_Candidatos();
+		case 2:
+			Grava_Ficheiro_Jurados();
+			break;
+            case 3:
+			Grava_Ficheiro_Sessoes();*/
+
 void Grava_Ficheiro_Candidatos() {
 	string ficheiro_candidatos;
 	cout << "=============================================================\n";

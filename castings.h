@@ -65,7 +65,7 @@ class Candidato : public Pessoa {
 private:
 	Data data_nascimento;
 	int numInscricao;
-	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1�inscricao
+	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1a inscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
