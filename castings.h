@@ -67,7 +67,7 @@ class Candidato : public Pessoa {
 private:
 	Data data_nascimento;
 	int numInscricao;
-	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1�inscricao
+	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1a inscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
 public:
@@ -149,7 +149,7 @@ public:
 	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado n�o existir no vetor jurados, retorna o seu indice se existir
 	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato n�o existir no vetor candidatos, retorna o seu indice se existir
 	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sess�o n�o existir no vetor sessoes, retorna o seu indice se existir
-	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado n�o existir no vetor jurados_sessao, retorna o seu indice se existir
+	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
 	void setUpCandidatos();
 	void setUpJurados();
 	void setUpSessoes();
