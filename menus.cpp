@@ -329,10 +329,10 @@ void Menu_Informacoes() {
 			Menu_Principal();
 			break;
 		case 1:
-			//FUNCAO QUE LE CANDIDATOS E INFO BASICAS DELES + TIPO DE SESSAO
+			casting.mostraInformacaoCandidatos();
 			break;
 		case 2:
-			//FUNCAO QUE LE JURADOS E INFO BASICAS
+			casting.mostraInformacaoJurados();
 			break;
 		case 3:
 			Menu_Artes();
