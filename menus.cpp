@@ -48,6 +48,8 @@ int opcao = -1;
 		cin >> opcao;
 		switch (opcao) {
 		case 0:
+			void Termina_Programa();
+			break;
 			Termina_Programa();
 		case 1:
 			Menu_Adicionar();
@@ -60,6 +62,7 @@ int opcao = -1;
 			break;
 		case 4:
 			Menu_Informacoes();
+			break;
 		case 5:
 			Menu_Gravar_Ficheiro();
 			break;
@@ -98,6 +101,7 @@ void Menu_Adicionar() {
 		switch (opcao) {
 		case 0:
 			Menu_Principal();
+			break;
 		case 1:
 			criar_Candidato(candidato);
 			try {
@@ -122,6 +126,7 @@ void Menu_Adicionar() {
 			switch (op) {
 			case 1:
 				criar_Candidato(candidato);
+				break;
 			default: {
 				cout << "Não inseriu uma resposta valida.\n"; Menu_Adicionar(); break;
 			}
@@ -184,6 +189,7 @@ void Menu_Adicionar() {
 			cout << "Jurado adicionado a Sessao! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
+			break;
 		default:
 			InvalidInputMenu();
 			break;
@@ -215,6 +221,7 @@ void Menu_Remover() {
 		switch (opcao) {
 		case 0:
 			Menu_Principal();
+			break;
 		case 1:
 			try {
 				casting.eliminaCandidato(&candidato);
@@ -320,6 +327,7 @@ void Menu_Informacoes() {
 		switch (opcao) {
 		case 0:
 			Menu_Principal();
+			break;
 		case 1:
 			//FUNCAO QUE LE CANDIDATOS E INFO BASICAS DELES + TIPO DE SESSAO
 			break;
@@ -334,8 +342,10 @@ void Menu_Informacoes() {
 			break;
 		case 5:
 			//FUN��O QUE MOSTRA FICHEIRO DE JURADOS COMO SE FOSSE LER NUM .TXT
+			break;
 		case 6:
 			//FUN��O QUE MOSTRA FICHEIRO DE SESSOES COMO SE FOSSE LER NUM .TXT
+			break;
 		default:
 			InvalidInputMenu();
 			break;
