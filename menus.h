@@ -19,9 +19,10 @@ void Menu_Informacoes();
 void Menu_Artes();
 void Termina_Programa();
 
-void Menu_Gravar_Ficheiros();
+void Menu_Gravar_Ficheiro();
 void Grava_Ficheiro_Candidatos();
 void Grava_Ficheiro_Jurados();
+void Grava_Ficheiro_Sessoes();
 
 void Menu_MostrarResultados();
 void criar_Candidato(Candidato & novo);
