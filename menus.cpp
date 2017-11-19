@@ -121,6 +121,9 @@ void Menu_Adicionar() {
 			switch (op) {
 			case 1:
 				criar_Candidato(candidato);
+				break;
+			case 2:
+				
 			default: {
 				cout << "Não inseriu uma resposta válida.\n"; Menu_Adicionar(); break;
 			}
