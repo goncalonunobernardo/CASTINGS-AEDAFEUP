@@ -191,6 +191,9 @@ int Sessao::getNumVagas() const
 	return vagas;
 }
 
+int Sessao::getIds() {
+	return ids;
+}
 
 void Sessao::setData(Data data)
 {
@@ -199,6 +202,10 @@ void Sessao::setData(Data data)
 
 void Sessao::setResponsavel(string j1) {
 	this->responsavel = j1;
+}
+
+void Sessao::setNumVagas(int vagas) {
+	numVagas = vagas;
 }
 
 bool Sessao::operator==(Sessao & s1)
@@ -225,7 +232,9 @@ bool Sessao::juradoPresente(Jurado * j1)
 }
 
 // Classe Candidato
+
 int Candidato::numInscricoesAtual = 0;
+
 Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento) :Pessoa(nome, morada, genero)
 {
 	this->numInscricao = ++numInscricoesAtual;
@@ -276,6 +285,10 @@ int Candidato::getNumInscricao() const {
 	return numInscricao;
 }
 
+int Candidato::getNumInscricoes() {
+	return numInscricoesAtual;
+}
+
 void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
@@ -288,13 +301,13 @@ void Candidato::mostraInformacao()
 	cout << "DATA DE NASCIMENTO: " << this->data_nascimento << endl;
 }
 
-void Candidato::diminuirNumInscricoes() {
-	numInscricoesAtual--;
-}
-
 void Candidato::setDataNascimento(Data data)
 {
 	this->data_nascimento = data;
+}
+
+void Candidato::setNumInscricoes(int num) {
+	numInscricoesAtual = num;
 }
 
 // Classe Castings
@@ -422,6 +435,7 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 				}
 				sessoes.at(i).getConcorrentes_iniciais().push_back(c1->getNome());
 				c1->adicionarSessao(s1);
+				s1.setNumVagas(s1.getNumVagas() - 1);
 				return true;
 			}
 			else {

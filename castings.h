@@ -80,8 +80,9 @@ public:
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
 	int getNumInscricao() const;
+	static int getNumInscricoes();
 	void setDataNascimento(Data data);
-	void diminuirNumInscricoes(); //para quando o candidato criado não é válido, é necessário "eliminar" a inscrição dele
+	void setNumInscricoes(int num); 
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
@@ -120,6 +121,7 @@ public:
 	Sessao();
 	Sessao(string ficheiro_sessao);
 	int getId() const;
+	static int getIds();
 	string getGenero() const;
 	Data getData();
 	string getResponsavel() const;
@@ -131,6 +133,7 @@ public:
 	bool eliminaCandidatoSessao(Candidato *c1);
 	void setData(Data data);
 	void setResponsavel(string j1);
+	void setNumVagas(int vagas);
 	bool juriCompleto() const;
 	bool juradoPresente(Jurado * j1);
 
