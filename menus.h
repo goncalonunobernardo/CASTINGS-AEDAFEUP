@@ -5,8 +5,6 @@
 #include <vector>
 #include <string>
 #include "castings.h"
-
-
 using namespace std;
 
 void InvalidInputMenu();
@@ -19,9 +17,14 @@ void Menu_Informacoes();
 void Menu_Artes();
 void Termina_Programa();
 
-void Menu_Gravar_Ficheiros();
+void Menu_Gravar_Ficheiro();
 void Grava_Ficheiro_Candidatos();
 void Grava_Ficheiro_Jurados();
+void Grava_Ficheiro_Sessoes();
 
-void Menu_MostrarResultados();
+//void Menu_MostrarResultados();
 void criar_Candidato(Candidato & novo);
+
+void txt_candidatos();
+void txt_jurados();
+void txt_sessoes();

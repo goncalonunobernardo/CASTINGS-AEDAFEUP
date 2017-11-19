@@ -37,8 +37,12 @@ void Pessoa::setGenero(string genero) {
 
 bool Pessoa::operator==(Pessoa & p1)
 {
-	
+
 	return false;
+}
+
+void Pessoa::mostraInformacaoNome()
+{
 }
 
 Pessoa::Pessoa(string nome, string morada, string genero) {
@@ -52,7 +56,7 @@ Pessoa::Pessoa(string nome, string morada, string genero) {
 Jurado::Jurado() {} // DEFAULT CONSTRUCTOR
 
 
-Jurado::Jurado(string nome, string morada, string genero, string telemovel):Pessoa(nome, morada,genero)
+Jurado::Jurado(string nome, string morada, string genero, string telemovel) :Pessoa(nome, morada, genero)
 {
 	this->telemovel = telemovel;
 }
@@ -73,7 +77,7 @@ string Jurado::getTelemovel() const
 	return telemovel;
 }
 
-void Jurado::setTelemovel(string telemovel) 
+void Jurado::setTelemovel(string telemovel)
 {
 	this->telemovel = telemovel;
 }
@@ -85,11 +89,21 @@ bool Jurado::operator==(Jurado & j1)
 	return false;
 }
 
+void Jurado::mostraInformacao()
+{
+	cout << "NOME: " << nome << endl;
+	cout << "MORADA: " << morada << endl;
+	cout << "GENERO: " << genero << endl;
+	cout << "CONTACTO: " << telemovel << endl;
+}
+
 // Classe Sessao
+
+Sessao::Sessao() { }
 
 Sessao::Sessao(string ficheiro_sessao)
 {
-	string concorrentes_I, inicial_temp,concorrentes_F,final_temp,jurados_S, resp,jurado_push;
+	string concorrentes_I, inicial_temp, concorrentes_F, final_temp, jurados_S, resp, jurado_push;
 	string d, dia, mes, ano;
 
 	istringstream sessaoStream(ficheiro_sessao);
@@ -107,7 +121,7 @@ Sessao::Sessao(string ficheiro_sessao)
 	}
 	getline(sessaoStream, concorrentes_F, ';');
 	istringstream concorrentesF_stream(concorrentes_F);
-	while (getline(concorrentesF_stream, final_temp,','))
+	while (getline(concorrentesF_stream, final_temp, ','))
 	{
 		final_temp = final_temp.substr(1, final_temp.size());
 		concorrentes_finais.push_back(final_temp);
@@ -145,7 +159,7 @@ string Sessao::getGenero() const
 	return genero;
 }
 
-Data Sessao::getData() 
+Data Sessao::getData()
 {
 	return data;
 }
@@ -155,18 +169,17 @@ string Sessao::getResponsavel() const
 	return responsavel;
 }
 
-vector<string>& Sessao::getJurados_sessao() 
+vector<string>& Sessao::getJurados_sessao()
 {
 	return jurados_sessao;
-	// TODO: inserir instruï¿½ï¿½o de retorno aqui
 }
 
-vector<string> & Sessao::getConcorrentes_iniciais() 
+vector<string> & Sessao::getConcorrentes_iniciais()
 {
 	return concorrentes_iniciais;
 }
 
-vector <string> & Sessao::getConcorrentes_finais()  {
+vector <string> & Sessao::getConcorrentes_finais() {
 	return concorrentes_finais;
 }
 
@@ -210,8 +223,8 @@ bool Sessao::juradoPresente(Jurado * j1)
 }
 
 // Classe Candidato
-
-Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento):Pessoa(nome,morada,genero)
+int Candidato::numInscricoesAtual = 0;
+Candidato::Candidato(string nome, string morada, string genero, Data data_nascimento) :Pessoa(nome, morada, genero)
 {
 	this->numInscricao = ++numInscricoesAtual;
 	this->data_nascimento = data_nascimento;
@@ -230,7 +243,7 @@ Candidato::Candidato(string ficheiro_candidatos)
 	int diaI = stoi(dia);
 	data_nascimento.setDia(diaI);
 	getline(dataStream, mes, '-');
-	int mesI=stoi(mes);
+	int mesI = stoi(mes);
 	data_nascimento.setMes(mesI);
 	getline(dataStream, ano);
 	int anoI = stoi(ano);
@@ -261,13 +274,24 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
-void Candidato::setDataNascimento(Data & data) {
-	data_nascimento = data;
+void Candidato::mostraInformacao()
+{
+	cout << "NOME: " << nome << endl;
+	cout << "MORADA: " << morada << endl;
+	cout << "GENERO: " << genero << endl;
+	cout << "DATA DE NASCIMENTO: " << this->data_nascimento << endl;
+}
+
+
+
+void Candidato::setDataNascimento(Data data)
+{
+	this->data_nascimento = data;
 }
 
 // Classe Castings
 
-Castings::Castings(){}
+Castings::Castings() {}
 
 Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes)
 {
@@ -302,7 +326,7 @@ size_t Castings::juradoExiste(Jurado * j1) {
 
 size_t Castings::candidatoExiste(Candidato * c1) {
 	size_t ind = -1;
-	
+
 	for (size_t i = 0; i < candidatos.size(); i++) {
 		if (c1 == candidatos.at(i))
 			ind = i;
@@ -324,7 +348,7 @@ size_t Castings::sessaoExiste(Sessao &s1) {
 size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
 	size_t i, ind = -1;
 	i = sessaoExiste(s1);
-	
+
 	for (size_t j = 0; j < sessoes.at(i).getJurados_sessao().size(); j++) {
 		if (j1->getNome() == sessoes.at(i).getJurados_sessao().at(j))
 			ind = j;
@@ -338,9 +362,9 @@ bool Castings::adicionaCandidato(Candidato *c1)
 	if (candidatoExiste(c1) != -1)
 		throw CandidatoRepetido(c1);
 	for (size_t i = 0; i < candidatos.size(); i++) {
-			if (candidatos.at(i)==c1)
+		if (candidatos.at(i) == c1)
 			return false;
-		}
+	}
 	candidatos.push_back(c1);
 	return true;
 }
@@ -383,18 +407,18 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 }
 
 bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao &s1)
-{	
+{
 	int countS = sessaoExiste(s1);
 
 	if (juradoExiste(j1) == -1)
 		throw JuradoInexistente(j1);
 
-	if (countS == -1) 
+	if (countS == -1)
 		throw SessaoInexistente(s1);
-	
+
 	for (size_t k = 0; k < sessoes.at(countS).getJurados_sessao().size(); k++) {
-		if (sessoes.at(countS).getJurados_sessao().at(k) == j1->getNome()) 
-			throw JuradoRepetido(j1);	
+		if (sessoes.at(countS).getJurados_sessao().at(k) == j1->getNome())
+			throw JuradoRepetido(j1);
 	}
 
 	if (sessoes.at(countS).juriCompleto())
@@ -436,7 +460,7 @@ bool Castings::eliminaJurado(Jurado * j1)
 	bool presente = false;
 	for (size_t j = 0; j < sessoes.size(); j++) {
 		if (sessoes.at(j).juradoPresente(j1))
-			return false; //Não é possível eliminar um jurado quando ele está presente numa sessão
+			return false; //N?o ? poss?vel eliminar um jurado quando ele est? presente numa sess?o
 	}
 	for (size_t i = 0; i < jurados.size(); i++) {
 		if (jurados.at(i) == j1) {
@@ -450,11 +474,11 @@ bool Castings::eliminaJurado(Jurado * j1)
 }
 
 bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
-	Candidato * c = nullptr, * c2 = nullptr;
+	Candidato * c = nullptr, *c2 = nullptr;
 	size_t index = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i) == c1) 
+		if (candidatos.at(i) == c1)
 			c = candidatos.at(i);
 	}
 
@@ -490,6 +514,19 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 
 	return false;
 }
+bool comparaDataNascimento(Candidato * c1, Candidato *c2)
+{
+	if (c1->getDataNascimento() < c2->getDataNascimento())
+		return true;
+	if (c1->getDataNascimento() == c2->getDataNascimento()) {
+		if (c1->getNome() < c2->getNome()) return true;
+	}
+	return false;
+}
+void Castings::ordenaCandidatosData()
+{
+	sort(candidatos.begin(), candidatos.end(), comparaDataNascimento);
+}
 
 void Castings::setUpCandidatos()
 {
@@ -520,6 +557,22 @@ void Castings::setUpSessoes()
 	}
 }
 
+void Castings::mostraInformacaoCandidatos()
+{
+	for (size_t i = 0; i < candidatos.size(); i++) {
+		cout << endl;
+		candidatos.at(i)->mostraInformacao();
+	}
+}
+
+void Castings::mostraInformacaoJurados()
+{
+	for (size_t i = 0; i < jurados.size(); i++) {
+		cout << endl;
+		jurados.at(i)->mostraInformacao();
+	}
+}
+
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
 	vector<string> temp(3);
@@ -533,18 +586,18 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 		throw JuradoInexistente(j1);
 	if (sessoes.at(i).juriCompleto())
 		throw JuradosCompleto();
-	
+
 	sessoes.at(i).setResponsavel(j1->getNome());
 	temp.at(0) = j1->getNome();
 
 	for (size_t k = 0; k < sessoes.at(i).getJurados_sessao().size(); k++) {
-		if (sessoes.at(i).getJurados_sessao().at(k)!= "")
+		if (sessoes.at(i).getJurados_sessao().at(k) != "")
 			temp.push_back(sessoes.at(i).getJurados_sessao().at(k));
 	}
 
 	vj = &sessoes.at(i).getJurados_sessao();
 
-	temp=sessoes.at(i).getJurados_sessao();
+	temp = sessoes.at(i).getJurados_sessao();
 	return true;
 }
 
@@ -567,25 +620,25 @@ vector<int> Pontuacao::getClassificacoes() const
 
 double Pontuacao::getClassificacao() const
 {
-	double classificacao=0;
+	double classificacao = 0;
 	if (fase == 1) {
 		for (size_t i = 0; i < classificacoes.size(); i++) {
 			classificacao += classificacoes.at(i);
 		}
 		classificacao = classificacao / 3;
-		//1ï¿½FASE
-		//Mï¿½dia das 3 classificaï¿½ï¿½es
+		//1aFASE
+		//Media das 3 classificacoes
 	}
 	else {
-		classificacao = 0.5*classificacoes.at(0)+0.50*((classificacoes.at(1)+classificacoes.at(2))/2);
-		//2ï¿½FASE
-		//Pois estï¿½ estabelecido que, por pre-definiï¿½ï¿½o, o jurado responsï¿½vel ï¿½ o primeiro.
+		classificacao = 0.5*classificacoes.at(0) + 0.50*((classificacoes.at(1) + classificacoes.at(2)) / 2);
+		//2aFASE
+		//Pois esta estabelecido que, por pre-definicao, o jurado responsavel e o primeiro.
 	}
-		
+
 	return classificacao;
 }
 
-// definição da classe Data
+// definicao da classe Data
 
 int Data::getDia()
 {
@@ -617,8 +670,43 @@ void Data::setAno(int ano)
 	this->ano = ano;
 }
 
+
 bool Data::operator==(Data & d1)
 {
 	if (this->getDia() == d1.getDia() && this->getMes() == d1.getMes() && this->getAno() == d1.getAno())return true;
 	return false;
 }
+
+bool Data::operator<(Data & d1) const
+{
+	if (this->ano < d1.ano)return true;
+	else
+		if (this->ano == d1.ano) {
+			if (this->mes < d1.mes)return true;
+			else
+				if (this->mes == d1.mes && this->dia < dia) return true;
+		}
+	return false;
+}
+
+void Data::operator=(Data & d1)
+{
+	this->dia = d1.dia;
+	this->mes = d1.mes;
+	this->ano = d1.ano;
+
+}
+ ostream & operator<<(ostream & os, const Data & d1)
+{
+	 os << d1.dia << "-" << d1.mes << "-" << d1.ano;
+	 return os;
+
+	// TODO: inserir instruÃ§Ã£o de retorno aqui
+}
+
+
+
+
+
+
+

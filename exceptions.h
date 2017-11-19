@@ -1,3 +1,4 @@
+#pragma once 
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -29,6 +30,7 @@ public:
 class CandidatoInexistente : public ExcecaoPessoa {
 public:
 	CandidatoInexistente(Candidato * c);
+	CandidatoInexistente(string nome);
 	void handler();
 };
 
@@ -41,6 +43,7 @@ public:
 class JuradoInexistente : public ExcecaoPessoa {
 public:
 	JuradoInexistente(Jurado * j);
+	JuradoInexistente(string nome);
 	void handler();
 };
 
