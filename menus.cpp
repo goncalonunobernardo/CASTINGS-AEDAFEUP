@@ -103,9 +103,16 @@ void Menu_Adicionar() {
 			Menu_Principal();
 			break;
 		case 1:
-			criar_Candidato(candidato);
-			try {
-				casting.adicionaCandidato(&candidato);
+			try { 
+				candidato=criar_Candidato(); 
+			}
+			catch (CandidatoRepetido c1) {
+				c1.handler();
+				Menu_Adicionar();
+				break;
+			}
+			try { 
+				casting.adicionaCandidato(&candidato); 
 			}
 			catch (CandidatoRepetido c1) {
 				c1.handler();
@@ -118,21 +125,7 @@ void Menu_Adicionar() {
 			Menu_Principal();
 			break;
 		case 2:
-			cout << "Escolha uma opção (1/2)";
-			cout << "1 - Criar um novo candidato e inscrevê-lo numa sessão \n";
-			cout << "2 - Inscrever um candidato já existente numa sessão \n";
-			char op;
-			cin >> op;
-			switch (op) {
-			case 1:
-				criar_Candidato(candidato);
-				break;
-			case 2:
-			{}
-			default: {
-				cout << "Não inseriu uma resposta valida.\n"; Menu_Adicionar(); break;
-			}
-			}
+		
 			try {
 				casting.adicionaCandidatoSessao(&candidato, s1);
 			}
@@ -482,7 +475,8 @@ void Grava_Ficheiro_Sessoes() {
 	Menu_Principal();
 }
 
-void criar_Candidato(Candidato & novo) {
+// nota: esta funçao lança exceções ---> chamar esta função dentro de um try
+Candidato criar_Candidato() {
 	string nome, morada, genero, datastr;
 	Data d;
 	string dia, mes, ano;
@@ -490,10 +484,16 @@ void criar_Candidato(Candidato & novo) {
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
-	novo.setNome(nome);
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
+	
+	if (casting.candidatoExiste(nome, morada) != -1)
+		throw CandidatoRepetido(nome);
+
+	Candidato novo;
+	novo.setNome(nome);
 	novo.setMorada(morada);
+
 	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
@@ -512,27 +512,42 @@ void criar_Candidato(Candidato & novo) {
 
 	cout << "Candidato criado. O número de inscrição do candidato é: " << novo.getNumInscricao() << endl;
 	cout << "=============================================================\n";
+
+	return novo;
 }
 
-void criar_Jurado(Jurado & novo) {
+// nota: esta funçao lança exceções ---> chamar esta função dentro de um try
+Jurado criar_Jurado() {
 	string nome, morada, genero, telemovel;
 
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
+	cout << "Insira o número de telemóvel. \n";
+	getline(cin, telemovel);
+
+	if (casting.juradoExiste(nome, telemovel) != -1)
+		throw JuradoRepetido(nome);
+
+	Jurado novo;
 	novo.setNome(nome);
+	novo.setTelemovel(telemovel);
+
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);
 	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
-	cout << "Insira o número de telemóvel. \n";
-	getline(cin, telemovel);
-	novo.setTelemovel(telemovel);
 
 	cout << "Jurado criado. \n";
 	cout << "=============================================================\n";
+
+	return novo;
+}
+
+Sessao criar_Sessao() {
+
 }
 
 void txt_candidatos() {

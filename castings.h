@@ -81,6 +81,7 @@ public:
 	Data getDataNascimento() const;
 	int getNumInscricao() const;
 	void setDataNascimento(Data data);
+	void diminuirNumInscricoes(); //para quando o candidato criado não é válido, é necessário "eliminar" a inscrição dele
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
 	void adicionarSessao(Sessao &s1);
@@ -152,7 +153,9 @@ public:
 	vector< Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
 	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado nao existir no vetor jurados, retorna o seu indice se existir
+	size_t juradoExiste(string nome, string telemovel);
 	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato nao existir no vetor candidatos, retorna o seu indice se existir
+	size_t candidatoExiste(string nome, string morada);
 	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sessao nao existir no vetor sessoes, retorna o seu indice se existir
 	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
 	void setUpCandidatos();

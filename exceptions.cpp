@@ -31,6 +31,8 @@ ostream & operator<<(ostream &os, const ExcecaoSessao & s1) {
 
 // Definicao da classe CandidatoRepetido
 
+CandidatoRepetido::CandidatoRepetido(string nome) : ExcecaoPessoa(nome) {}
+
 CandidatoRepetido::CandidatoRepetido(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
 void CandidatoRepetido::handler() {
@@ -41,9 +43,9 @@ void CandidatoRepetido::handler() {
 
 // Definicao da classe CandidatoInexistente
 
+CandidatoInexistente::CandidatoInexistente(string nome) : ExcecaoPessoa(nome) {}
+
 CandidatoInexistente::CandidatoInexistente(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
-
-
 
 CandidatoInexistente::CandidatoInexistente(string nome) : ExcecaoPessoa(nome)
 
@@ -57,25 +59,23 @@ void CandidatoInexistente::handler() {
 
 // Definicao da classe JuradoRepetido
 
+JuradoRepetido::JuradoRepetido(string nome) : ExcecaoPessoa(nome) {}
+
 JuradoRepetido::JuradoRepetido(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
 
 void JuradoRepetido::handler() {
 	ExcecaoPessoa * p1 = this;
 	cout << "JURADO REPETIDO" << endl;
 	cout << *p1;
+
+	
 }
 
 // Defini��o da classe JuradoInexistente
 
 JuradoInexistente::JuradoInexistente(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
 
-
-
-JuradoInexistente::JuradoInexistente(string nome):ExcecaoPessoa(nome)
-
-{
-
-}
+JuradoInexistente::JuradoInexistente(string nome):ExcecaoPessoa(nome) {}
 
 void JuradoInexistente::handler() {
 	ExcecaoPessoa * p1 = this;

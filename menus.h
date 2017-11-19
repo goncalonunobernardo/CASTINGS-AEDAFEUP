@@ -24,8 +24,9 @@ void Grava_Ficheiro_Sessoes();
 
 //void Menu_MostrarResultados();
 
-void criar_Candidato(Candidato & novo);
-void criar_Jurado(Jurado & novo);
+Candidato criar_Candidato();
+Jurado criar_Jurado();
+Sessao criar_Sessao();
 
 void txt_candidatos();
 void txt_jurados();

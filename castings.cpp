@@ -288,7 +288,9 @@ void Candidato::mostraInformacao()
 	cout << "DATA DE NASCIMENTO: " << this->data_nascimento << endl;
 }
 
-
+void Candidato::diminuirNumInscricoes() {
+	numInscricoesAtual--;
+}
 
 void Candidato::setDataNascimento(Data data)
 {
@@ -330,11 +332,31 @@ size_t Castings::juradoExiste(Jurado * j1) {
 	return ind;
 }
 
+size_t Castings::juradoExiste(string nome, string telemovel) {
+	size_t ind = -1;
+	
+	for (size_t i = 0; i < jurados.size(); i++) {
+		if (jurados.at(i)->getNome == nome && jurados.at(i)->getTelemovel == telemovel) // dois jurados são iguais se o seu nome e telemovel forem os mesmos
+			ind = i;
+	}
+	return ind;
+}
+
 size_t Castings::candidatoExiste(Candidato * c1) {
 	size_t ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
 		if (c1 == candidatos.at(i))
+			ind = i;
+	}
+	return ind;
+}
+
+size_t Castings::candidatoExiste(string nome, string morada) {
+	size_t ind = -1;
+
+	for (size_t i = 0; i < candidatos.size(); i++) {
+		if (candidatos.at(i)->getNome == nome && candidatos.at(i)->getMorada == morada) // dois candidatos são iguais se o seu nome e morada forem os mesmos
 			ind = i;
 	}
 	return ind;

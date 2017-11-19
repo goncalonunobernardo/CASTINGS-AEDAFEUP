@@ -24,6 +24,7 @@ protected:
 class CandidatoRepetido : public ExcecaoPessoa {
 public:
 	CandidatoRepetido(Candidato * c);
+	CandidatoRepetido(string nome);
 	void handler();
 };
 
@@ -37,6 +38,7 @@ public:
 class JuradoRepetido : public ExcecaoPessoa {
 public:
 	JuradoRepetido(Jurado * j);
+	JuradoRepetido(string nome);
 	void handler();
 };
 
