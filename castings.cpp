@@ -99,7 +99,9 @@ void Jurado::mostraInformacao()
 
 // Classe Sessao
 
-Sessao::Sessao() { }
+int Sessao::ids = 0;
+
+Sessao::Sessao() { this->id = ++ids; }
 
 Sessao::Sessao(string ficheiro_sessao)
 {
@@ -147,7 +149,7 @@ Sessao::Sessao(string ficheiro_sessao)
 	int anoI = stoi(ano);
 	data.setAno(anoI);
 
-
+	this->id = ++ids;
 }
 
 int Sessao::getId() const {
@@ -252,7 +254,7 @@ Candidato::Candidato(string ficheiro_candidatos)
 
 }
 
-Candidato::Candidato() {}; // DEFAULT CONSTRUCTOR
+Candidato::Candidato() { this->numInscricao = ++numInscricoesAtual; }; // DEFAULT CONSTRUCTOR
 
 Data Candidato::getDataNascimento() const
 {
@@ -268,6 +270,10 @@ bool Candidato::operator==(Candidato & c1)
 {
 	if (this->getNome() == c1.getNome()) return true;
 	return false;
+}
+
+int Candidato::getNumInscricao() const {
+	return numInscricao;
 }
 
 void Candidato::adicionarSessao(Sessao &s1) {

@@ -79,6 +79,7 @@ public:
 	Candidato(string ficheiro_candidatos);
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
+	int getNumInscricao() const;
 	void setDataNascimento(Data data);
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato &c1);
@@ -103,7 +104,8 @@ public:
 
 class Sessao {
 protected:
-	int id;
+	static int ids;
+	int id; // atribuido automaticamente
 	int fase; //1 ou 2
 	int numMaxCandidatos;
 	int numVagas;

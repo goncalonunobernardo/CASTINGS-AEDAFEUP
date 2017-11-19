@@ -486,6 +486,7 @@ void criar_Candidato(Candidato & novo) {
 	string nome, morada, genero, datastr;
 	Data d;
 	string dia, mes, ano;
+
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
@@ -508,6 +509,30 @@ void criar_Candidato(Candidato & novo) {
 	getline(dataS, ano);
 	int anoI = stoi(ano);
 	novo.setDataNascimento(d);
+
+	cout << "Candidato criado. O número de inscrição do candidato é: " << novo.getNumInscricao() << endl;
+	cout << "=============================================================\n";
+}
+
+void criar_Jurado(Jurado & novo) {
+	string nome, morada, genero, telemovel;
+
+	cout << "=============================================================\n";
+	cout << "Insira o nome. \n";
+	getline(cin, nome);
+	novo.setNome(nome);
+	cout << "Insira a morada. \n";
+	getline(cin, morada);
+	novo.setMorada(morada);
+	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
+	getline(cin, genero);
+	novo.setGenero(genero);
+	cout << "Insira o número de telemóvel. \n";
+	getline(cin, telemovel);
+	novo.setTelemovel(telemovel);
+
+	cout << "Jurado criado. \n";
+	cout << "=============================================================\n";
 }
 
 void txt_candidatos() {

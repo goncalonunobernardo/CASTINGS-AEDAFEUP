@@ -23,7 +23,9 @@ void Grava_Ficheiro_Jurados();
 void Grava_Ficheiro_Sessoes();
 
 //void Menu_MostrarResultados();
+
 void criar_Candidato(Candidato & novo);
+void criar_Jurado(Jurado & novo);
 
 void txt_candidatos();
 void txt_jurados();
