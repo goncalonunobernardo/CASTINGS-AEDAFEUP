@@ -484,16 +484,16 @@ Candidato criar_Candidato() {
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
-	cout << "Insira a morada. \n";
-	getline(cin, morada);
-	
-	if (casting.candidatoExiste(nome, morada) != -1)
+
+	if (casting.candidatoExiste(nome) != -1)
 		throw CandidatoRepetido(nome);
 
 	Candidato novo;
 	novo.setNome(nome);
-	novo.setMorada(morada);
 
+	cout << "Insira a morada. \n";
+	getline(cin, morada);
+	novo.setMorada(morada);
 	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
@@ -523,16 +523,16 @@ Jurado criar_Jurado() {
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
-	cout << "Insira o número de telemóvel. \n";
-	getline(cin, telemovel);
 
-	if (casting.juradoExiste(nome, telemovel) != -1)
+	if (casting.juradoExiste(nome) != -1)
 		throw JuradoRepetido(nome);
 
 	Jurado novo;
 	novo.setNome(nome);
-	novo.setTelemovel(telemovel);
 
+	cout << "Insira o número de telemóvel. \n";
+	getline(cin, telemovel);
+	novo.setTelemovel(telemovel);
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);

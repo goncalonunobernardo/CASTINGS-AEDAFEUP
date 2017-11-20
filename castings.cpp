@@ -345,11 +345,11 @@ size_t Castings::juradoExiste(Jurado * j1) {
 	return ind;
 }
 
-size_t Castings::juradoExiste(string nome, string telemovel) {
+size_t Castings::juradoExiste(string nome) {
 	size_t ind = -1;
 	
 	for (size_t i = 0; i < jurados.size(); i++) {
-		if (jurados.at(i)->getNome == nome && jurados.at(i)->getTelemovel == telemovel) // dois jurados são iguais se o seu nome e telemovel forem os mesmos
+		if (jurados.at(i)->getNome == nome) // para simplificar, dois jurados são iguais se tiverem o mesmo nome
 			ind = i;
 	}
 	return ind;
@@ -365,11 +365,11 @@ size_t Castings::candidatoExiste(Candidato * c1) {
 	return ind;
 }
 
-size_t Castings::candidatoExiste(string nome, string morada) {
+size_t Castings::candidatoExiste(string nome) {
 	size_t ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i)->getNome == nome && candidatos.at(i)->getMorada == morada) // dois candidatos são iguais se o seu nome e morada forem os mesmos
+		if (candidatos.at(i)->getNome == nome) // para simplificar, dois candidatos são iguais se tiverem o mesmo nome
 			ind = i;
 	}
 	return ind;
@@ -556,6 +556,7 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 
 	return false;
 }
+
 bool comparaDataNascimento(Candidato * c1, Candidato *c2)
 {
 	if (c1->getDataNascimento() < c2->getDataNascimento())
@@ -565,6 +566,7 @@ bool comparaDataNascimento(Candidato * c1, Candidato *c2)
 	}
 	return false;
 }
+
 void Castings::ordenaCandidatosData()
 {
 	sort(candidatos.begin(), candidatos.end(), comparaDataNascimento);
@@ -643,6 +645,10 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	return true;
 }
 
+void Castings::comecarFase2(Sessao &s1) {
+
+}
+
 // Classe Pontuacao
 
 int Pontuacao::getId() const
@@ -712,7 +718,6 @@ void Data::setAno(int ano)
 	this->ano = ano;
 }
 
-
 bool Data::operator==(Data & d1)
 {
 	if (this->getDia() == d1.getDia() && this->getMes() == d1.getMes() && this->getAno() == d1.getAno())return true;
@@ -738,7 +743,8 @@ void Data::operator=(Data & d1)
 	this->ano = d1.ano;
 
 }
- ostream & operator<<(ostream & os, const Data & d1)
+ 
+ostream & operator<<(ostream & os, const Data & d1)
 {
 	 os << d1.dia << "-" << d1.mes << "-" << d1.ano;
 	 return os;

@@ -136,7 +136,6 @@ public:
 	void setNumVagas(int vagas);
 	bool juriCompleto() const;
 	bool juradoPresente(Jurado * j1);
-
 };
 
 
@@ -156,9 +155,9 @@ public:
 	vector< Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
 	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado nao existir no vetor jurados, retorna o seu indice se existir
-	size_t juradoExiste(string nome, string telemovel);
+	size_t juradoExiste(string nome);
 	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato nao existir no vetor candidatos, retorna o seu indice se existir
-	size_t candidatoExiste(string nome, string morada);
+	size_t candidatoExiste(string nome);
 	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sessao nao existir no vetor sessoes, retorna o seu indice se existir
 	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
 	void setUpCandidatos();
@@ -175,7 +174,7 @@ public:
 	bool eliminaJurado(Jurado * j1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	void ordenaCandidatosData();
-
+	void comecarFase2(Sessao &s1);
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
