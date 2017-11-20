@@ -467,7 +467,14 @@ void Grava_Ficheiro_Sessoes() {
 	Ficheiro_Sessoes.open(ficheiro_sessoes);
 	for (unsigned int i = 0; i < casting.getSessao().size(); i++)
 	{
-		//GETFASE???Ficheiro_Sessoes << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).g() << " ; " << casting.getJurados().at(i)->getGenero() << " ; " << casting.getJurados().at(i)->getTelemovel() << endl;
+		Ficheiro_Sessoes << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).getFase() << " ; " << casting.getSessao().at(i).getGenero() << " ; " << casting.getSessao().at(i).getNumVagas() << " ; ";
+
+		if (casting.getSessao().at(i).getFase() == 2)
+			cout << casting.getSessao().at(i).getConcorrentes_finais() << " ; " << casting.getSessao().at(i).getData();
+		else
+			cout << casting.getSessao().at(i).getConcorrentes_iniciais() << " ; " << casting.getSessao().at(i).getData();
+
+		cout << endl;
 	}
 	Ficheiro_Sessoes.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -588,9 +595,14 @@ void txt_sessoes() {
 	int input = -1;
 	for (unsigned int i = 0; i < casting.getSessao().size(); i++)
 	{
-		//GETFASE?imcomplete?? cout << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).g() << " ; " << casting.getJurados().at(i)->getGenero() << " ; " << casting.getJurados().at(i)->getTelemovel() << endl;
-	}
+		cout << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).getFase() << " ; " << casting.getSessao().at(i).getGenero() << " ; " << casting.getSessao().at(i).getNumVagas() << " ; ";
+		if (casting.getSessao().at(i).getFase() == 2)
+			cout << casting.getSessao().at(i).getConcorrentes_finais() << " ; " << casting.getSessao().at(i).getData();
+		else
+			cout << casting.getSessao().at(i).getConcorrentes_iniciais() << " ; " << casting.getSessao().at(i).getData();
 
+		cout << endl;
+	}
 	cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
 	cin >> input;
 	if (input == 0)

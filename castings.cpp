@@ -666,6 +666,9 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 }
 
 bool Castings::comecarFase2(Sessao &s1) {
+	if (s1.getFase() == 2)
+		return false;
+
 	vector<string> concorrentes = s1.getConcorrentes_iniciais();
 	int i = -1, id = s1.getId(), fase = s1.getFase();
 	double pontuacao;
@@ -807,6 +810,17 @@ ostream & operator<<(ostream & os, const Data & d1)
 	// TODO: inserir instrução de retorno aqui
 }
 
+ostream & operator<<(ostream & os, const vector<string> & c1) {
+	for (size_t i = 0; i < c1.size(); i++)
+	{
+		if (i == c1.size() - 1) {
+			cout << c1.at(i);
+			break;
+		}
+		os << c1.at(i) << ", ";
+	}
+	return os;
+}
 
 
 
