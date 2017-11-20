@@ -324,7 +324,7 @@ void Candidato::setNumInscricoes(int num) {
 
 double Candidato::getPontuacao(int sessaoId, int fase) const {
 	for (size_t i = 0; i < pontuacoes.size(); i++) {
-		if (pontuacoes.at(i).getId() == sessaoId && pontuacoes.at(i).getFase == fase)
+		if (pontuacoes.at(i).getId() == sessaoId && pontuacoes.at(i).getFase() == fase)
 			return pontuacoes.at(i).getClassificacao();
 	}
 	return -1;
