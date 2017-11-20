@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -16,8 +17,7 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
-class CandidatoRepetido;
-class CandidatoInexistente;
+
 class Data {
 private:
 	int dia;
@@ -80,6 +80,7 @@ public:
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
 	int getNumInscricao() const;
+	double getPontuacao(int sessaoId, int fase) const;
 	static int getNumInscricoes();
 	void setDataNascimento(Data data);
 	void setNumInscricoes(int num); 
@@ -124,15 +125,18 @@ public:
 	static int getIds();
 	string getGenero() const;
 	Data getData();
+	int getFase() const;
 	string getResponsavel() const;
 	vector<string> & getJurados_sessao();
 	vector <string> & getConcorrentes_iniciais();
 	vector <string> &getConcorrentes_finais();
+	void setConcorrentes_finais(vector<string> &finais);
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
 	bool eliminaCandidatoSessao(Candidato *c1);
 	void setData(Data data);
 	void setResponsavel(string j1);
+	void setFase(int fase);
 	void setNumVagas(int vagas);
 	bool juriCompleto() const;
 	bool juradoPresente(Jurado * j1);
@@ -174,7 +178,7 @@ public:
 	bool eliminaJurado(Jurado * j1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	void ordenaCandidatosData();
-	void comecarFase2(Sessao &s1);
+	bool comecarFase2(Sessao &s1);
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);

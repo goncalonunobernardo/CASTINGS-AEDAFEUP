@@ -166,6 +166,10 @@ Data Sessao::getData()
 	return data;
 }
 
+int Sessao::getFase() const {
+	return fase;
+}
+
 string Sessao::getResponsavel() const
 {
 	return responsavel;
@@ -229,6 +233,14 @@ bool Sessao::juradoPresente(Jurado * j1)
 		if (getJurados_sessao().at(i) == j1->getNome())return true;
 	}
 	return false;
+}
+
+void Sessao::setConcorrentes_finais(vector<string> &finais) {
+	concorrentes_iniciais = finais;
+}
+
+void Sessao::setFase(int fase) {
+	this->fase = fase;
 }
 
 // Classe Candidato
@@ -308,6 +320,14 @@ void Candidato::setDataNascimento(Data data)
 
 void Candidato::setNumInscricoes(int num) {
 	numInscricoesAtual = num;
+}
+
+double Candidato::getPontuacao(int sessaoId, int fase) const {
+	for (size_t i = 0; i < pontuacoes.size(); i++) {
+		if (pontuacoes.at(i).getId() == sessaoId && pontuacoes.at(i).getFase == fase)
+			return pontuacoes.at(i).getClassificacao();
+	}
+	return -1;
 }
 
 // Classe Castings
@@ -645,8 +665,43 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	return true;
 }
 
-void Castings::comecarFase2(Sessao &s1) {
+bool Castings::comecarFase2(Sessao &s1) {
+	vector<string> concorrentes = s1.getConcorrentes_iniciais();
+	int i = -1, id = s1.getId(), fase = s1.getFase();
+	double pontuacao;
+	multimap<double, string> concorrentesOrdenado;
+	vector<string> apurados;
 
+	for (auto nome : concorrentes) {
+		i = candidatoExiste(nome);
+		pontuacao = candidatos.at(i)->getPontuacao(id, fase);
+		concorrentesOrdenado.insert(pair<double, string>(pontuacao, nome));
+	}
+
+	if (concorrentesOrdenado.size() <= 5) {
+		for (multimap<double,string>::iterator it=concorrentesOrdenado.begin(); it != concorrentesOrdenado.end() ; it++) 
+			apurados.push_back(it->second);
+		s1.setConcorrentes_finais(apurados);
+		s1.setFase(2);
+		return true;
+	}
+
+	sort(concorrentesOrdenado.begin(), concorrentesOrdenado.end());
+
+	multimap<double, string>::iterator it0 = concorrentesOrdenado.begin(), it5 = concorrentesOrdenado.begin();
+	
+	for (int n = 0; n < 5; n++) // multimap não suporta random iterators
+		it5++; 
+	// it5 aponta agora para o 6º par
+
+	while (it0 != it5) {
+		apurados.push_back(it0->second);
+		it0++;
+	}
+
+	s1.setConcorrentes_finais(apurados);
+	s1.setFase(2);
+	return true;
 }
 
 // Classe Pontuacao
