@@ -100,6 +100,8 @@ private:
 	vector<int> classificacoes; // vetor c/3 posi??es em que ?ndice 0 equivale ? primeira classifica??o.
 
 public: 
+
+	Pontuacao(string ficheiroPontuacao);
 	Pontuacao(string nomeCandidato, int id_sessao,int  fase,vector<int> classificacoes);
 	int getId() const;
 	int getFase() const;
@@ -154,12 +156,14 @@ private:
 	vector<Jurado*> jurados;
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
+	vector<Pontuacao> pontuacoes;
 	string ficheiroCandidatos;
 	string ficheiroJurados;
 	string ficheiroSessoes;
+	string ficheiroPontuacoes;
 public:
 	Castings();
-	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes);
+	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes);
 	vector <Jurado *> getJurados();
 	vector< Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
@@ -172,6 +176,7 @@ public:
 	void setUpCandidatos();
 	void setUpJurados();
 	void setUpSessoes();
+	void setUpPontuacoes();
 	void mostraInformacaoCandidatos();
 	void mostraInformacaoJurados();
 	bool adicionaCandidato(Candidato *c1);

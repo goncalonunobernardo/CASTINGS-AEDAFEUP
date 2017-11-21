@@ -340,11 +340,12 @@ double Candidato::getPontuacao(int sessaoId, int fase) const {
 
 Castings::Castings() {}
 
-Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes)
+Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes)
 {
 	this->ficheiroCandidatos = ficheiroCandidatos;
 	this->ficheiroJurados = ficheiroJurados;
 	this->ficheiroSessoes = ficheiroSessoes;
+	this->ficheiroPontuacoes = ficheiroPontuacoes;
 }
 
 vector<Jurado*> Castings::getJurados()
@@ -626,6 +627,15 @@ void Castings::setUpSessoes()
 	}
 }
 
+void Castings::setUpPontuacoes()
+{
+	ifstream file(ficheiroPontuacoes);
+	string pontuacao;
+	while (getline(file, pontuacao)) {
+		pontuacoes.push_back(Pontuacao(pontuacao));
+	}
+}
+
 void Castings::mostraInformacaoCandidatos()
 {
 	for (size_t i = 0; i < candidatos.size(); i++) {
@@ -694,7 +704,7 @@ bool Castings::comecarFase2(Sessao &s1) {
 		return true;
 	}
 
-	sort(concorrentesOrdenado.begin(), concorrentesOrdenado.end());
+	//sort(concorrentesOrdenado.begin(), concorrentesOrdenado.end());
 
 	multimap<double, string>::iterator it0 = concorrentesOrdenado.begin(), it5 = concorrentesOrdenado.begin();
 	
@@ -758,6 +768,7 @@ void Castings::atribuirPontuacao(Sessao & s1)
 		cout << endl;
 		Pontuacao P(sessoes.at(pos).getConcorrentes_iniciais().at(i), sessoes.at(pos).getIds(), sessoes.at(pos).getFase(), p);
 		sessoes.at(pos).getPontuacoes().push_back(P);
+		pontuacoes.push_back(P);
 	}
 
 	
@@ -765,6 +776,31 @@ void Castings::atribuirPontuacao(Sessao & s1)
 }
 
 // Classe Pontuacao
+
+Pontuacao::Pontuacao(string ficheiroPontuacao)
+{
+	istringstream pontuacaoStream(ficheiroPontuacao);
+	string id, fase, nome, p1, p2, p3, pontuacoesS;
+	getline(pontuacaoStream, id, ';');
+
+	pontuacaoStream >> id;
+	pontuacaoStream.ignore(1000, ';');
+
+	pontuacaoStream >> fase;
+	pontuacaoStream.ignore(1000, ';');
+
+	getline(pontuacaoStream, nome, ';');
+	
+	getline(pontuacaoStream, pontuacoesS);
+	istringstream pontuacoesStream(pontuacoesS);
+	while (getline(pontuacoesStream, p1, ','))
+	{
+		int p = stoi(p1);
+		classificacoes.push_back(p);
+	}
+
+
+}
 
 Pontuacao::Pontuacao(string nomeCandidato, int id_sessao, int fase, vector<int> classificacoes)
 {
