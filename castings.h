@@ -74,6 +74,7 @@ private:
 	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1a inscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
+	
 public:
 	Candidato();
 	Candidato(string ficheiro_candidatos);
@@ -93,11 +94,13 @@ public:
 
 class Pontuacao { //resultados de um candidato numa determinada sess?o e fase
 private:
+	string nomeCandidato;
 	int id_sessao;
 	int fase;
 	vector<int> classificacoes; // vetor c/3 posi??es em que ?ndice 0 equivale ? primeira classifica??o.
 
-public:
+public: 
+	Pontuacao(string nomeCandidato, int id_sessao,int  fase,vector<int> classificacoes);
 	int getId() const;
 	int getFase() const;
 	vector<int> getClassificacoes() const;
@@ -118,6 +121,7 @@ protected:
 	vector<string> jurados_sessao; //Cada sessao e composta por 3 jurados
 	vector <string> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
 	vector <string> concorrentes_finais; //concorrentes que passam  2fase;
+	vector<Pontuacao> pontuacoes;
 public:
 	Sessao();
 	Sessao(string ficheiro_sessao);
@@ -130,6 +134,7 @@ public:
 	vector<string> & getJurados_sessao();
 	vector <string> & getConcorrentes_iniciais();
 	vector <string> &getConcorrentes_finais();
+	vector<Pontuacao> &getPontuacoes();
 	void setConcorrentes_finais(vector<string> &finais);
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
@@ -179,6 +184,7 @@ public:
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	void ordenaCandidatosData();
 	bool comecarFase2(Sessao &s1);
+	void atribuirPontuacao(Sessao &s1);
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);

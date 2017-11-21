@@ -324,10 +324,10 @@ void Menu_Informacoes() {
 			Menu_Principal();
 			break;
 		case 1:
-			casting.mostraInformacaoCandidatos();
+			//FUNCAO QUE LE CANDIDATOS E INFO BASICAS DELES + TIPO DE SESSAO
 			break;
 		case 2:
-			casting.mostraInformacaoJurados();
+			//FUNCAO QUE LE JURADOS E INFO BASICAS
 			break;
 		case 3:
 			Menu_Artes();
@@ -339,7 +339,7 @@ void Menu_Informacoes() {
 			txt_jurados();
 			break;
 		case 6:
-			//txt_sessoes();
+			txt_sessoes();
 			break;
 		default:
 			InvalidInputMenu();
@@ -459,7 +459,7 @@ void Grava_Ficheiro_Sessoes() {
 	Sessao sessoes;
 	string ficheiro_sessoes;
 	cout << "=============================================================\n";
-	cout << "Insira o nome do ficheiro de jurados que pretende gravar: \n";
+	cout << "Insira o nome do ficheiro de sessoes que pretende gravar: \n";
 	cin >> ficheiro_sessoes;
 
 	ofstream Ficheiro_Sessoes;
@@ -469,10 +469,18 @@ void Grava_Ficheiro_Sessoes() {
 	{
 		Ficheiro_Sessoes << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).getFase() << " ; " << casting.getSessao().at(i).getGenero() << " ; " << casting.getSessao().at(i).getNumVagas() << " ; ";
 
-		if (casting.getSessao().at(i).getFase() == 2)
-			cout << casting.getSessao().at(i).getConcorrentes_finais() << " ; " << casting.getSessao().at(i).getData();
-		else
-			cout << casting.getSessao().at(i).getConcorrentes_iniciais() << " ; " << casting.getSessao().at(i).getData();
+		if (casting.getSessao().at(i).getFase() == 2) {
+			for (size_t j = 0; j < casting.getSessao().at(i).getConcorrentes_finais().size(); j++) {
+				cout << casting.getSessao().at(i).getConcorrentes_finais().at(j) << " , ";
+			}
+			cout << " ; " << casting.getSessao().at(i).getData();
+		}
+		else {
+			for (size_t j = 0; j < casting.getSessao().at(i).getConcorrentes_iniciais().size(); j++) {
+				cout << casting.getSessao().at(i).getConcorrentes_iniciais().at(j) << " , ";
+			}
+			cout << " ; " << casting.getSessao().at(i).getData();
+		}
 
 		cout << endl;
 	}
@@ -552,9 +560,9 @@ Jurado criar_Jurado() {
 
 	return novo;
 }
-
 Sessao criar_Sessao() {
-
+	Sessao s1;
+	return s1;
 }
 
 void txt_candidatos() {
@@ -595,11 +603,18 @@ void txt_sessoes() {
 	int input = -1;
 	for (unsigned int i = 0; i < casting.getSessao().size(); i++)
 	{
-		cout << casting.getSessao().at(i).getId() << " ; " << casting.getSessao().at(i).getFase() << " ; " << casting.getSessao().at(i).getGenero() << " ; " << casting.getSessao().at(i).getNumVagas() << " ; ";
-		if (casting.getSessao().at(i).getFase() == 2)
-			cout << casting.getSessao().at(i).getConcorrentes_finais() << " ; " << casting.getSessao().at(i).getData();
-		else
-			cout << casting.getSessao().at(i).getConcorrentes_iniciais() << " ; " << casting.getSessao().at(i).getData();
+		if (casting.getSessao().at(i).getFase() == 2) {
+			for (size_t j = 0; j < casting.getSessao().at(i).getConcorrentes_finais().size(); j++) {
+				cout << casting.getSessao().at(i).getConcorrentes_finais().at(j) << " , ";
+			}
+			cout << " ; " << casting.getSessao().at(i).getData();
+		}
+		else {
+			for (size_t j = 0; j < casting.getSessao().at(i).getConcorrentes_iniciais().size(); j++) {
+				cout << casting.getSessao().at(i).getConcorrentes_iniciais().at(j) << " , ";
+			}
+			cout << " ; " << casting.getSessao().at(i).getData();
+		}
 
 		cout << endl;
 	}

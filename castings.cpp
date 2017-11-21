@@ -189,6 +189,12 @@ vector <string> & Sessao::getConcorrentes_finais() {
 	return concorrentes_finais;
 }
 
+vector<Pontuacao>& Sessao::getPontuacoes()
+{
+	return pontuacoes;
+	// TODO: inserir instrução de retorno aqui
+}
+
 int Sessao::getNumVagas() const
 {
 	int vagas = numMaxCandidatos - concorrentes_iniciais.size();
@@ -369,7 +375,7 @@ size_t Castings::juradoExiste(string nome) {
 	size_t ind = -1;
 	
 	for (size_t i = 0; i < jurados.size(); i++) {
-		if (jurados.at(i)->getNome == nome) // para simplificar, dois jurados são iguais se tiverem o mesmo nome
+		if (jurados.at(i)->getNome() == nome) // para simplificar, dois jurados são iguais se tiverem o mesmo nome
 			ind = i;
 	}
 	return ind;
@@ -389,7 +395,7 @@ size_t Castings::candidatoExiste(string nome) {
 	size_t ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i)->getNome == nome) // para simplificar, dois candidatos são iguais se tiverem o mesmo nome
+		if (candidatos.at(i)->getNome() == nome) // para simplificar, dois candidatos são iguais se tiverem o mesmo nome
 			ind = i;
 	}
 	return ind;
@@ -531,7 +537,6 @@ bool Castings::eliminaJurado(Jurado * j1)
 		}
 	}
 	getchar(); getchar();
-	return false;
 	return false;
 }
 
@@ -707,7 +712,67 @@ bool Castings::comecarFase2(Sessao &s1) {
 	return true;
 }
 
+void Castings::atribuirPontuacao(Sessao & s1)
+{
+	int p1, p2, p3;
+	int pos = 0;
+	bool juradosC = true;
+	for (size_t i = 0; i < sessoes.size(); i++) {
+		if (sessoes.at(i) == s1) {
+			pos = i;
+			if (sessoes.at(i).getJurados_sessao().size() != 3) {
+				cout << "FALTA ATRIBUIR JURADOS." << endl;
+				juradosC = false;
+			}
+		}
+	}
+	vector<int>p;
+	for (size_t i = 0; i < sessoes.at(pos).getConcorrentes_iniciais().size(); i++) {
+		cout << "PONTUACOES|| CONCORRENTE: " << sessoes.at(pos).getConcorrentes_iniciais().at(i) << endl;
+		cout << sessoes.at(pos).getJurados_sessao().at(0) << ": ";
+		cin >> p1;
+		while (p1 > 10 || p1 < 0) {
+			cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
+			cin >> p1;
+			cout << endl;
+		}
+		p.push_back(p1);
+		cout << endl;
+		cout << sessoes.at(pos).getJurados_sessao().at(1) << ": ";
+		cin >> p2;
+		while (p2 > 10 || p2 < 0) {
+			cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
+			cin >> p2;
+			cout << endl;
+		}
+		p.push_back(p2);
+		cout << endl;
+		cout << sessoes.at(pos).getJurados_sessao().at(2) << ": ";
+		cin >> p3;
+		while (p3 > 10 || p3 < 0) {
+			cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
+			cin >> p3;
+			cout << endl;
+		}
+		p.push_back(p3);
+		cout << endl;
+		Pontuacao P(sessoes.at(pos).getConcorrentes_iniciais().at(i), sessoes.at(pos).getIds(), sessoes.at(pos).getFase(), p);
+		sessoes.at(pos).getPontuacoes().push_back(P);
+	}
+
+	
+
+}
+
 // Classe Pontuacao
+
+Pontuacao::Pontuacao(string nomeCandidato, int id_sessao, int fase, vector<int> classificacoes)
+{
+	this->nomeCandidato = nomeCandidato;
+	this->id_sessao = id_sessao;
+	this->fase = fase;
+	this->classificacoes = classificacoes;
+}
 
 int Pontuacao::getId() const
 {
