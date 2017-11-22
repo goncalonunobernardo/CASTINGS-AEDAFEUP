@@ -182,3 +182,4 @@ public:
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
+ostream & operator<<(ostream & os, const vector<string> & c1);
