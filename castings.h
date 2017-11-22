@@ -156,14 +156,18 @@ public:
 	Castings();
 	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes);
 	vector <Jurado *> getJurados();
-	vector< Candidato*> getCandidatos();
+	vector<Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
-	size_t juradoExiste(Jurado * j1); // retorna -1 se o jurado nao existir no vetor jurados, retorna o seu indice se existir
-	size_t juradoExiste(string nome);
-	size_t candidatoExiste(Candidato * c1); // retorna -1 se o candidato nao existir no vetor candidatos, retorna o seu indice se existir
-	size_t candidatoExiste(string nome);
-	size_t sessaoExiste(Sessao &s1); // retorna -1 se a sessao nao existir no vetor sessoes, retorna o seu indice se existir
-	size_t juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
+	int juradoExiste(Jurado * j1); // retorna -1 se o jurado nao existir no vetor jurados, retorna o seu indice se existir
+	int juradoExiste(string nome);
+	int candidatoExiste(Candidato * c1); // retorna -1 se o candidato nao existir no vetor candidatos, retorna o seu indice se existir
+	int candidatoExiste(string nome);
+	int sessaoExiste(Sessao &s1); // retorna -1 se a sessao nao existir no vetor sessoes, retorna o seu indice se existir
+	int juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
+	void setFicheiroSessoes(string ficheiroSessoes);
+	void setFicheiroJurados(string ficheiroJurados);
+	void setFicheiroCandidatos(string ficheiroCandidatos);
+	void setFicheiroPontuacoes(string ficheiroPontuacoes);
 	void setUpCandidatos();
 	void setUpJurados();
 	void setUpSessoes();

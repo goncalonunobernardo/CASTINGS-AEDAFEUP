@@ -9,9 +9,65 @@
 #include "exceptions.h"
 
 using namespace std;
+Castings C;
+int main() {
+	//Funcaoo para ler ficheiros .txt
+	/*cout << endl << "Insira o nome do ficheiro de candidatos" << endl;
+	cout << "::: ";
+	string nomeficheirocandidatos;
+	cin >> nomeficheirocandidatos;
+	ifstream ficheirocand(nomeficheirocandidatos);
+	while (!ficheirocand)
+	{
+	cout << "\n";
+	cout << "Ficheiro indisponível. Tente novamente" << endl;;
+	cout << "::: ";
+	cin >> nomeficheirocandidatos;
+	ficheirocand.open(nomeficheirocandidatos);
+	}
 
-Castings casting;
 
+	string nomeficheirojurados;
+	cout << endl << "Insira o nome do ficheiro de jurados" << endl;
+	cout << "::: ";
+	cin >> nomeficheirojurados;
+	ifstream ficheiroju(nomeficheirojurados);
+	while (!ficheiroju)
+	{
+	cout << "\n";
+	cout << "Ficheiro indisponível. Tente novamente" << endl;
+	cout << "::: ";
+	cin >> nomeficheirojurados;
+	ficheiroju.open(nomeficheirojurados);
+	}
+	string nomeficheiroSessoes;
+	cout << endl << "Insira o nome do ficheiro de jurados" << endl;
+	cout << "::: ";
+	cin >> nomeficheiroSessoes;
+	ifstream ficheiroSe(nomeficheiroSessoes);
+	while (!ficheiroSe)
+	{
+	cout << "\n";
+	cout << "Ficheiro indisponível. Tente novamente" << endl;
+	cout << "::: ";
+	cin >> nomeficheiroSessoes;
+	ficheiroSe.open (nomeficheiroSessoes);
+	}
+	clearScreen();*/
+	//	Castings C(nomeficheirocandidatos, nomeficheirojurados, nomeficheiroSessoes);
+	C.setFicheiroCandidatos("candidatos.txt");
+	C.setFicheiroJurados("jurados.txt");
+	C.setFicheiroPontuacoes("pontuacoes.txt");
+	C.setFicheiroSessoes("sessoes.txt");
+	C.setUpCandidatos();
+	C.setUpJurados();
+	//C.setUpSessoes();
+	C.setUpPontuacoes();
+	//Funcao para tratar do Menu Principal
+	Menu_Principal();
+	system("PAUSE");
+	return 0;
+}
 void Menu_Principal() {
 	cout << "=============================================================================================================\n";
 	cout << "    ____  ________  ___   _    _______   ______  ____ \n";
@@ -150,7 +206,8 @@ void Menu_Adicionar() {
 			Menu_Principal();
 			break;
 		case 3:
-			casting.adicionaJurado(&jurado);
+			jurado = criar_Jurado();
+			C.adicionaJurado(&jurado);
 			cout << "=============================================================\n";
 			cout << "Jurado adicionado ao CASTINGTORIUM 200! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
@@ -308,12 +365,10 @@ void Menu_Informacoes() {
 	cout << "=============================================================\n";
 	cout << "Indique o elemento que pretende visualizar no programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
-	cout << "1) Candidatos";
-	cout << "2) Jurados";
-	cout << "3) Tipos de Sessao";
-	cout << "4) Ficheiro de Candidatos";
-	cout << "5) Ficheiro de Jurados";
-	cout << "6) Ficheiro de Sessoes";
+	cout << "1) Candidatos\n";
+	cout << "2) Jurados\n";
+	cout << "3) Tipos de Sessao\n";
+	cout << "4) Sessoes\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -324,22 +379,19 @@ void Menu_Informacoes() {
 			Menu_Principal();
 			break;
 		case 1:
-			casting.mostraInformacaoCandidatos();
+			txt_candidatos();
+			//FUNCAO QUE LE CANDIDATOS E INFO BASICAS DELES + TIPO DE SESSAO
+			
 			break;
 		case 2:
-			casting.mostraInformacaoJurados();
+			txt_jurados();
+			//FUNCAO QUE LE JURADOS E INFO BASICAS
 			break;
 		case 3:
 			Menu_Artes();
 			break;
 		case 4:
-			txt_candidatos();
-			break;
-		case 5:
-			txt_jurados();
-			break;
-		case 6:
-			//txt_sessoes();
+			txt_sessoes();
 			break;
 		default:
 			InvalidInputMenu();
@@ -491,13 +543,15 @@ Candidato criar_Candidato() {
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
 	getline(cin, nome);
-
-	if (casting.candidatoExiste(nome) != -1)
-		throw CandidatoRepetido(nome);
+	int j = C.getCandidatos().size();
+	for (size_t i = 0; i < C.getCandidatos().size(); i++) {
+		string n = C.getCandidatos().at(i)->getNome();
+		if (C.getCandidatos().at(i)->getNome() == nome)
+			throw CandidatoRepetido(nome);
+	}
 
 	Candidato novo;
 	novo.setNome(nome);
-
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);
@@ -529,6 +583,7 @@ Jurado criar_Jurado() {
 
 	cout << "=============================================================\n";
 	cout << "Insira o nome. \n";
+	cin.ignore(1000, '\n');
 	getline(cin, nome);
 
 	if (casting.juradoExiste(nome) != -1)
@@ -552,9 +607,9 @@ Jurado criar_Jurado() {
 
 	return novo;
 }
-
 Sessao criar_Sessao() {
-
+	Sessao s1;
+	return s1;
 }
 
 void txt_candidatos() {

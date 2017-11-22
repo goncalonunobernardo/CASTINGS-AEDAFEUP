@@ -64,10 +64,14 @@ Jurado::Jurado(string nome, string morada, string genero, string telemovel) :Pes
 Jurado::Jurado(string ficheiro_jurados)
 {
 	istringstream juradoStream(ficheiro_jurados);
-
-	getline(juradoStream, nome, ';');
-	getline(juradoStream, morada, ';');
-	getline(juradoStream, genero, ';');
+	string nomeS, moradaS, generoS;
+	
+	getline(juradoStream, nomeS, ';');
+	nome = nomeS.substr(0, nomeS.size() - 1);
+	getline(juradoStream, moradaS, ';');
+	morada = moradaS.substr(0, moradaS.size() - 1);
+	getline(juradoStream, generoS, ';');
+	genero = generoS.substr(0,generoS.size() - 1);
 	getline(juradoStream, telemovel);
 
 }
@@ -114,6 +118,8 @@ Sessao::Sessao(string ficheiro_sessao)
 	sessaoStream >> fase;
 	sessaoStream.ignore(1000, ';');
 	getline(sessaoStream, genero, ';');
+	sessaoStream >> numMaxCandidatos;
+	sessaoStream.ignore(1000, ';');
 	getline(sessaoStream, concorrentes_I, ';');
 	istringstream concorrentesI_stream(concorrentes_I);
 	while (getline(concorrentesI_stream, inicial_temp, ','))
@@ -256,10 +262,13 @@ Candidato::Candidato(string nome, string morada, string genero, Data data_nascim
 Candidato::Candidato(string ficheiro_candidatos)
 {
 	istringstream candidatosStream(ficheiro_candidatos);
-	string d, dia, mes, ano;
-	getline(candidatosStream, nome, ';');
+	string d, dia, mes, ano,nomeS;
+	getline(candidatosStream, nomeS, ';');
+	nome = nomeS.substr(0, nomeS.size() - 1);
 	getline(candidatosStream, morada, ';');
+	morada = morada.substr(0, morada.size() - 1);
 	getline(candidatosStream, genero, ';');
+	genero = genero.substr(0, genero.size() - 1);
 	getline(candidatosStream, d);
 	istringstream dataStream(d);
 	getline(dataStream, dia, '-');
@@ -356,17 +365,19 @@ vector<Sessao> Castings::getSessao()
 	return sessoes;
 }
 
-size_t Castings::juradoExiste(Jurado * j1) {
-	size_t ind = -1;
+int Castings::juradoExiste(Jurado * j1) {
+	int ind = -1;
 	for (size_t i = 0; i < jurados.size(); i++) {
-		if (j1 == jurados.at(i))
+		string nome1 = j1->getNome();
+		string nome2 = jurados.at(i)->getNome();
+		if (j1->getNome() == jurados.at(i)->getNome())
 			ind = i;
 	}
 	return ind;
 }
 
-size_t Castings::juradoExiste(string nome) {
-	size_t ind = -1;
+int Castings::juradoExiste(string nome) {
+	int ind = -1;
 	
 	for (size_t i = 0; i < jurados.size(); i++) {
 		if (jurados.at(i)->getNome == nome) // para simplificar, dois jurados são iguais se tiverem o mesmo nome
@@ -375,8 +386,8 @@ size_t Castings::juradoExiste(string nome) {
 	return ind;
 }
 
-size_t Castings::candidatoExiste(Candidato * c1) {
-	size_t ind = -1;
+int Castings::candidatoExiste(Candidato * c1) {
+	int ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
 		if (c1 == candidatos.at(i))
@@ -385,18 +396,20 @@ size_t Castings::candidatoExiste(Candidato * c1) {
 	return ind;
 }
 
-size_t Castings::candidatoExiste(string nome) {
-	size_t ind = -1;
+ int Castings::candidatoExiste(string nome) {
+	int ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i)->getNome == nome) // para simplificar, dois candidatos são iguais se tiverem o mesmo nome
+		if (candidatos.at(i)->getNome() == nome) { // para simplificar, dois candidatos são iguais se tiverem o mesmo nome
 			ind = i;
+			return i;
+		}
 	}
 	return ind;
 }
 
-size_t Castings::sessaoExiste(Sessao &s1) {
-	size_t ind = -1;
+int Castings::sessaoExiste(Sessao &s1) {
+	int ind = -1;
 
 	for (size_t j = 0; j < sessoes.size(); j++) {
 		if (s1 == sessoes.at(j))
@@ -406,8 +419,8 @@ size_t Castings::sessaoExiste(Sessao &s1) {
 	return ind;
 }
 
-size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
-	size_t i, ind = -1;
+int Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
+	int i, ind = -1;
 	i = sessaoExiste(s1);
 
 	for (size_t j = 0; j < sessoes.at(i).getJurados_sessao().size(); j++) {
@@ -418,10 +431,30 @@ size_t Castings::juradoExisteSessao(Jurado * j1, Sessao &s1) {
 	return ind;
 }
 
+void Castings::setFicheiroSessoes(string ficheiroSessoes)
+{
+	this->ficheiroSessoes = ficheiroSessoes;
+}
+
+void Castings::setFicheiroJurados(string ficheiroJurados)
+{
+	this->ficheiroJurados = ficheiroJurados;
+}
+
+void Castings::setFicheiroCandidatos(string ficheiroCandidatos)
+{
+	this->ficheiroCandidatos = ficheiroCandidatos;
+}
+
+void Castings::setFicheiroPontuacoes(string ficheiroPontuacoes)
+{
+	this->ficheiroPontuacoes = ficheiroPontuacoes;
+}
+
 bool Castings::adicionaCandidato(Candidato *c1)
 {
 	if (candidatoExiste(c1) != -1)
-		throw CandidatoRepetido(c1);
+		//throw CandidatoRepetido(c1);
 	for (size_t i = 0; i < candidatos.size(); i++) {
 		if (candidatos.at(i) == c1)
 			return false;
@@ -506,7 +539,9 @@ bool Castings::eliminaCandidato(Candidato * c1)
 	for (size_t i = 0; i < candidatos.size(); i++) {
 		if (candidatos.at(i) == c1) {
 			c = candidatos.at(i);
+			delete candidatos.at(i);
 			candidatos.erase(candidatos.begin() + i);
+
 			return true;
 		}
 	}
@@ -589,7 +624,7 @@ bool comparaDataNascimento(Candidato * c1, Candidato *c2)
 
 void Castings::ordenaCandidatosData()
 {
-	sort(candidatos.begin(), candidatos.end(), comparaDataNascimento);
+	sort(candidatos.begin(), candidatos.end(),comparaDataNascimento);
 }
 
 void Castings::setUpCandidatos()
@@ -599,7 +634,7 @@ void Castings::setUpCandidatos()
 
 	while (getline(file, candidato))
 	{
-		candidatos.push_back(&Candidato(candidato));
+		candidatos.push_back(new Candidato(candidato));
 	}
 }
 
@@ -608,7 +643,7 @@ void Castings::setUpJurados()
 	ifstream file(ficheiroJurados);
 	string  jurado;
 	while (getline(file, jurado)) {
-		jurados.push_back(&Jurado(jurado));
+		jurados.push_back(new Jurado(jurado));
 	}
 }
 
