@@ -55,7 +55,6 @@ int main() {
 	}
 	clearScreen();*/
 	//	Castings C(nomeficheirocandidatos, nomeficheirojurados, nomeficheiroSessoes);
-
 	cout << "=============================================================================================================\n";
 	cout << "    ____  ________  ___   _    _______   ______  ____ \n";
 	cout << "   / __ )/ ____/  |/  /  | |  / /  _/ | / / __ \\/ __ \\    ____  ____  \n";
@@ -87,6 +86,7 @@ int main() {
 	system("PAUSE");
 	return 0;
 }
+
 void Menu_Principal() {
 	int opcao = -1;	
 
@@ -136,9 +136,6 @@ void Menu_Principal() {
 	
 void Menu_Adicionar() {
 	int opcao;
-	Candidato candidato;
-	Jurado jurado;
-	Sessao s1;
 	string genero;
 
 	opcao = -1;
@@ -160,17 +157,19 @@ void Menu_Adicionar() {
 		case 0:
 			Menu_Principal();
 			break;
-		case 1:
-			try { 
-				candidato=criar_Candidato(); 
+		case 1: {
+			Candidato * candPtr;
+			try {
+				Candidato candidato = criar_Candidato();
+				candPtr = &candidato;
 			}
 			catch (CandidatoRepetido c1) {
 				c1.handler();
 				Menu_Adicionar();
 				break;
 			}
-			try { 
-				C.adicionaCandidato(&candidato); 
+			try {
+				C.adicionaCandidato(candPtr);
 			}
 			catch (CandidatoRepetido c1) {
 				c1.handler();
@@ -182,13 +181,16 @@ void Menu_Adicionar() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 2:
+		}
+		case 2: {
+			Candidato candidato;
+			Sessao s1;
 			candidato.setNome(nome());
 			cout << "Genero da sessao: ";
 			cin >> genero;
 			cout << endl;
 			s1.setData(dataSessao());
-			
+
 			try {
 				C.adicionaCandidatoSessao(&candidato, s1);
 			}
@@ -212,7 +214,9 @@ void Menu_Adicionar() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 3:
+		}
+		case 3: {
+			Jurado jurado;
 			try { jurado = criar_Jurado(); }
 			catch (JuradoRepetido &j1) {
 				j1.handler();
@@ -225,12 +229,15 @@ void Menu_Adicionar() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 4:
+		}
+		case 4: {
+			Jurado jurado;
+			Sessao s1;
 			try {
-				
+
 				C.adicionaJuradoSessao(&jurado, s1);
 			}
-			catch (JuradoInexistente jurado){
+			catch (JuradoInexistente jurado) {
 				jurado.handler();
 				Menu_Adicionar();
 				break;
@@ -255,6 +262,7 @@ void Menu_Adicionar() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
+		}
 		default:
 			InvalidInputMenu();
 			break;
@@ -265,9 +273,6 @@ void Menu_Adicionar() {
 
 void Menu_Remover() {
 	int opcao;
-	Candidato candidato;
-	Jurado jurado;
-	Sessao s1;
 	string sessao;
 	Data d1;
 
@@ -276,10 +281,10 @@ void Menu_Remover() {
 	cout << "=============================================================\n";
 	cout << "Indique o elemento que pretende remover no programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
-	cout << "1) Candidato ao Castingtorium 2000\n";
-	cout << "2) Candidato a Sessao";
-	cout << "3) Jurado ao Castingtorium 2000\n";
-	cout << "4) Jurado a Sessao";
+	cout << "1) Candidato do Castingtorium 2000\n";
+	cout << "2) Candidato da Sessao";
+	cout << "3) Jurado do Castingtorium 2000\n";
+	cout << "4) Jurado da Sessao";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -288,7 +293,7 @@ void Menu_Remover() {
 		switch (opcao) {
 		case 0:
 			Menu_Principal();
- 		case 1:
+		case 1: {
 			try {
 				C.eliminaCandidato(nome());
 			}
@@ -302,8 +307,10 @@ void Menu_Remover() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 2:
-			
+		}
+		case 2: {
+			Candidato candidato;
+			Sessao s1;
 			try {
 				C.eliminaCandidatoSessao(&candidato, s1);
 			}
@@ -323,7 +330,8 @@ void Menu_Remover() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 3:
+		}
+		case 3: {
 			//FUNCAO PARA REMOVER JURADO DO CASTINGTORIUM2000
 
 			cout << "=============================================================\n";
@@ -331,13 +339,16 @@ void Menu_Remover() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 4:
+		}
+		case 4: {
 			//FUNCAO PARA REMOVER JURADO DA SESS�O
-
+			Jurado jurado;
+			Sessao s1;
 			cout << "=============================================================\n";
 			cout << "Jurado removido da Sess�o... \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
+		}
 		default:
 			InvalidInputMenu();
 			break;
