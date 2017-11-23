@@ -55,20 +55,7 @@ int main() {
 	}
 	clearScreen();*/
 	//	Castings C(nomeficheirocandidatos, nomeficheirojurados, nomeficheiroSessoes);
-	C.setFicheiroCandidatos("candidatos.txt");
-	C.setFicheiroJurados("jurados.txt");
-	C.setFicheiroPontuacoes("pontuacoes.txt");
-	C.setFicheiroSessoes("sessoes.txt");
-	C.setUpCandidatos();
-	C.setUpJurados();
-	C.setUpSessoes();
-	C.setUpPontuacoes();
-	//Funcao para tratar do Menu Principal
-	Menu_Principal();
-	system("PAUSE");
-	return 0;
-}
-void Menu_Principal() {
+
 	cout << "=============================================================================================================\n";
 	cout << "    ____  ________  ___   _    _______   ______  ____ \n";
 	cout << "   / __ )/ ____/  |/  /  | |  / /  _/ | / / __ \\/ __ \\    ____  ____  \n";
@@ -87,7 +74,21 @@ void Menu_Principal() {
 	cout << "\\____/_/  |_/____//_/ /___/_/ |_/\\__ _/ /_/  \\____/_/ |_/___/\\____/_/  /_/   /____|____/\\____/\\____/  \n\n";
 	cout << "=============================================================================================================\n\n";
 
-int opcao = -1;	
+	C.setFicheiroCandidatos("candidatos.txt");
+	C.setFicheiroJurados("jurados.txt");
+	C.setFicheiroPontuacoes("pontuacoes.txt");
+	C.setFicheiroSessoes("sessoes.txt");
+	C.setUpCandidatos();
+	C.setUpJurados();
+	C.setUpSessoes();
+	C.setUpPontuacoes();
+	//Funcao para tratar do Menu Principal
+	Menu_Principal();
+	system("PAUSE");
+	return 0;
+}
+void Menu_Principal() {
+	int opcao = -1;	
 
 	cout << "=============================================================================================================\n\n";
 	cout << "Por favor escolha um numero como opcao. \n";
