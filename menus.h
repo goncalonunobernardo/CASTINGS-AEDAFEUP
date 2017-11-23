@@ -27,7 +27,8 @@ void Grava_Ficheiro_Sessoes();
 Candidato criar_Candidato();
 Jurado criar_Jurado();
 Sessao criar_Sessao();
-
+string nome();
+Data dataSessao();
 void txt_candidatos();
 void txt_jurados();
 void txt_sessoes();
