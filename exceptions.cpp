@@ -47,9 +47,6 @@ CandidatoInexistente::CandidatoInexistente(string nome) : ExcecaoPessoa(nome) {}
 
 CandidatoInexistente::CandidatoInexistente(Candidato * c) : ExcecaoPessoa(c->getNome()) {}
 
-CandidatoInexistente::CandidatoInexistente(string nome) : ExcecaoPessoa(nome)
-
-{}
 
 void CandidatoInexistente::handler() {
 	ExcecaoPessoa * p1 = this;

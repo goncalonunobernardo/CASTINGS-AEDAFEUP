@@ -63,7 +63,7 @@ public:
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);
 	bool operator==(Jurado &j1);
-	void mostraInformacao();
+	void mostraInformacaoNome();
 
 
 };
@@ -93,11 +93,14 @@ public:
 
 class Pontuacao { //resultados de um candidato numa determinada sess?o e fase
 private:
+	string nomeCandidato;
 	int id_sessao;
 	int fase;
 	vector<int> classificacoes; // vetor c/3 posi??es em que ?ndice 0 equivale ? primeira classifica??o.
 
 public:
+	Pontuacao(string ficheiroPontuacao);
+	Pontuacao(string nomeCandidato, int id_sessao, int  fase, vector<int> classificacoes);
 	int getId() const;
 	int getFase() const;
 	vector<int> getClassificacoes() const;
@@ -118,15 +121,18 @@ protected:
 	vector<string> jurados_sessao; //Cada sessao e composta por 3 jurados
 	vector <string> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
 	vector <string> concorrentes_finais; //concorrentes que passam  2fase;
+	vector <Pontuacao> pontuacoes;
 public:
 	Sessao();
 	Sessao(string ficheiro_sessao);
 	int getId() const;
 	static int getIds();
+	int getNumMaxCandidatos() const;
 	string getGenero() const;
 	Data getData();
 	int getFase() const;
 	string getResponsavel() const;
+	vector<Pontuacao>getPontuacoes();
 	vector<string> & getJurados_sessao();
 	vector <string> & getConcorrentes_iniciais();
 	vector <string> &getConcorrentes_finais();
@@ -140,6 +146,7 @@ public:
 	void setNumVagas(int vagas);
 	bool juriCompleto() const;
 	bool juradoPresente(Jurado * j1);
+	
 };
 
 
@@ -149,9 +156,11 @@ private:
 	vector<Jurado*> jurados;
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
+	vector<Pontuacao> pontuacoes;
 	string ficheiroCandidatos;
 	string ficheiroJurados;
 	string ficheiroSessoes;
+	string ficheiroPontuacoes;
 public:
 	Castings();
 	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes);
@@ -171,18 +180,20 @@ public:
 	void setUpCandidatos();
 	void setUpJurados();
 	void setUpSessoes();
+	void setUpPontuacoes();
 	void mostraInformacaoCandidatos();
 	void mostraInformacaoJurados();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
 	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
-	bool eliminaCandidato(Candidato *c1);
+	bool eliminaCandidato(string nome);
 	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
 	bool eliminaJurado(Jurado * j1);
 	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
 	void ordenaCandidatosData();
 	bool comecarFase2(Sessao &s1);
+	void atribuirPontuacao(Sessao &s1);
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
