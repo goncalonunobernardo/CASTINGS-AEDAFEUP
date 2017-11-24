@@ -25,15 +25,58 @@ private:
 	int ano;
 public:
 	int getDia();
+	/**
+	@brief function to get the day of the phase
+	@return the day of the phase
+	*/
 	int getMes();
+	/**
+	@brief function to get the month of the phase
+	@return the month of the phase
+	*/
 	int getAno();
+	/**
+	@brief function to get the year of the phase
+	@return the year of the phase
+	*/
 	void setDia(int dia);
+	/**
+	@brief function to set the day of the phase
+	@param dia - The day to set
+	*/
 	void setMes(int mes);
+	/**
+	@brief function to set the month of the phase
+	@param mes - The month to set
+	*/
 	void setAno(int ano);
+	/**
+	@brief function to set the year of the phase
+	@param ano - The year to set
+	*/
 	bool operator==(Data &d1);
+	/**
+	@brief function to overload the == operator
+	@param Data &d1 - The date settled
+	@return false if the whole date is equal to the second one to establish
+	*/
 	bool operator<(Data &d1) const;
+	/**
+	@brief function to overload the < operator
+	@param Data &d1 - The date settled
+	@return true if the date to establish is lower than the first date
+	*/
 	void operator=(Data &d1);
+	/**	
+	@brief function to overload the = operator by declaring the Date to establish to the first one
+	@param Data &d1 - The year to settled
+	*/
 	friend ostream & operator<<(ostream &os, const Data & d1);
+	/**
+	@brief function to overload the << operator
+	@param ostream &os -ostream to be able to print; const Data & d1 - the date settled
+	@return a print of the date estabilished, all divided by "-"
+	*/
 };
 class Pessoa {
 protected:
@@ -42,14 +85,50 @@ protected:
 	string genero;
 public:
 	Pessoa();
+	/**
+	@brief Constructor of a person
+	*/
 	Pessoa(string nome, string morada, string genero);
+	/**
+	@brief Constructor of a person
+	@param nome - name of the person; morada - address of the person; genero - genre of the art chosen
+	*/
 	string getNome() const;
+	/**
+	@brief function to get the name of a person
+	@return the name of the person
+	*/
 	string getMorada() const;
+	/**
+	@brief function to get the address of a person
+	@return the address of the person
+	*/
 	string getGenero() const;
+	/**
+	@brief function to get the genre of the art chosen
+	@return the genre of the art chosen
+	*/
 	void setNome(string nome);
+	/**
+	@brief function to set the name of a person
+	@param nome - The name of a person
+	*/
 	void setMorada(string morada);
+	/**
+	@brief function to set the address of a person
+	@param morada - The address of a person
+	*/
 	void setGenero(string genero);
+	/**
+	@brief function to set the genre of the art chosen
+	@param genero - The genre of the art chosen
+	*/
 	virtual bool operator==(Pessoa &p1);
+	/**
+	@brief function to overload the == operator
+	@param Pessoa &p1 - the person estabilished
+	@return False if one person if equal to another
+	*/
 };
 
 class Jurado : public Pessoa {
