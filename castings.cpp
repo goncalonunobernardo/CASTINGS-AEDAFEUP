@@ -118,29 +118,30 @@ Sessao::Sessao(string ficheiro_sessao)
 	sessaoStream >> fase;
 	sessaoStream.ignore(1000, ';');
 	getline(sessaoStream, genero, ';');
+	genero = genero.substr(1, genero.size()-2);
 	sessaoStream >> numMaxCandidatos;
 	sessaoStream.ignore(1000, ';');
 	getline(sessaoStream, concorrentes_I, ';');
 	istringstream concorrentesI_stream(concorrentes_I);
 	while (getline(concorrentesI_stream, inicial_temp, ','))
 	{
-		inicial_temp = inicial_temp.substr(1, inicial_temp.size()-1);
+		inicial_temp = inicial_temp.substr(1, inicial_temp.size()-2);
 		concorrentes_iniciais.push_back(inicial_temp);
 	}
 	getline(sessaoStream, concorrentes_F, ';');
 	istringstream concorrentesF_stream(concorrentes_F);
 	while (getline(concorrentesF_stream, final_temp, ','))
 	{
-		final_temp = final_temp.substr(1, final_temp.size()-1);
+		final_temp = final_temp.substr(1, final_temp.size()-2);
 		concorrentes_finais.push_back(final_temp);
 	}
 	getline(sessaoStream, jurados_S, ';');
 	istringstream juradoStream(jurados_S);
 	getline(juradoStream, responsavel, ',');
+	responsavel = responsavel.substr(1, responsavel.size() - 2);
 	jurados_sessao.push_back(responsavel);
-
 	while (getline(juradoStream, jurado_push, ',')) {
-		jurado_push = jurado_push.substr(1, jurado_push.size());
+		jurado_push = jurado_push.substr(1, jurado_push.size()-2);
 		jurados_sessao.push_back(jurado_push);
 	}
 	getline(sessaoStream, d);
@@ -210,6 +211,16 @@ int Sessao::getIds() {
 	return ids;
 }
 
+void Sessao::setNumMaxCandidatos(int numMaxCandidatos)
+{
+	this->numMaxCandidatos = numMaxCandidatos;
+}
+
+void Sessao::setResponsavel(string responsavel)
+{
+	this->responsavel = responsavel;
+}
+
 int Sessao::getNumMaxCandidatos() const
 {
 	return numMaxCandidatos;
@@ -220,8 +231,10 @@ void Sessao::setData(Data data)
 	this->data = data;
 }
 
-void Sessao::setResponsavel(string j1) {
-	this->responsavel = j1;
+
+void Sessao::setId(int id)
+{
+	this->id = id;
 }
 
 void Sessao::setNumVagas(int vagas) {
@@ -234,27 +247,35 @@ bool Sessao::operator==(Sessao & s1)
 	return false;
 }
 
-bool Sessao::eliminaCandidatoSessao(Candidato * c1)
-{
-	return false;
-}
+
 
 bool Sessao::juriCompleto() const {
 	return (jurados_sessao.size() >= 3);
 }
 
-bool Sessao::juradoPresente(Jurado * j1)
+bool Sessao::juradoPresente(string nome)
 {
 	for (size_t i = 0; i < getJurados_sessao().size(); i++) {
-		if (getJurados_sessao().at(i) == j1->getNome())return true;
+		string nome = getJurados_sessao().at(i);
+		if (getJurados_sessao().at(i) ==nome)return true;
 	}
 	return false;
 }
 
 
 
-void Sessao::setConcorrentes_finais(vector<string> &finais) {
+void Sessao::setConcorrentes_finais(vector<string> finais) {
 	concorrentes_iniciais = finais;
+}
+
+void Sessao::setGenero(string genero)
+{
+	this->genero = genero;
+}
+
+void Sessao::setJurados(vector<string> jurados)
+{
+	this->jurados_sessao = jurados;
 }
 
 void Sessao::setFase(int fase) {
@@ -280,7 +301,7 @@ Candidato::Candidato(string ficheiro_candidatos)
 	getline(candidatosStream, morada, ';');
 	morada = morada.substr(0, morada.size() - 1);
 	getline(candidatosStream, genero, ';');
-	genero = genero.substr(0, genero.size() - 1);
+	genero = genero.substr(1, genero.size() - 1);
 	getline(candidatosStream, d);
 	istringstream dataStream(d);
 	getline(dataStream, dia, '-');
@@ -308,9 +329,9 @@ vector<Sessao> Candidato::getSessoes() const
 	return sessoes;
 }
 
-bool Candidato::operator==(Candidato & c1)
+bool Candidato::operator==(Candidato *c1)
 {
-	if (this->getNome() == c1.getNome()) return true;
+	if (this->getNome() == c1->getNome()) return true;
 	return false;
 }
 
@@ -334,6 +355,11 @@ void Candidato::mostraInformacao()
 	cout << "DATA DE NASCIMENTO: " << this->data_nascimento << endl;
 }
 
+vector<Pontuacao> Candidato::getPontuacoes()
+{
+	return pontuacoes;
+}
+
 void Candidato::setDataNascimento(Data data)
 {
 	this->data_nascimento = data;
@@ -343,7 +369,7 @@ void Candidato::setNumInscricoes(int num) {
 	numInscricoesAtual = num;
 }
 
-double Candidato::getPontuacao(int sessaoId, int fase) const {
+double Candidato::getPontuacao(int sessaoId, int fase) {
 	for (size_t i = 0; i < pontuacoes.size(); i++) {
 		if (pontuacoes.at(i).getId() == sessaoId && pontuacoes.at(i).getFase() == fase)
 			return pontuacoes.at(i).getClassificacao();
@@ -355,11 +381,12 @@ double Candidato::getPontuacao(int sessaoId, int fase) const {
 
 Castings::Castings() {}
 
-Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes)
+Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes)
 {
 	this->ficheiroCandidatos = ficheiroCandidatos;
 	this->ficheiroJurados = ficheiroJurados;
 	this->ficheiroSessoes = ficheiroSessoes;
+	this->ficheiroPontuacoes = ficheiroPontuacoes;
 }
 
 vector<Jurado*> Castings::getJurados()
@@ -375,6 +402,11 @@ vector<Candidato*> Castings::getCandidatos()
 vector<Sessao> Castings::getSessao()
 {
 	return sessoes;
+}
+
+vector<string> Castings::getVencedores()
+{
+	return vencedores;
 }
 
 int Castings::juradoExiste(Jurado * j1) {
@@ -400,7 +432,7 @@ int Castings::candidatoExiste(Candidato * c1) {
 	int ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (c1 == candidatos.at(i))
+		if (c1->getNome() == candidatos.at(i)->getNome())
 			ind = i;
 	}
 	return ind;
@@ -491,7 +523,8 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 			if (sessoes.at(i).getNumVagas() > 0)
 			{
 				for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
-					if (sessoes.at(i).getConcorrentes_iniciais().at(i) == c1->getNome()) {
+					string x = sessoes.at(i).getConcorrentes_iniciais().at(j);
+					if (sessoes.at(i).getConcorrentes_iniciais().at(j) == c1->getNome()) {
 						throw CandidatoRepetido(c1);
 						return false;
 					}
@@ -511,29 +544,26 @@ bool Castings::adicionaCandidatoSessao(Candidato *c1, Sessao &s1)
 	throw SessaoInexistente(s1);
 }
 
-bool Castings::adicionaJuradoSessao(Jurado * j1, Sessao &s1)
+void Castings::adicionaJuradoSessao(string nome, Sessao &s1)
 {
 	int countS = sessaoExiste(s1);
 
-	if (juradoExiste(j1) == -1)
-		throw JuradoInexistente(j1);
+	if (juradoExiste(nome) == -1)
+		throw JuradoInexistente(nome);
 
 	if (countS == -1)
 		throw SessaoInexistente(s1);
 
 	for (size_t k = 0; k < sessoes.at(countS).getJurados_sessao().size(); k++) {
-		if (sessoes.at(countS).getJurados_sessao().at(k) == j1->getNome())
-			throw JuradoRepetido(j1);
+		if (sessoes.at(countS).getJurados_sessao().at(k) == nome)
+			throw JuradoRepetido(nome);
 	}
 
 	if (sessoes.at(countS).juriCompleto())
 		throw JuradosCompleto();
 	else {
-		sessoes.at(countS).getJurados_sessao().push_back(j1->getNome());
-		return true;
+		sessoes.at(countS).getJurados_sessao().push_back(nome);
 	}
-
-	return false;
 }
 
 bool Castings::eliminaCandidato(string nome)
@@ -561,35 +591,32 @@ bool Castings::eliminaCandidato(string nome)
 	return false;
 }
 
-bool Castings::eliminaJurado(Jurado * j1)
+void Castings::eliminaJurado(string nome)
 {
-	bool presente = false;
+
 	for (size_t j = 0; j < sessoes.size(); j++) {
-		if (sessoes.at(j).juradoPresente(j1))
-			return false; //Nao e possivel eliminar um jurado quando ele esta presente numa sessao
+		if (sessoes.at(j).juradoPresente(nome))
+			throw JuradoPresente(nome);//Nao e possivel eliminar um jurado quando ele esta presente numa sessao							
 	}
 	for (size_t i = 0; i < jurados.size(); i++) {
-		if (jurados.at(i) == j1) {
+		if (jurados.at(i)->getNome() ==nome ) {
 			jurados.erase(jurados.begin() + i);
-			return true;
 		}
 	}
-	getchar(); getchar();
-	return false;
-	return false;
+	throw JuradoInexistente(nome);
 }
 
-bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
-	Candidato * c = nullptr, *c2 = nullptr;
-	size_t index = -1;
+void Castings::eliminaCandidatoSessao(string nome, Sessao &s1) {
+	Candidato * c = nullptr;
+	int  index = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i) == c1)
+		if (candidatos.at(i)->getNome() == nome)
 			c = candidatos.at(i);
 	}
 
 	if (c == nullptr)
-		throw CandidatoInexistente(c1);
+		throw CandidatoInexistente(nome);
 
 	for (size_t i = 0; i < sessoes.size(); i++) {
 		if (s1 == sessoes.at(i))
@@ -600,25 +627,19 @@ bool Castings::eliminaCandidatoSessao(Candidato *c1, Sessao &s1) {
 		throw SessaoInexistente(s1);
 
 	for (size_t i = 0; i < sessoes.at(index).getConcorrentes_iniciais().size(); i++) {
-		if (c1->getNome() == sessoes.at(index).getConcorrentes_iniciais().at(i)) {
-			c2 = c1;
+		if (nome == sessoes.at(index).getConcorrentes_iniciais().at(i)) {
 			sessoes.at(index).getConcorrentes_iniciais().erase(sessoes.at(index).getConcorrentes_iniciais().begin() + i);
-			return true;
 		}
 	}
 
 	for (size_t i = 0; i < sessoes.at(index).getConcorrentes_finais().size(); i++) {
-		if (c1->getNome() == sessoes.at(index).getConcorrentes_finais().at(i)) {
-			c2 = c1;
+		if (nome == sessoes.at(index).getConcorrentes_finais().at(i)) {
 			sessoes.at(index).getConcorrentes_finais().erase(sessoes.at(index).getConcorrentes_finais().begin() + i);
-			return true;
+			
 		}
 	}
 
-	if (c2 == nullptr)
-		throw CandidatoInexistente(c1);
 
-	return false;
 }
 
 bool comparaDataNascimento(Candidato * c1, Candidato *c2)
@@ -763,78 +784,192 @@ bool Castings::comecarFase2(Sessao &s1) {
 	return true;
 }
 
-	void Castings::atribuirPontuacao(Sessao & s1)
-		{
-		int p1, p2, p3;
-		int pos = 0;
-		bool juradosC = true;
-		for (size_t i = 0; i < sessoes.size(); i++) {
-			if (sessoes.at(i) == s1) {
-				pos = i;
-				if (sessoes.at(i).getJurados_sessao().size() != 3) {
-					cout << "FALTA ATRIBUIR JURADOS." << endl;
-					juradosC = false;
-			
-				}
-			
+void Castings::atribuirPontuacao(Sessao & s1) {
+	int p1, p2, p3;
+	float pontuacao_final;
+	int pos = 0;
+	int pont_temp = 0;
+	int pos_pont = 0;
+	vector<string> nomesTemp;
+	vector<string> temp;
+	int count = 0;
+	if (sessaoExiste(s1) == -1) throw SessaoInexistente(s1);
+	for (size_t i = 0; i < sessoes.size(); i++) {
+		if (sessoes.at(i) == s1) {
+			pos = i;
+			if (sessoes.at(i).getJurados_sessao().size() != 3) {
+				throw JuradosIncompleto(s1.getId());
 			}
-			
+
 		}
-		vector<int>p;
-		for (size_t i = 0; i < sessoes.at(pos).getConcorrentes_iniciais().size(); i++) {
-			cout << "PONTUACOES|| CONCORRENTE: " << sessoes.at(pos).getConcorrentes_iniciais().at(i) << endl;
-			cout << sessoes.at(pos).getJurados_sessao().at(0) << ": ";
-			cin >> p1;
-			while (p1 > 10 || p1 < 0) {
-				cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
-				cin >> p1;
-				cout << endl;
-				
-			}
-			p.push_back(p1);
-			cout << endl;
-			cout << sessoes.at(pos).getJurados_sessao().at(1) << ": ";
-			cin >> p2;
-			while (p2 > 10 || p2 < 0) {
-				cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
-				cin >> p2;
-				cout << endl;
-				
-			}
-			p.push_back(p2);
-			cout << endl;
-			cout << sessoes.at(pos).getJurados_sessao().at(2) << ": ";
-			cin >> p3;
-			while (p3 > 10 || p3 < 0) {
-				cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
-			cin >> p3;
-				cout << endl;
-			
-			}
-			p.push_back(p3);
-			cout << endl;
-			Pontuacao P(sessoes.at(pos).getConcorrentes_iniciais().at(i), sessoes.at(pos).getIds(), sessoes.at(pos).getFase(), p);
-			sessoes.at(pos).getPontuacoes().push_back(P);
-		
-		}			
+
 	}
+	vector<int>p;
+	for (size_t i = 0; i < sessoes.at(pos).getConcorrentes_iniciais().size(); i++) {
+		cout << "PONTUACOES|| CONCORRENTE: " << sessoes.at(pos).getConcorrentes_iniciais().at(i) << endl;
+		cout << sessoes.at(pos).getJurados_sessao().at(0) << ": ";
+		cin >> p1;
+		while (p1 > 10 || p1 < 0) {
+			cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
+			cin >> p1;
+			cout << endl;
+		}
+		p.push_back(p1);
+		cout << endl;
+		cout << sessoes.at(pos).getJurados_sessao().at(1) << ": ";
+		cin >> p2;
+		while (p2 > 10 || p2 < 0) {
+			cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
+			cin >> p2;
+			cout << endl;
+
+		}
+		p.push_back(p2);
+		cout << endl;
+		cout << sessoes.at(pos).getJurados_sessao().at(2) << ": ";
+		cin >> p3;
+		while (p3 > 10 || p3 < 0) {
+			cout << "PONTUACAO INVALIDA. INSIRA UMA PONTUACAO ENTRE 0-10";
+			cin >> p3;
+			cout << endl;
+
+		}
+		if (sessoes.at(pos).getFase() == 1)
+			pontuacao_final = (p1 + p2 + p3) / 3;
+
+		else
+			pontuacao_final = (0.5*p1) + 0.5*((p1 + p2) / 2);
+		cout << "Pontuacao final: " << pontuacao_final << endl;
+
+		p.push_back(p3);
+		cout << endl;
+		Pontuacao P(sessoes.at(pos).getConcorrentes_iniciais().at(i), sessoes.at(pos).getIds(), sessoes.at(pos).getFase(), p);
+		P.setFase(sessoes.at(pos).getFase());
+		sessoes.at(pos).getPontuacoes().push_back(P);
+		for (size_t j = 0; j < candidatos.size(); j++) {
+			if (candidatos.at(j)->getNome() == sessoes.at(pos).getConcorrentes_iniciais().at(i))
+				candidatos.at(j)->getPontuacoes().push_back(P);
+		}
+	}
+	if (sessoes.at(pos).getFase() == 1)
+	{
+		Sessao s;
+		string datastr, dia, mes, ano;
+		Data d;
+		s.setFase(2);
+		s.setId(sessoes.at(pos).getId());
+		s.setGenero(sessoes.at(pos).getGenero());
+		cout << "Data da 2fase: (dd-mm-aaaa)" << endl;
+		cin.ignore(1000, '\n');
+		getline(cin, datastr);
+		istringstream dataS(datastr);
+		getline(dataS, dia, '-');
+		int diaI = stoi(dia);
+		d.setDia(diaI);
+		getline(dataS, mes, '-');
+		int mesI = stoi(mes);
+		d.setMes(mesI);
+		getline(dataS, ano);
+		int anoI = stoi(ano);
+		d.setAno(anoI);
+		while (d < sessoes.at(pos).getData())
+		{
+			cout << "Data invalida.Insira outra" << endl;
+			getline(cin, datastr);
+			istringstream dataS(datastr);
+			getline(dataS, dia, '-');
+			diaI = stoi(dia);
+			d.setDia(diaI);
+			getline(dataS, mes, '-');
+			mesI = stoi(mes);
+			d.setMes(mesI);
+			getline(dataS, ano);
+			anoI = stoi(ano);
+			d.setAno(anoI);
+		}
+		if (sessoes.at(pos).getConcorrentes_iniciais().size() < 5) {
+			s.setConcorrentes_finais(sessoes.at(pos).getConcorrentes_iniciais());
+			sessoes.push_back(s);
+		}
+		else
+			while (count < 5) {
+				for (size_t i = count; i < sessoes.at(pos).getConcorrentes_iniciais().size(); i++) {
+
+					if (pont_temp < sessoes.at(pos).getPontuacoes().at(i).getClassificacao()) {
+						pont_temp = sessoes.at(pos).getPontuacoes().at(i).getClassificacao();
+						pos_pont = i;
+					}
+					nomesTemp.push_back(sessoes.at(pos).getConcorrentes_iniciais().at(pos_pont));
+					count++;
+				}
+				s.setConcorrentes_finais(nomesTemp);
+				s.setData(d);
+				s.setNumMaxCandidatos(5);
+				s.setConcorrentes_finais(temp);
+				s.setResponsavel("");
+				sessoes.push_back(s);
+			}
+	}
+	else {
+		for (size_t i = 0; i < sessoes.at(pos).getPontuacoes().size(); i++) {
+			if (sessoes.at(pos).getPontuacoes().at(i).getClassificacao() > pont_temp) {
+				pont_temp = sessoes.at(pos).getPontuacoes().at(i).getClassificacao();
+				pos_pont = i;
+			}
+		}
+		cout << "VENCEDOR: " << sessoes.at(pos).getConcorrentes_iniciais().at(pos_pont) << endl;
+		vencedores.push_back(sessoes.at(pos).getConcorrentes_iniciais().at(pos_pont));
+		cout << "PONTUACAO: " << pont_temp << endl;
+	}
+	sessoes.erase(sessoes.begin() + pos); // Quando se atribui a pontuacao a sessao é automaticamente eliminada
+}
+void Castings::eliminaJuradoSessao(string nome, Sessao & s1)
+{
+	int index = -1;
+	int pos = 0;
+	pos = juradoExiste(nome) - 1;
+	if (juradoExiste(nome) == -1) {
+		throw JuradoInexistente(nome);
+	}
+	for (size_t i = 0; i < sessoes.size(); i++) {
+		if (s1 == sessoes.at(i))
+			index = i;
+	}
+
+	if (index == -1)
+		throw SessaoInexistente(s1);
+
+	for (size_t i = 0; i < sessoes.at(index).getJurados_sessao().size(); i++) {
+		if (nome == sessoes.at(index).getJurados_sessao().at(i)) {
+			sessoes.at(index).getJurados_sessao().erase(sessoes.at(index).getJurados_sessao().begin() + i);
+			return;
+		}
+	}
+
+}
+
+
+
+Pontuacao::Pontuacao()
+{
+}
 
 // Classe Pontuacao
 Pontuacao::Pontuacao(string ficheiroPontuacao) {
 	istringstream pontuacaoStream(ficheiroPontuacao);
 	string id, fase, nome, p1, p2, p3, pontuacoesS;
 	getline(pontuacaoStream, id, ';');
-		pontuacaoStream >> id;
+	pontuacaoStream >> id;
 	pontuacaoStream.ignore(1000, ';');
-	
-		pontuacaoStream >> fase;
+
+	pontuacaoStream >> fase;
 	pontuacaoStream.ignore(1000, ';');
-	
-		getline(pontuacaoStream, nome, ';');
-		getline(pontuacaoStream, pontuacoesS);
+
+	getline(pontuacaoStream, nome, ';');
+	getline(pontuacaoStream, pontuacoesS);
 	istringstream pontuacoesStream(pontuacoesS);
 	while (getline(pontuacoesStream, p1, ','))
-		{
+	{
 		int p = stoi(p1);
 		classificacoes.push_back(p);
 	}
@@ -851,6 +986,26 @@ Pontuacao::Pontuacao(string nomeCandidato, int id_sessao, int fase, vector<int> 
 	this->classificacoes = classificacoes;
 }
 
+void Pontuacao::setFase(int fase)
+{
+	this->fase = fase;
+}
+
+void Pontuacao::setNome(string nome)
+{
+	this->nomeCandidato = nome;
+}
+
+void Pontuacao::setId(int id)
+{
+	this->id_sessao = id;
+}
+
+void Pontuacao::setClassificacoes(vector<int> classificacoes)
+{
+	this->classificacoes = classificacoes;
+}
+
 int Pontuacao::getId() const
 {
 	return id_sessao;
@@ -861,12 +1016,12 @@ int Pontuacao::getFase() const
 	return fase;
 }
 
-vector<int> Pontuacao::getClassificacoes() const
+vector<int> Pontuacao::getClassificacoes()
 {
 	return classificacoes;
 }
 
-double Pontuacao::getClassificacao() const
+double Pontuacao::getClassificacao() 
 {
 	double classificacao = 0;
 	if (fase == 1) {

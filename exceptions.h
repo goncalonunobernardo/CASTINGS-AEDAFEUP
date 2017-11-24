@@ -2,12 +2,12 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-
 #include "castings.h"
 
 class ExcecaoPessoa {
 	string nome;
 protected:
+	ExcecaoPessoa();
 	ExcecaoPessoa(string nome);
 	friend ostream & operator<<(ostream &os, const ExcecaoPessoa & p1);
 	virtual void handler();
@@ -16,6 +16,7 @@ protected:
 class ExcecaoSessao {
 	int id;
 protected:
+	ExcecaoSessao();
 	ExcecaoSessao(int id);
 	friend ostream & operator<<(ostream &os, const ExcecaoSessao & s1);
 	virtual void handler();
@@ -54,9 +55,24 @@ public:
 	SessaoInexistente(Sessao  &s);
 	void handler();
 };
-
-class JuradosCompleto {
+class SessaoRepetida : public ExcecaoSessao {
+public:
+	SessaoRepetida();
+	void handler();
+};
+class JuradosCompleto : public ExcecaoPessoa{
 public:
 	JuradosCompleto();
+	void handler();
+};
+class JuradoPresente : public ExcecaoPessoa{
+public:
+	JuradoPresente(Jurado * j);
+	JuradoPresente(string nome);
+	void handler();
+};
+class JuradosIncompleto :public ExcecaoSessao {
+public:
+	JuradosIncompleto(int id);
 	void handler();
 };

@@ -1,12 +1,12 @@
 #pragma once
-
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <vector>
 #include <string>
 #include "castings.h"
 using namespace std;
-
+void Menu();
 void InvalidInputMenu();
 void Menu_Principal();
 void Menu_Adicionar();
@@ -29,6 +29,8 @@ Jurado criar_Jurado();
 Sessao criar_Sessao();
 string nome();
 Data dataSessao();
+Sessao criarSessao();
 void txt_candidatos();
 void txt_jurados();
 void txt_sessoes();
+void mostrarVencedores();

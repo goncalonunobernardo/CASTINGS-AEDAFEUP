@@ -2,6 +2,9 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+ExcecaoPessoa::ExcecaoPessoa()
+{
+}
 // Definicao da classe ExcecaoPessoa
 ExcecaoPessoa::ExcecaoPessoa(string nome) : nome(nome) {}
 
@@ -17,18 +20,22 @@ ostream & operator<<(ostream &os, const ExcecaoPessoa & p1) {
 
 // Definicao da classe ExcecaoSessao
 
+ExcecaoSessao::ExcecaoSessao()
+{
+}
+
 ExcecaoSessao::ExcecaoSessao(int id) : id(id) {}
 
 void ExcecaoSessao::handler()
 {
 }
 
+
 ostream & operator<<(ostream &os, const ExcecaoSessao & s1) {
 	cout << "ID: " << s1.id << endl;
 	
 	return os;
 }
-
 // Definicao da classe CandidatoRepetido
 
 CandidatoRepetido::CandidatoRepetido(string nome) : ExcecaoPessoa(nome) {}
@@ -92,9 +99,37 @@ void SessaoInexistente::handler() {
 
 // Definicao da classe JuradosCompleto
 
-JuradosCompleto::JuradosCompleto() {}
+JuradosCompleto::JuradosCompleto():ExcecaoPessoa() {}
 
 void JuradosCompleto::handler() {
 	cout << "JURI COMPLETO" << endl;
 	cout << "Nao pode adicionar mais jurados a sessao." << endl;
+}
+
+JuradoPresente::JuradoPresente(Jurado * j) :ExcecaoPessoa(j->getNome()){}
+
+JuradoPresente::JuradoPresente(string nome) : ExcecaoPessoa(nome) {}
+
+void JuradoPresente::handler()
+{
+	cout << "Jurado presente numa sessao. " << endl;
+	cout << "Nao e possivel elimina-lo." << endl;
+}
+
+JuradosIncompleto::JuradosIncompleto(int id) : ExcecaoSessao(id)
+{
+}
+
+void JuradosIncompleto::handler()
+{
+	cout << "JURADOS INCOMPLETOS." << endl;
+}
+
+SessaoRepetida::SessaoRepetida()
+{
+}
+
+void SessaoRepetida::handler()
+{
+	cout << "SESSAO REPETIDA " << endl;
 }

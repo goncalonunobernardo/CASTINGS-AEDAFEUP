@@ -80,14 +80,15 @@ public:
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
 	Data getDataNascimento() const;
 	int getNumInscricao() const;
-	double getPontuacao(int sessaoId, int fase) const;
+	double getPontuacao(int sessaoId, int fase);
 	static int getNumInscricoes();
 	void setDataNascimento(Data data);
 	void setNumInscricoes(int num); 
 	vector<Sessao> getSessoes() const;
-	bool operator==(Candidato &c1);
+	bool operator==(Candidato *c1);
 	void adicionarSessao(Sessao &s1);
 	void mostraInformacao();
+	vector<Pontuacao> getPontuacoes();
 };
 
 
@@ -97,14 +98,20 @@ private:
 	int id_sessao;
 	int fase;
 	vector<int> classificacoes; // vetor c/3 posi??es em que ?ndice 0 equivale ? primeira classifica??o.
+	string ficheiroPontuacao;
 
 public:
+	Pontuacao();
 	Pontuacao(string ficheiroPontuacao);
 	Pontuacao(string nomeCandidato, int id_sessao, int  fase, vector<int> classificacoes);
+	void setFase(int fase);
+	void setNome(string nome);
+	void setId(int id);
+	void setClassificacoes(vector<int>classificacoes);
 	int getId() const;
 	int getFase() const;
-	vector<int> getClassificacoes() const;
-	double getClassificacao() const;
+	vector<int> getClassificacoes();
+	double getClassificacao();
 
 };
 
@@ -127,6 +134,9 @@ public:
 	Sessao(string ficheiro_sessao);
 	int getId() const;
 	static int getIds();
+	void setNumMaxCandidatos(int numMaxCandidatos);
+	void setResponsavel(string responsavel);
+	void setId(int id);
 	int getNumMaxCandidatos() const;
 	string getGenero() const;
 	Data getData();
@@ -136,16 +146,17 @@ public:
 	vector<string> & getJurados_sessao();
 	vector <string> & getConcorrentes_iniciais();
 	vector <string> &getConcorrentes_finais();
-	void setConcorrentes_finais(vector<string> &finais);
+	void setConcorrentes_finais(vector<string> finais);
+	void setGenero(string genero);
+	void setJurados(vector<string> jurados);
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
-	bool eliminaCandidatoSessao(Candidato *c1);
+	bool eliminaCandidatoSessao(string nome);
 	void setData(Data data);
-	void setResponsavel(string j1);
 	void setFase(int fase);
 	void setNumVagas(int vagas);
 	bool juriCompleto() const;
-	bool juradoPresente(Jurado * j1);
+	bool juradoPresente(string nome);
 	
 };
 
@@ -157,16 +168,18 @@ private:
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
+	vector<string> vencedores;
 	string ficheiroCandidatos;
 	string ficheiroJurados;
 	string ficheiroSessoes;
 	string ficheiroPontuacoes;
 public:
 	Castings();
-	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes);
+	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes);
 	vector <Jurado *> getJurados();
 	vector<Candidato*> getCandidatos();
 	vector<Sessao> getSessao();
+	vector<string> getVencedores();
 	int juradoExiste(Jurado * j1); // retorna -1 se o jurado nao existir no vetor jurados, retorna o seu indice se existir
 	int juradoExiste(string nome);
 	int candidatoExiste(Candidato * c1); // retorna -1 se o candidato nao existir no vetor candidatos, retorna o seu indice se existir
@@ -186,14 +199,15 @@ public:
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
-	bool adicionaJuradoSessao(Jurado *j1, Sessao &s1);
+	void adicionaJuradoSessao(string nome, Sessao &s1);
 	bool eliminaCandidato(string nome);
 	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
-	bool eliminaJurado(Jurado * j1);
-	bool eliminaCandidatoSessao(Candidato *c1, Sessao &s1);
+	void eliminaJurado(string nome);
+	void eliminaCandidatoSessao(string nome, Sessao &s1);
 	void ordenaCandidatosData();
 	bool comecarFase2(Sessao &s1);
 	void atribuirPontuacao(Sessao &s1);
+	void eliminaJuradoSessao(string nome, Sessao &s1);
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
