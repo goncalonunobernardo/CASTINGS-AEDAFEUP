@@ -253,17 +253,59 @@ private:
 
 public:
 	Pontuacao();
+	/**
+	@brief Default Constructor of a score
+	*/
 	Pontuacao(string ficheiroPontuacao);
+	/**
+	@brief  fuction that divides the information in regards to the scores and their corresponding file
+	@param ficheiroPontuacao - a line of the scores file .txt
+	*/
 	Pontuacao(string nomeCandidato, int id_sessao, int  fase, vector<int> classificacoes);
+	/**
+	@brief  Constructor of a score
+	@param nomeCandidato - name of the candidate; id_sessao - ID of the session; fase - current phase; classificacoes - vector of the scores of a candidate
+	*/
 	void setFase(int fase);
+	/**
+	@brief function to set the phase of the current session
+	@param fase - The phase of the current session
+	*/
 	void setNome(string nome);
+	/**
+	@brief function to set the name of the candidate
+	@param nome - The name of the candidate
+	*/
 	void setId(int id);
+	/**
+	@brief function to set the id of the session
+	@param id - The id of the session
+	*/
 	void setClassificacoes(vector<int>classificacoes);
+	/**
+	@brief function to set the score of the candidates
+	@param classificacoes - The score of the candidates
+	*/
 	int getId() const;
+	/**
+	@brief function to get the ID of the current session
+	@return The ID of the current session
+	*/
 	int getFase() const;
+	/**
+	@brief function to get the phase of the current session
+	@return the phase of the current session
+	*/
 	vector<int> getClassificacoes();
+	/**
+	@brief function to get the score of the candidates, according to the vector
+	@return the scores of the candidates, according to the vector
+	*/
 	double getClassificacao();
-
+	/**
+	@brief function to get the score of a candidate
+	@return The score of a candidate
+	*/
 };
 
 class Sessao {
