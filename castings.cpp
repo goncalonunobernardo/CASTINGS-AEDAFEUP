@@ -390,7 +390,7 @@ int Castings::juradoExiste(string nome) {
 	int ind = -1;
 	
 	for (size_t i = 0; i < jurados.size(); i++) {
-		if (jurados.at(i)->getNome() == nome) // para simplificar, dois jurados são iguais se tiverem o mesmo nome
+		if (jurados.at(i)->getNome() == nome) // para simplificar, dois jurados sao iguais se tiverem o mesmo nome
 			ind = i;
 	}
 	return ind;
@@ -410,7 +410,7 @@ int Castings::candidatoExiste(Candidato * c1) {
 	int ind = -1;
 
 	for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i)->getNome() == nome) { // para simplificar, dois candidatos são iguais se tiverem o mesmo nome
+		if (candidatos.at(i)->getNome() == nome) { // para simplificar, dois candidatos sao iguais se tiverem o mesmo nome
 			ind = i;
 			return i;
 		}
@@ -566,7 +566,7 @@ bool Castings::eliminaJurado(Jurado * j1)
 	bool presente = false;
 	for (size_t j = 0; j < sessoes.size(); j++) {
 		if (sessoes.at(j).juradoPresente(j1))
-			return false; //N?o ? poss?vel eliminar um jurado quando ele est? presente numa sess?o
+			return false; //Nao e possivel eliminar um jurado quando ele esta presente numa sessao
 	}
 	for (size_t i = 0; i < jurados.size(); i++) {
 		if (jurados.at(i) == j1) {
@@ -749,7 +749,7 @@ bool Castings::comecarFase2(Sessao &s1) {
 
 	multimap<double, string>::iterator it0 = concorrentesOrdenado.begin(), it5 = concorrentesOrdenado.begin();
 	
-	for (int n = 0; n < 5; n++) // multimap não suporta random iterators
+	for (int n = 0; n < 5; n++) // multimap nao suporta random iterators
 		it5++; 
 	// it5 aponta agora para o 6º par
 
@@ -949,7 +949,7 @@ ostream & operator<<(ostream & os, const Data & d1)
 	 os << d1.dia << "-" << d1.mes << "-" << d1.ano;
 	 return os;
 
-	// TODO: inserir instrução de retorno aqui
+	// TODO: inserir instrucao de retorno aqui
 }
 
 ostream & operator<<(ostream & os, const vector<string> & c1) {
