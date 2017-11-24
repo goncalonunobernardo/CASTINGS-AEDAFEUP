@@ -287,6 +287,8 @@ void Menu_Adicionar() {
 				Menu_Adicionar();
 				break;
 			}
+			Menu_Adicionar();
+			break;
 		case 6:
 			try {
 				s1 = criarSessao();
@@ -324,6 +326,7 @@ void Menu_Remover() {
 	cout << "2) Candidato da Sessao";
 	cout << "3) Jurado do Castingtorium 2000\n";
 	cout << "4) Jurado da Sessao";
+	cout << "5) Sessao";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -411,6 +414,16 @@ void Menu_Remover() {
 			cout << "Jurado removido da Sessao... \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
+		
+		case 5:
+			try {
+				C.eliminarSessao();
+			}
+			catch (SessaoInexistente s1)
+			{
+				s1.handler();
+				Menu_Remover();
+			}
 		default:
 			InvalidInputMenu();
 			break;

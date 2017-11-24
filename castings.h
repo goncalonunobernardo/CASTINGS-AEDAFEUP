@@ -26,39 +26,39 @@ private:
 public:
 	int getDia();
 	/**
-	@brief function to get the day of the phase
-	@return the day of the phase
+	@brief function to get the day 
+	@return the day 
 	*/
 	int getMes();
 	/**
-	@brief function to get the month of the phase
+	@brief function to get the month 
 	@return the month of the phase
 	*/
 	int getAno();
 	/**
-	@brief function to get the year of the phase
+	@brief function to get the year 
 	@return the year of the phase
 	*/
 	void setDia(int dia);
 	/**
-	@brief function to set the day of the phase
+	@brief function to set the day 
 	@param dia - The day to set
 	*/
 	void setMes(int mes);
 	/**
-	@brief function to set the month of the phase
+	@brief function to set the month 
 	@param mes - The month to set
 	*/
 	void setAno(int ano);
 	/**
-	@brief function to set the year of the phase
+	@brief function to set the year
 	@param ano - The year to set
 	*/
 	bool operator==(Data &d1);
 	/**
 	@brief function to overload the == operator
 	@param Data &d1 - The date settled
-	@return false if the whole date is equal to the second one to establish
+	@return true if the whole date is equal to the second one to establish
 	*/
 	bool operator<(Data &d1) const;
 	/**
@@ -282,6 +282,7 @@ public:
 	void atribuirPontuacao(Sessao &s1);
 	void eliminaJuradoSessao(string nome, Sessao &s1);
 	void adicionaSessao(Sessao s1);
+	void eliminarSessao();
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);

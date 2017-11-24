@@ -821,7 +821,7 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 			d.setAno(anoI);
 		}
 		if (sessoes.at(pos).getConcorrentes_iniciais().size() < 5) {
-			s.setConcorrentes_finais(sessoes.at(pos).getConcorrentes_iniciais());
+			s.setConcorrentesIniciais(sessoes.at(pos).getConcorrentes_iniciais());
 			sessoes.push_back(s);
 		}
 		else
@@ -838,9 +838,23 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 				s.setConcorrentes_finais(nomesTemp);
 				s.setData(d);
 				s.setNumMaxCandidatos(5);
-				s.setConcorrentes_finais(temp);
-				s.setResponsavel("");
-				s.setJurados(temp);
+				s.setConcorrentes_finais(nomesTemp);
+				int continuar = 0;
+				string nome;
+				vector<string>jurados;
+				while (jurados.size() < 3) {
+					cout << "Nome jurado:";
+					getline(cin, nome);
+					while (juradoExiste(nome) == -1) {
+						cout << "Jurado inexistente." << endl;
+						cout << "Nome do jurado: " << endl;
+						getline(cin, nome);
+					}
+					jurados.push_back(nome);
+
+				}
+				s.setJurados(jurados);
+				s.setResponsavel(jurados.at(0));
 				sessoes.push_back(s);
 			}
 	}
@@ -885,6 +899,37 @@ void Castings::eliminaJuradoSessao(string nome, Sessao & s1)
 void Castings::adicionaSessao(Sessao s1)
 {
 	sessoes.push_back(s1);
+}
+void Castings::eliminarSessao()
+{
+	Sessao s1;
+	string datastr, dia, mes, ano, genero;
+	Data d;
+	cout << "Genero: ";
+	cin >> genero;
+	s1.setGenero(genero);
+	cout << "Data  (dd-mm-aaaa)" << endl;
+	cin.ignore(1000, '\n');
+	getline(cin, datastr);
+	istringstream dataS(datastr);
+	getline(dataS, dia, '-');
+	int diaI = stoi(dia);
+	d.setDia(diaI);
+	getline(dataS, mes, '-');
+	int mesI = stoi(mes);
+	d.setMes(mesI);
+	getline(dataS, ano);
+	int anoI = stoi(ano);
+	d.setAno(anoI);
+	s1.setData(d);
+	for (size_t i = 0; i < sessoes.size(); i++) {
+		if (sessoes.at(i).getData() == d && sessoes.at(i).getGenero() == genero)
+		{
+			sessoes.erase(sessoes.begin()+i);
+			return;
+		}
+	}
+	throw SessaoInexistente(s1);
 }
 
 
@@ -1025,7 +1070,7 @@ bool Data::operator<(Data & d1) const
 		if (this->ano == d1.ano) {
 			if (this->mes < d1.mes)return true;
 			else
-				if (this->mes == d1.mes && this->dia < dia) return true;
+				if (this->mes == d1.mes && this->dia < d1.dia) return true;
 		}
 	return false;
 }

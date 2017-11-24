@@ -34,3 +34,4 @@ void txt_candidatos();
 void txt_jurados();
 void txt_sessoes();
 void mostrarVencedores();
+void eliminarSessao();
