@@ -822,9 +822,10 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 		}
 		if (sessoes.at(pos).getConcorrentes_iniciais().size() < 5) {
 			s.setConcorrentesIniciais(sessoes.at(pos).getConcorrentes_iniciais());
+			s.setConcorrentes_finais(sessoes.at(pos).getConcorrentes_iniciais());
 			sessoes.push_back(s);
 		}
-		else
+		else {
 			while (count < 5) {
 				for (size_t i = count; i < sessoes.at(pos).getConcorrentes_iniciais().size(); i++) {
 
@@ -835,28 +836,28 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 					nomesTemp.push_back(sessoes.at(pos).getConcorrentes_iniciais().at(pos_pont));
 					count++;
 				}
-				s.setConcorrentes_finais(nomesTemp);
-				s.setData(d);
-				s.setNumMaxCandidatos(5);
-				s.setConcorrentes_finais(nomesTemp);
-				int continuar = 0;
-				string nome;
-				vector<string>jurados;
-				while (jurados.size() < 3) {
-					cout << "Nome jurado:";
-					getline(cin, nome);
-					while (juradoExiste(nome) == -1) {
-						cout << "Jurado inexistente." << endl;
-						cout << "Nome do jurado: " << endl;
-						getline(cin, nome);
-					}
-					jurados.push_back(nome);
-
-				}
-				s.setJurados(jurados);
-				s.setResponsavel(jurados.at(0));
-				sessoes.push_back(s);
 			}
+			s.setConcorrentesIniciais(nomesTemp);
+			s.setConcorrentes_finais(nomesTemp);
+		}
+		s.setData(d);
+		s.setNumMaxCandidatos(5);
+		string nome;
+		vector<string>jurados;
+		while (jurados.size() < 3) {
+			cout << "Nome jurado:";
+			getline(cin, nome);
+			while (juradoExiste(nome) == -1) {
+				cout << "Jurado inexistente." << endl;
+				cout << "Nome do jurado: " << endl;
+				getline(cin, nome);
+			}
+			jurados.push_back(nome);
+
+		}
+		s.setJurados(jurados);
+		s.setResponsavel(jurados.at(0));
+		sessoes.push_back(s);
 	}
 	else {
 		for (size_t i = 0; i < sessoes.at(pos).getPontuacoes().size(); i++) {
