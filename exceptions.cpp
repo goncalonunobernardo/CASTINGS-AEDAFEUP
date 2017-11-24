@@ -68,7 +68,7 @@ void JuradoRepetido::handler() {
 	
 }
 
-// Defini��o da classe JuradoInexistente
+// Definicao da classe JuradoInexistente
 
 JuradoInexistente::JuradoInexistente(Jurado * j) : ExcecaoPessoa(j->getNome()) {}
 
