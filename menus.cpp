@@ -73,10 +73,10 @@ int main() {
 	cout << "\\____/_/  |_/____//_/ /___/_/ |_/\\__ _/ /_/  \\____/_/ |_/___/\\____/_/  /_/   /____|____/\\____/\\____/  \n\n";
 	cout << "=============================================================================================================\n\n";
 
-	C.setFicheiroCandidatos("candidatos.txt");
-	C.setFicheiroJurados("jurados.txt");
-	C.setFicheiroPontuacoes("pontuacoes.txt");
-	C.setFicheiroSessoes("sessoes.txt");
+	C.setFicheiroCandidatos("Candidatos.txt");
+	C.setFicheiroJurados("Jurados.txt");
+	C.setFicheiroPontuacoes("Pontuacoes.txt");
+	C.setFicheiroSessoes("Sessoes.txt");
 	C.setUpCandidatos();
 	C.setUpJurados();
 	C.setUpSessoes();
@@ -188,6 +188,11 @@ void Menu_Adicionar() {
 			candidato.setNome(nome());
 			cout << "Genero da sessao: ";
 			cin >> genero;
+			if(genero != "Escultura" ||genero != "Danca" || genero != "Teatro" || genero != "Musica" || genero != "Malabarismo" || genero != "Cinema" || genero != "Speedrun" || genero != "Comedia")
+			{
+				cout << "Tente novamente!... Retornando ao Menu Principal\n";
+				Menu_Principal();
+			}
 			cout << endl;
 			s1.setData(dataSessao());
 
@@ -341,11 +346,11 @@ void Menu_Remover() {
 			break;
 		}
 		case 4: {
-			//FUNCAO PARA REMOVER JURADO DA SESS�O
+			//FUNCAO PARA REMOVER JURADO DA SESSAO
 			Jurado jurado;
 			Sessao s1;
 			cout << "=============================================================\n";
-			cout << "Jurado removido da Sess�o... \nRetornando ao Menu Principal...\n";
+			cout << "Jurado removido da Sessao... \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
 		}
@@ -560,7 +565,7 @@ void Grava_Ficheiro_Sessoes() {
 	Menu_Principal();
 }
 
-// nota: esta funçao lança exceções ---> chamar esta função dentro de um try
+// nota: esta funçao lança excecoes ---> chamar esta funcao dentro de um try
 Candidato criar_Candidato() {
 	string nome, morada, genero, datastr;
 	Data d;
@@ -599,13 +604,13 @@ Candidato criar_Candidato() {
 	d.setAno(anoI);
 	novo.setDataNascimento(d);
 
-	cout << "Candidato criado. O número de inscrição do candidato é: " << novo.getNumInscricao() << endl;
+	cout << "Candidato criado. O numero de inscricao do candidato e: " << novo.getNumInscricao() << endl;
 	cout << "=============================================================\n";
 
 	return novo;
 }
 
-// nota: esta funçao lança exceções ---> chamar esta função dentro de um try
+// nota: esta funçao lança excecoes ---> chamar esta funcao dentro de um try
 Jurado criar_Jurado() {
 	string nome, morada, genero, telemovel;
 
@@ -620,7 +625,7 @@ Jurado criar_Jurado() {
 	Jurado novo;
 	novo.setNome(nome);
 
-	cout << "Insira o número de telemóvel. \n";
+	cout << "Insira o numero de telemóvel. \n";
 	getline(cin, telemovel);
 	novo.setTelemovel(telemovel);
 	cout << "Insira a morada. \n";
