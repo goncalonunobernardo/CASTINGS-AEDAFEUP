@@ -435,35 +435,30 @@ public:
 	*/
 	void setGenero(string genero);
 	/**
-	@brief function to get the juries in the current session, according to the vector
-	@return the vector of the juries in the current session, according to the vector
-	*/
-	/**
 	@brief function to set the juries in the current session, according to the vector
 	@param jurados - the vector of the juries in the current session, according to the vector
 	*/
 	void setJurados(vector<string> jurados);
 	/**
-	@brief function to get the number of max candidates in each session
-	@return the number of max candidates in each session
+	@brief function to get the number of available spots in a session
+	@return the number of available spots in a session
 	*/
 	int getNumVagas() const;
 	/**
 	@brief function to overload the == operator
-	@param Jurado &j1 - the jury estabilished
-	@return True if one jury is equal to another one existent
+	@param Sessao &s1 - the session estabilished
+	@return True if one session is equal to another one existent
 	*/
 	bool operator==(Sessao &s1);
 	/**
-	@brief function to overload the == operator
-	@param Jurado &j1 - the jury estabilished
-	@return True if one jury is equal to another one existent
+	@brief function to test if the jury board is complete
+	@return True if the jury board is complete
 	*/
 	bool juriCompleto() const;
 	/**
-	@brief function to overload the == operator
-	@param Jurado &j1 - the jury estabilished
-	@return True if one jury is equal to another one existent
+	@brief function to test if a certain jury is present
+	@param nome - name of a certain jury
+	@return True if the specific jury is present
 	*/
 	bool juradoPresente(string nome);
 	
@@ -483,40 +478,186 @@ private:
 	string ficheiroSessoes;
 	string ficheiroPontuacoes;
 public:
+	/**
+	@brief Default Constructor of an Audition
+	*/
 	Castings();
+	/**
+	@brief  function that divides the information in regards all files (candidates, juries, sessions and scores)
+	@param ficheiroCandidatos - candidates' txt file; ficheiroJurados - juries' txt file; ficheiroSessoes - sessions' txt file; ficheiroPontuacoes - scores' txt file
+	*/
 	Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes);
+	/**
+	@brief function to get juries in the audition
+	@return the vector of the juries in the audition
+	*/
 	vector <Jurado *> getJurados();
+	/**
+	@brief function to get candidates in the audition
+	@return the vector of the candidates in the audition
+	*/
 	vector<Candidato*> getCandidatos();
+	/**
+	@brief function to get the vector of sessions in the audition
+	@return the vector of the sessions in the audition
+	*/
 	vector<Sessao> getSessao();
+	/**
+	@brief function to get winners in the present session and audition
+	@return the vector of the winners in the present session and audition
+	*/
 	vector<string> getVencedores();
-	int juradoExiste(Jurado * j1); // retorna -1 se o jurado nao existir no vetor jurados, retorna o seu indice se existir
+	/**
+	@brief function to test if a specific jury exists
+	@param Jurado * j1 - jury
+	@return -1 if the jury doesn't exist in the vector of juries; returns index if exists
+	*/
+	int juradoExiste(Jurado * j1);
+	/**
+	@brief function to test if a specific jury exists
+	@param nome - name of jury
+	@return -1 if the jury doesn't exist in the vector of juries; returns index if exists
+	*/
 	int juradoExiste(string nome);
-	int candidatoExiste(Candidato * c1); // retorna -1 se o candidato nao existir no vetor candidatos, retorna o seu indice se existir
+	/**
+	@brief function to test if a specific candidate exists
+	@param Candidato * c1 - candidate
+	@return -1 if the candidate doesn't exist in the vector; returns index if exists
+	*/
+	int candidatoExiste(Candidato * c1);
+	/**
+	@brief function to test if a specific candidate exists
+	@param Candidato * c1 - candidate
+	@return -1 if the candidate doesn't exist in the vector; returns index if exists
+	*/
 	int candidatoExiste(string nome);
-	int sessaoExiste(Sessao &s1); // retorna -1 se a sessao nao existir no vetor sessoes, retorna o seu indice se existir
-	int juradoExisteSessao(Jurado * j1, Sessao &s1); // retorna -1 se o jurado nao existir no vetor jurados_sessao, retorna o seu indice se existir
+	/**
+	@brief function to test if a specific session exists
+	@param Sessao &s1 - session
+	@return -1 if the session doesn't exist in the vector; returns index if exists
+	*/
+	int sessaoExiste(Sessao &s1); 
+	/**
+	@brief function to test if a specific jury exists in a session
+	@param Jurado * j1 - jury; Sessao &s1 - session
+	@return -1 if the jury doesn't exist in the vector jurados_sessao; returns index if exists
+	*/
+	int juradoExisteSessao(Jurado * j1, Sessao &s1); 
+	/**
+	@brief function to get the name of the give Sessions' file
+	@param ficheiroSessoes
+	*/
 	void setFicheiroSessoes(string ficheiroSessoes);
+	/**
+	@brief function to get the name of the give Juries' file
+	@param ficheiroJurados
+	*/
 	void setFicheiroJurados(string ficheiroJurados);
+	/**
+	@brief function to get the name of the give Candidates' file
+	@param ficheiroCandidatos
+	*/
 	void setFicheiroCandidatos(string ficheiroCandidatos);
+	/**
+	@brief function to get the name of the give Scores' file
+	@param ficheiroPontuacoes
+	*/
 	void setFicheiroPontuacoes(string ficheiroPontuacoes);
+	/**
+	@brief function to open the Candidates' file and push the information to the corresponding vector
+	*/
 	void setUpCandidatos();
+	/**
+	@brief function to open the Juries' file and push the information to the corresponding vector
+	*/
 	void setUpJurados();
+	/**
+	@brief function to open the Sessions' file and push the information to the corresponding vector
+	*/
 	void setUpSessoes();
+	/**
+		@brief function to open the Scores' file and push the information to the corresponding vector
+	*/
 	void setUpPontuacoes();
+	/**
+	@brief function to add a Candidate to the program
+	@param Candidato *c1 - candidate
+	@return True if success
+	*/
 	bool adicionaCandidato(Candidato *c1);
+	/**
+	@brief function to add a Jury to the program
+	@param Jurado *j1 - Jury
+	@return True if success
+	*/
 	bool adicionaJurado(Jurado *j1);
+	/**
+	@brief function to add a Candidate to a session
+	@param Candidato *c1 - candidate; Sessao &s1 - session
+	@return True if success
+	*/
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
+	/**
+	@brief function to add a Jury to a session
+	@param Jurado *j1 - Jury; Sessao &s1 - session
+	*/
 	void adicionaJuradoSessao(string nome, Sessao &s1);
+	/**
+	@brief function to eliminate a Candidate from program
+	@param nome - name of candidate
+	@return True if success
+	*/
 	bool eliminaCandidato(string nome);
+	/**
+	@brief function to make a certain jury responsible for the session
+	@param Jurado * j1 - Jury; Sessao &s1 - Session
+	@return True if success
+	*/
 	bool tornaJuradoResponsavel(Jurado * j1, Sessao &s1);
+	/**
+	@brief function to eliminate a Jury from program
+	@param nome - name of jury
+	*/
 	void eliminaJurado(string nome);
+	/**
+	@brief function to eliminate a candidate from a session
+	@param Candidato *c1 - candidate; Sessao &s1 - session
+	*/
 	void eliminaCandidatoSessao(string nome, Sessao &s1);
+	/**
+	@brief function to get all candidates sorted by their birth-date
+	*/
 	void ordenaCandidatosData();
+	/**
+	@brief function to set a full Score
+	@param Sessao &s1 - Session
+	*/
 	void atribuirPontuacao(Sessao &s1);
+	/**
+	@brief function to eliminate a Jury from a session
+	@param nome - name of the Jury; Sessao &s1 - session
+	*/
 	void eliminaJuradoSessao(string nome, Sessao &s1);
+	/**
+	@brief function to add a Session to the program
+	@param Sessao s1 - Session
+	*/
 	void adicionaSessao(Sessao s1);
+	/**
+	@brief function to eliminate a Session from program
+	*/
 	void eliminarSessao();
 };
 
+/**
+@brief function to compare birth-dates of each candidate, in order to sort them out
+@param Candidato *c1 - candidate 1; Candidato *c2 - candidate 2
+@return True if the birth-date of the first candidate is lower than the birth-date of the second
+*/
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
+/**
+@brief function to overload the << operator and print names of all candidates
+@param ostream &os -ostream to be able to print; const vector<string> & c1 - vector that contains strings of the names of all candidates on the whole audition program
+@return a print of the names of all candidates on the whole audition program all divided by ","
+*/
 ostream & operator<<(ostream & os, const vector<string> & c1);
