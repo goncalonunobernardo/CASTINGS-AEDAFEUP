@@ -260,7 +260,7 @@ bool Sessao::juradoPresente(string nome)
 
 
 void Sessao::setConcorrentes_finais(vector<string> finais) {
-	concorrentes_iniciais = finais;
+	this->concorrentes_finais = finais;
 }
 
 void Sessao::setGenero(string genero)

@@ -742,20 +742,19 @@ void txt_sessoes() {
 	for (unsigned int i = 0; i < C.getSessao().size(); i++)
 	{
 		cout << C.getSessao().at(i).getId() << " ; " << C.getSessao().at(i).getFase() << " ; " << C.getSessao().at(i).getNumMaxCandidatos() << " ; " << C.getSessao().at(i).getGenero() << " ; " << C.getSessao().at(i).getNumVagas() << " ; ";
-		if (C.getSessao().at(i).getConcorrentes_iniciais().size != 0) {
-			for (size_t j = 0; j < C.getSessao().at(i).getConcorrentes_iniciais().size() - 1; j++) {
-				cout << C.getSessao().at(i).getConcorrentes_iniciais().at(j) << ", ";
-			}
+		for (size_t j = 0; j < C.getSessao().at(i).getConcorrentes_iniciais().size() - 1; j++) {
+			cout << C.getSessao().at(i).getConcorrentes_iniciais().at(j) << ", ";
 		}
-		sizeP = C.getSessao().at(i).getConcorrentes_iniciais().size()-1;
+		sizeP = C.getSessao().at(i).getConcorrentes_iniciais().size() - 1;
 		cout << C.getSessao().at(i).getConcorrentes_iniciais().at(sizeP) << " ; ";
-		size = C.getSessao().at(i).getConcorrentes_finais().size();
-		for (size_t j = 0; j< C.getSessao().at(i).getConcorrentes_finais().size()-1; j++) {
+		size = C.getSessao().at(i).getConcorrentes_finais().size()-1;
+		for (size_t j = 0; j < C.getSessao().at(i).getConcorrentes_finais().size() - 1; j++) {
 			cout << C.getSessao().at(i).getConcorrentes_finais().at(j) << ", ";
 		}
-		cout << C.getSessao().at(i).getConcorrentes_finais().at(size - 1) << " ; ";
-		size = C.getSessao().at(i).getConcorrentes_finais().size();
-		for (size_t j = 0; j< C.getSessao().at(i).getJurados_sessao().size() - 1; j++) {
+		size = C.getSessao().at(i).getConcorrentes_finais().size() - 1;
+		cout << C.getSessao().at(i).getConcorrentes_finais().at(size) << " ; ";
+		
+		for (size_t j = 0; j < C.getSessao().at(i).getJurados_sessao().size() - 1; j++) {
 			cout << C.getSessao().at(i).getJurados_sessao().at(j) << ", ";
 		}
 		cout << C.getSessao().at(i).getJurados_sessao().at(size) << " ; ";
@@ -799,8 +798,10 @@ Data dataSessao() {
 }
 Sessao criarSessao() {
 	Sessao s1;
-	string genero;
-	vector<string> temp;
+	string genero,nome;
+	vector<string> jurados,concorrentes_iniciais, concorrentes_finais;
+	int continuar=0;
+	string responsavel;
 	s1.setFase(1);
 	s1.setData(dataSessao());
 	cout << "Género: ";
@@ -811,10 +812,34 @@ Sessao criarSessao() {
 	s1.setNumMaxCandidatos(num);
 	s1.setGenero(genero);
 	if (C.sessaoExiste(s1)!=-1) throw SessaoRepetida();
-	C.getSessao().push_back(s1);
-	s1.setConcorrentes_finais(temp);
-	s1.setJurados(temp);
-	s1.setConcorrentesIniciais(temp);
+	while (continuar == 0 && concorrentes_iniciais.size() < num) {
+		cout << "Nome do candidato: ";
+		cin.ignore(1000, '\n');
+		getline(cin, nome);
+		while (C.candidatoExiste(nome) == -1) {
+			cout << "Candidato inexistente. Insira um nome válido. " << endl;
+			getline(cin, nome);
+		}
+		concorrentes_iniciais.push_back(nome);
+		concorrentes_finais.push_back(nome);
+		cout << "Deseja continuar? (Sim-0, Nao-1)";
+		cin >> continuar;
+	}
+	s1.setConcorrentesIniciais(concorrentes_iniciais);
+	s1.setConcorrentes_finais(concorrentes_finais);
+	while (jurados.size() < 3) {
+		cout << "Nome jurado:";
+		getline(cin, nome);
+		while (C.juradoExiste(nome) == -1) {
+			cout << "Jurado inexistente." << endl;
+			cout << "Nome do jurado: " << endl;
+ 			getline(cin, nome);
+		}
+		jurados.push_back(nome);
+
+	}
+	s1.setJurados(jurados);
+	s1.setResponsavel(jurados.at(0));
 	return s1;
 }
 void mostrarVencedores() {
