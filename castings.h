@@ -136,13 +136,35 @@ private:
 	string telemovel;
 public:
 	Jurado();
+	/**
+	@brief Constructor of a jury member
+	*/
 	Jurado(string ficheiro_jurados);
+	/**
+	@brief  fuction that divides the information in regards to the juries and its corresponding file
+	@param ficheiro_jurados - a line of the jury file .txt
+	*/
 	Jurado(string nome, string morada, string genero, string telemovel);
+	/**
+	@brief  Constructor of a jury member
+	@param nome - name of the person; morada - address of the person; genero - genre of the art chosen; telemovel - phone number of the person
+	*/
 	string getTelemovel() const;
+	/**
+	@brief function to get the phone number of a jury member
+	@return the address of the phone number of a jury member
+	*/
 	void setTelemovel(string telemovel);
+	/**
+	@brief function to set the phone number of a jury member
+	@param telemovel - The phone number of a jury member
+	*/
 	bool operator==(Jurado &j1);
-
-
+	/**
+	@brief function to overload the == operator
+	@param Jurado &j1 - the jury estabilished
+	@return True if one jury if equal to another one existent
+	*/
 };
 class Candidato : public Pessoa {
 private:
