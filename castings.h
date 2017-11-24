@@ -86,7 +86,7 @@ protected:
 public:
 	Pessoa();
 	/**
-	@brief Constructor of a person
+	@brief Default Constructor of a person
 	*/
 	Pessoa(string nome, string morada, string genero);
 	/**
@@ -137,7 +137,7 @@ private:
 public:
 	Jurado();
 	/**
-	@brief Constructor of a jury member
+	@brief Default Constructor of a jury member
 	*/
 	Jurado(string ficheiro_jurados);
 	/**
@@ -163,7 +163,7 @@ public:
 	/**
 	@brief function to overload the == operator
 	@param Jurado &j1 - the jury estabilished
-	@return True if one jury if equal to another one existent
+	@return True if one jury is equal to another one existent
 	*/
 };
 class Candidato : public Pessoa {
@@ -175,22 +175,75 @@ private:
 	vector<Pontuacao> pontuacoes;
 public:
 	Candidato();
+	/**
+	@brief Default Constructor of a candidate
+	*/
 	Candidato(string ficheiro_candidatos);
+	/**
+	@brief  fuction that divides the information in regards to the candidates and their corresponding file
+	@param ficheiro_candidatos - a line of the candidate file .txt
+	*/
 	Candidato(string nome, string morada, string genero, Data data_nascimento);
+	/**
+	@brief  Constructor of a candidate
+	@param nome - name of the candidate; morada - address of the candidate; genero - genre of the art chosen; data_nascimento - date of when candidate was born, separated by "-"
+	*/
 	Data getDataNascimento() const;
+	/**
+	@brief function to get the date of when candidate was born, separated by "-"
+	@return the date of when candidate was born, separated by "-"
+	*/
 	int getNumInscricao() const;
+	/**
+	@brief function to get the number of sign-ups of a candidate
+	@return the number of sign-ups of a candidate
+	*/
 	double getPontuacao(int sessaoId, int fase);
+	/**
+	@brief function to get the score of a candidate according to a certain session and phase
+	@param sessaoId - the specific id of the session; fase - the number of the current phase
+	@return the score of a candidate according to a certain session and phase
+	*/
 	static int getNumInscricoes();
+	/**
+	@brief function to get the number of sign-ups of a candidate
+	@return the number of sign-ups of a candidate
+	*/
 	void setDataNascimento(Data data);
+	/**
+	@brief function to set the date in which the candidates was born
+	@param data - the date in which the candidates was born
+	*/
 	void setNumInscricoes(int num); 
+	/**
+	@brief function to set the number of sign-ups of a candidate
+	@param num - the number of sign-ups of a candidate
+	*/
 	vector<Sessao> getSessoes() const;
+	/**
+	@brief function to get all sessions, according to the vector estabilished
+	@return all sessions available
+	*/
 	bool operator==(Candidato *c1);
+	/**
+	@brief function to overload the == operator
+	@param Candidato &c1 - the candidate estabilished
+	@return True if one candidate is equal to another one existent
+	*/
 	void adicionarSessao(Sessao &s1);
+	/**
+	@brief function in which adds a session we create
+	@param Sessao &s1 - the session that's about to be added
+	*/
 	vector<Pontuacao> getPontuacoes();
+	/**
+	@brief function to get the scores of the candidates, according to the vector
+	@return the scores of the candidates, according to the vector
+	*/
 };
 
 
-class Pontuacao { //resultados de um candidato numa determinada sess?o e fase
+class Pontuacao { //resultados de um candidato numa determinada sessao e fase
 private:
 	string nomeCandidato;
 	int id_sessao;
