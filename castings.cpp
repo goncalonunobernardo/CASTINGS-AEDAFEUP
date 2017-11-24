@@ -41,9 +41,6 @@ bool Pessoa::operator==(Pessoa & p1)
 	return false;
 }
 
-void Pessoa::mostraInformacaoNome()
-{
-}
 
 Pessoa::Pessoa(string nome, string morada, string genero) {
 	this->nome = nome;
@@ -93,13 +90,6 @@ bool Jurado::operator==(Jurado & j1)
 	return false;
 }
 
-void Jurado::mostraInformacaoNome()
-{
-	cout << "NOME: " << nome << endl;
-	cout << "MORADA: " << morada << endl;
-	cout << "GENERO: " << genero << endl;
-	cout << "CONTACTO: " << telemovel << endl;
-}
 
 // Classe Sessao
 
@@ -219,6 +209,11 @@ void Sessao::setNumMaxCandidatos(int numMaxCandidatos)
 void Sessao::setResponsavel(string responsavel)
 {
 	this->responsavel = responsavel;
+}
+
+void Sessao::setConcorrentesIniciais(vector<string> concorrentes_iniciais)
+{
+	this->concorrentes_iniciais = concorrentes_iniciais;
 }
 
 int Sessao::getNumMaxCandidatos() const
@@ -347,13 +342,6 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
-void Candidato::mostraInformacao()
-{
-	cout << "NOME: " << nome << endl;
-	cout << "MORADA: " << morada << endl;
-	cout << "GENERO: " << genero << endl;
-	cout << "DATA DE NASCIMENTO: " << this->data_nascimento << endl;
-}
 
 vector<Pontuacao> Candidato::getPontuacoes()
 {
@@ -698,21 +686,8 @@ void Castings::setUpPontuacoes()
 	}
 }
 
-void Castings::mostraInformacaoCandidatos()
-{
-	for (size_t i = 0; i < candidatos.size(); i++) {
-		cout << endl;
-		candidatos.at(i)->mostraInformacao();
-	}
-}
 
-void Castings::mostraInformacaoJurados()
-{
-	for (size_t i = 0; i < jurados.size(); i++) {
-		cout << endl;
-		jurados.at(i)->mostraInformacaoNome();
-	}
-}
+
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
@@ -739,48 +714,6 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	vj = &sessoes.at(i).getJurados_sessao();
 
 	temp = sessoes.at(i).getJurados_sessao();
-	return true;
-}
-
-bool Castings::comecarFase2(Sessao &s1) {
-	if (s1.getFase() == 2)
-		return false;
-
-	vector<string> concorrentes = s1.getConcorrentes_iniciais();
-	int i = -1, id = s1.getId(), fase = s1.getFase();
-	double pontuacao;
-	multimap<double, string> concorrentesOrdenado;
-	vector<string> apurados;
-
-	for (auto nome : concorrentes) {
-		i = candidatoExiste(nome);
-		pontuacao = candidatos.at(i)->getPontuacao(id, fase);
-		concorrentesOrdenado.insert(pair<double, string>(pontuacao, nome));
-	}
-
-	if (concorrentesOrdenado.size() <= 5) {
-		for (multimap<double,string>::iterator it=concorrentesOrdenado.begin(); it != concorrentesOrdenado.end() ; it++) 
-			apurados.push_back(it->second);
-		s1.setConcorrentes_finais(apurados);
-		s1.setFase(2);
-		return true;
-	}
-
-	//sort(concorrentesOrdenado.begin(), concorrentesOrdenado.end(),comparaDataNascimento);
-
-	multimap<double, string>::iterator it0 = concorrentesOrdenado.begin(), it5 = concorrentesOrdenado.begin();
-	
-	for (int n = 0; n < 5; n++) // multimap nao suporta random iterators
-		it5++; 
-	// it5 aponta agora para o 6º par
-
-	while (it0 != it5) {
-		apurados.push_back(it0->second);
-		it0++;
-	}
-
-	s1.setConcorrentes_finais(apurados);
-	s1.setFase(2);
 	return true;
 }
 
@@ -907,6 +840,7 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 				s.setNumMaxCandidatos(5);
 				s.setConcorrentes_finais(temp);
 				s.setResponsavel("");
+				s.setJurados(temp);
 				sessoes.push_back(s);
 			}
 	}
@@ -946,6 +880,11 @@ void Castings::eliminaJuradoSessao(string nome, Sessao & s1)
 		}
 	}
 
+}
+
+void Castings::adicionaSessao(Sessao s1)
+{
+	sessoes.push_back(s1);
 }
 
 

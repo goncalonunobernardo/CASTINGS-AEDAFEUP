@@ -148,6 +148,7 @@ void Menu_Adicionar() {
 	cout << "3) Jurado ao CASTINGTORIUM 2000\n";
 	cout << "4) Jurado a Sessao\n";
 	cout << "5) Classificacoes\n";
+	cout << "6) Adicionar sessao\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -286,6 +287,19 @@ void Menu_Adicionar() {
 				Menu_Adicionar();
 				break;
 			}
+		case 6:
+			try {
+				s1 = criarSessao();
+				C.adicionaSessao(s1);
+				Menu_Adicionar();
+				
+			}
+			catch (SessaoRepetida sessao) {
+				sessao.handler();
+				Menu_Adicionar();
+				break;
+			}
+			
 		default:
 			InvalidInputMenu();
 			break;
@@ -728,8 +742,10 @@ void txt_sessoes() {
 	for (unsigned int i = 0; i < C.getSessao().size(); i++)
 	{
 		cout << C.getSessao().at(i).getId() << " ; " << C.getSessao().at(i).getFase() << " ; " << C.getSessao().at(i).getNumMaxCandidatos() << " ; " << C.getSessao().at(i).getGenero() << " ; " << C.getSessao().at(i).getNumVagas() << " ; ";
-		for (size_t j = 0; j< C.getSessao().at(i).getConcorrentes_iniciais().size()-1;j++) {
-			cout << C.getSessao().at(i).getConcorrentes_iniciais().at(j) << ", ";
+		if (C.getSessao().at(i).getConcorrentes_iniciais().size != 0) {
+			for (size_t j = 0; j < C.getSessao().at(i).getConcorrentes_iniciais().size() - 1; j++) {
+				cout << C.getSessao().at(i).getConcorrentes_iniciais().at(j) << ", ";
+			}
 		}
 		sizeP = C.getSessao().at(i).getConcorrentes_iniciais().size()-1;
 		cout << C.getSessao().at(i).getConcorrentes_iniciais().at(sizeP) << " ; ";
@@ -784,11 +800,21 @@ Data dataSessao() {
 Sessao criarSessao() {
 	Sessao s1;
 	string genero;
+	vector<string> temp;
 	s1.setFase(1);
 	s1.setData(dataSessao());
 	cout << "Género: ";
 	cin >> genero;
-	if (C.sessaoExiste(s1)) throw SessaoRepetida();
+	cout << "Numero maximo de candidatos: ";
+	int num;
+	cin >> num;
+	s1.setNumMaxCandidatos(num);
+	s1.setGenero(genero);
+	if (C.sessaoExiste(s1)!=-1) throw SessaoRepetida();
+	C.getSessao().push_back(s1);
+	s1.setConcorrentes_finais(temp);
+	s1.setJurados(temp);
+	s1.setConcorrentesIniciais(temp);
 	return s1;
 }
 void mostrarVencedores() {

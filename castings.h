@@ -50,7 +50,6 @@ public:
 	void setMorada(string morada);
 	void setGenero(string genero);
 	virtual bool operator==(Pessoa &p1);
-	virtual void mostraInformacaoNome();
 };
 
 class Jurado : public Pessoa {
@@ -63,7 +62,6 @@ public:
 	string getTelemovel() const;
 	void setTelemovel(string telemovel);
 	bool operator==(Jurado &j1);
-	void mostraInformacaoNome();
 
 
 };
@@ -87,7 +85,6 @@ public:
 	vector<Sessao> getSessoes() const;
 	bool operator==(Candidato *c1);
 	void adicionarSessao(Sessao &s1);
-	void mostraInformacao();
 	vector<Pontuacao> getPontuacoes();
 };
 
@@ -136,7 +133,11 @@ public:
 	static int getIds();
 	void setNumMaxCandidatos(int numMaxCandidatos);
 	void setResponsavel(string responsavel);
+	void setConcorrentesIniciais(vector<string> concorrentes_iniciais);
 	void setId(int id);
+	void setData(Data data);
+	void setFase(int fase);
+	void setNumVagas(int vagas);
 	int getNumMaxCandidatos() const;
 	string getGenero() const;
 	Data getData();
@@ -151,10 +152,6 @@ public:
 	void setJurados(vector<string> jurados);
 	int getNumVagas() const;
 	bool operator==(Sessao &s1);
-	bool eliminaCandidatoSessao(string nome);
-	void setData(Data data);
-	void setFase(int fase);
-	void setNumVagas(int vagas);
 	bool juriCompleto() const;
 	bool juradoPresente(string nome);
 	
@@ -194,8 +191,6 @@ public:
 	void setUpJurados();
 	void setUpSessoes();
 	void setUpPontuacoes();
-	void mostraInformacaoCandidatos();
-	void mostraInformacaoJurados();
 	bool adicionaCandidato(Candidato *c1);
 	bool adicionaJurado(Jurado *j1);
 	bool adicionaCandidatoSessao(Candidato *c1, Sessao &s1);
@@ -205,9 +200,9 @@ public:
 	void eliminaJurado(string nome);
 	void eliminaCandidatoSessao(string nome, Sessao &s1);
 	void ordenaCandidatosData();
-	bool comecarFase2(Sessao &s1);
 	void atribuirPontuacao(Sessao &s1);
 	void eliminaJuradoSessao(string nome, Sessao &s1);
+	void adicionaSessao(Sessao s1);
 };
 
 bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
