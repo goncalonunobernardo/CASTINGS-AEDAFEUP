@@ -184,7 +184,7 @@ void Menu_Adicionar() {
 			novo.setNome(nome());
 			cout << "Genero da sessao: ";
 			cin >> genero;
-			if (genero != "Escultura" || genero != "Danca" || genero != "Teatro" || genero != "Musica" || genero != "Malabarismo" || genero != "Cinema" || genero != "Speedrun" || genero != "Comedia")
+			if (genero != "Escultura" && genero != "Danca" && genero != "Teatro" && genero != "Musica" && genero != "Malabarismo" && genero != "Cinema" && genero != "Speedrun" && genero != "Comedia")
 			{
 				cout << "Tente novamente!... Retornando ao Menu Principal\n";
 				Menu_Principal();
@@ -344,12 +344,12 @@ void Menu_Remover() {
 				candidato.handler();
 				Menu_Remover();
 				break;
+			}
 				cout << "=============================================================\n";
 				cout << "Candidato removido do CASTINGTORIUM2000... \nRetornando ao Menu Principal...\n";
 				cout << "=============================================================\n";
 				Menu_Principal();
 				break;
-			}
 		case 2:
 			try {
 				string genero;
@@ -766,7 +766,7 @@ void txt_sessoes() {
 		}
 		size = C.getSessao().at(i).getConcorrentes_finais().size() - 1;
 		cout << C.getSessao().at(i).getConcorrentes_finais().at(size) << " ; ";
-		
+		size= C.getSessao().at(i).getJurados_sessao().size() - 1;
 		for (size_t j = 0; j < C.getSessao().at(i).getJurados_sessao().size() - 1; j++) {
 			cout << C.getSessao().at(i).getJurados_sessao().at(j) << ", ";
 		}

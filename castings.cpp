@@ -718,8 +718,8 @@ bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 }
 
 void Castings::atribuirPontuacao(Sessao & s1) {
-	int p1, p2, p3;
-	float pontuacao_final;
+	double p1, p2, p3;
+	double pontuacao_final;
 	int pos = 0;
 	int pont_temp = 0;
 	int pos_pont = 0;
