@@ -805,7 +805,7 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 		getline(dataS, ano);
 		int anoI = stoi(ano);
 		d.setAno(anoI);
-		while (d < sessoes.at(pos).getData())
+		while (d < sessoes.at(pos).getData()|| d==sessoes.at(pos).getData())
 		{
 			cout << "Data invalida.Insira outra" << endl;
 			getline(cin, datastr);
@@ -841,7 +841,8 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 			s.setConcorrentes_finais(nomesTemp);
 		}
 		s.setData(d);
-		s.setNumMaxCandidatos(5);
+		int numMax = 5;
+		s.setNumMaxCandidatos(numMax);
 		string nome;
 		vector<string>jurados;
 		while (jurados.size() < 3) {
