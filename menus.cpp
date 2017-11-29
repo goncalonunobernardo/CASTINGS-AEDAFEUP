@@ -690,7 +690,7 @@ Jurado criar_Jurado() {
 	Jurado novo;
 	novo.setNome(nome);
 
-	cout << "Insira o numero de telemóvel. \n";
+	cout << "Insira o numero de telemovel. \n";
 	getline(cin, telemovel);
 	novo.setTelemovel(telemovel);
 	cout << "Insira a morada. \n";
