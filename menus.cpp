@@ -696,7 +696,7 @@ Jurado criar_Jurado() {
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);
-	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
+	cout << "Insira o genero de arte performativa em que o jurado e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
 
