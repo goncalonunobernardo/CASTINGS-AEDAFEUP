@@ -90,10 +90,9 @@ void Menu_Principal() {
 	cout << "Por favor escolha um numero como opcao. \n";
 	cout << " 1) Adicionar...\n";
 	cout << " 2) Remover...\n";
-	cout << " 3) Alterar...\n";
-	cout << " 4) Informacoes.\n";
-	cout << " 5) Gravar Ficheiro\n";
-	cout << " 6) Exibir vencedores \n";
+	cout << " 3) Informacoes.\n";
+	cout << " 4) Gravar Ficheiro\n";
+	cout << " 5) Exibir vencedores \n";
 	cout << " 0) Terminar programa.\n";
 	cout << "=============================================================================================================\n";
 	while (!cin.fail())
@@ -111,15 +110,12 @@ void Menu_Principal() {
 			Menu_Remover();
 			break;
 		case 3:
-			//Menu_Alterar();
-			break;
-		case 4:
 			Menu_Informacoes();
 			break;
-		case 5:
+		case 4:
 			Menu_Gravar_Ficheiro();
 			break;
-		case 6:
+		case 5:
 			mostrarVencedores();
 			Menu_Principal();
 			break;
@@ -507,11 +503,11 @@ void Menu_Artes() {
 
 	cout << "=============================================================\n";
 	cout << "Artes disponiveis para Sessoes no CASTINGTORIUM 2000: \n";
-	cout << "1) Danca";
-	cout << "2) Teatro";
-	cout << "3) Musica";
-	cout << "4) Escultura";
-	cout << "5) Diversos...";
+	cout << "1) Danca\n";
+	cout << "2) Teatro\n";
+	cout << "3) Musica\n";
+	cout << "4) Escultura\n";
+	cout << "5) Diversos...\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -694,13 +690,13 @@ Jurado criar_Jurado() {
 	Jurado novo;
 	novo.setNome(nome);
 
-	cout << "Insira o numero de telemóvel. \n";
+	cout << "Insira o numero de telemovel. \n";
 	getline(cin, telemovel);
 	novo.setTelemovel(telemovel);
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
 	novo.setMorada(morada);
-	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
+	cout << "Insira o genero de arte performativa em que o jurado e mais forte. \n";
 	getline(cin, genero);
 	novo.setGenero(genero);
 
@@ -817,7 +813,7 @@ Sessao criarSessao() {
 	string responsavel;
 	s1.setFase(1);
 	s1.setData(dataSessao());
-	cout << "Género: ";
+	cout << "Genero: ";
 	cin >> genero;
 	cout << "Numero maximo de candidatos: ";
 	int num;
@@ -830,18 +826,18 @@ Sessao criarSessao() {
 		cin.ignore(1000, '\n');
 		getline(cin, nome);
 		while (C.candidatoExiste(nome) == -1) {
-			cout << "Candidato inexistente. Insira um nome válido. " << endl;
+			cout << "Candidato inexistente. Insira um nome valido. " << endl;
 			getline(cin, nome);
 		}
 		concorrentes_iniciais.push_back(nome);
 		concorrentes_finais.push_back(nome);
-		cout << "Deseja continuar? (Sim-0, Nao-1)";
+		cout << "Deseja continuar? (Sim-0, Nao-1)\n";
 		cin >> continuar;
 	}
 	s1.setConcorrentesIniciais(concorrentes_iniciais);
 	s1.setConcorrentes_finais(concorrentes_finais);
 	while (jurados.size() < 3) {
-		cout << "Nome jurado:";
+		cout << "Nome do jurado:";
 		getline(cin, nome);
 		while (C.juradoExiste(nome) == -1) {
 			cout << "Jurado inexistente." << endl;
