@@ -850,7 +850,7 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 			getline(cin, nome);
 			while (juradoExiste(nome) == -1) {
 				cout << "Jurado inexistente." << endl;
-				cout << "Nome do jurado: " << endl;
+				cout << "Nome do jurado: ";
 				getline(cin, nome);
 			}
 			jurados.push_back(nome);
@@ -869,7 +869,7 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 		}
 		cout << "VENCEDOR: " << sessoes.at(pos).getConcorrentes_iniciais().at(pos_pont) << endl;
 		vencedores.push_back(sessoes.at(pos).getConcorrentes_iniciais().at(pos_pont));
-		cout << "PONTUACAO: " << pont_temp << endl;
+		//cout << "PONTUACAO: " << pont_temp << endl;
 	}
 	sessoes.erase(sessoes.begin() + pos); // Quando se atribui a pontuacao a sessao é automaticamente eliminada
 }

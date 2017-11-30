@@ -557,7 +557,13 @@ void Menu_Gravar_Ficheiro() {
 		cin >> opcao;
 		switch (opcao) {
             case 0:
-
+				Menu_Principal();
+			case 1:
+				Grava_Ficheiro_Candidatos();
+			case 2:
+				Grava_Ficheiro_Jurados();
+			case 3:
+				Grava_Ficheiro_Sessoes();
 		default:
 			InvalidInputMenu();
 			break;
@@ -617,13 +623,24 @@ void Grava_Ficheiro_Sessoes() {
 	for (unsigned int i = 0; i < C.getSessao().size(); i++)
 	{
 		Ficheiro_Sessoes << C.getSessao().at(i).getId() << " ; " << C.getSessao().at(i).getFase() << " ; " << C.getSessao().at(i).getGenero() << " ; " <<C.getSessao().at(i).getNumVagas() << " ; ";
+		int sizep = C.getSessao().at(i).getConcorrentes_iniciais().size() - 1;
+		for (size_t k = 0; i < C.getSessao().at(i).getConcorrentes_iniciais().size()-1; i++) {
+			Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_iniciais().at(k) << ", ";
 
-		if (C.getSessao().at(i).getFase() == 2)
-			cout << C.getSessao().at(i).getConcorrentes_finais() << " ; " <<C.getSessao().at(i).getData();
-		else
-			cout << C.getSessao().at(i).getConcorrentes_iniciais() << " ; " << C.getSessao().at(i).getData();
+		}
+		Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_iniciais().at(sizep) << " ; ";
+		sizep = C.getSessao().at(i).getConcorrentes_finais().size() - 1;
+		for (size_t j = 0; i < C.getSessao().at(i).getConcorrentes_finais().size() - 1; i++) {
+			Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_finais().at(j) << ", ";
 
-		cout << endl;
+		}
+		sizep= C.getSessao().at(i).getJurados_sessao().size() - 1;
+		for (size_t l = 0; C.getSessao().at(i).getJurados_sessao().size() - 1; i++) {
+			Ficheiro_Sessoes << C.getSessao().at(i).getJurados_sessao().at(l) << ",";
+		}
+		Ficheiro_Sessoes << C.getSessao().at(i).getJurados_sessao().at(sizep) << " ; ";
+		Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_finais().at( sizep) << " ; " <<C.getSessao().at(i).getData();
+		Ficheiro_Sessoes << endl;
 	}
 	Ficheiro_Sessoes.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -762,11 +779,11 @@ void txt_sessoes() {
 		}
 		size = C.getSessao().at(i).getConcorrentes_finais().size() - 1;
 		cout << C.getSessao().at(i).getConcorrentes_finais().at(size) << " ; ";
-		size= C.getSessao().at(i).getJurados_sessao().size() - 1;
+		int sizeJ= C.getSessao().at(i).getJurados_sessao().size() - 1;
 		for (size_t j = 0; j < C.getSessao().at(i).getJurados_sessao().size() - 1; j++) {
 			cout << C.getSessao().at(i).getJurados_sessao().at(j) << ", ";
 		}
-		cout << C.getSessao().at(i).getJurados_sessao().at(size) << " ; ";
+		cout << C.getSessao().at(i).getJurados_sessao().at(sizeJ) << " ; ";
 		cout << C.getSessao().at(i).getData();
 		cout << endl;
 	}
@@ -836,16 +853,16 @@ Sessao criarSessao() {
 	}
 	s1.setConcorrentesIniciais(concorrentes_iniciais);
 	s1.setConcorrentes_finais(concorrentes_finais);
+	cin.ignore(1000, '\n');
 	while (jurados.size() < 3) {
 		cout << "Nome do jurado:";
 		getline(cin, nome);
 		while (C.juradoExiste(nome) == -1) {
 			cout << "Jurado inexistente." << endl;
-			cout << "Nome do jurado: " << endl;
+			cout << "Nome do jurado: ";
  			getline(cin, nome);
 		}
 		jurados.push_back(nome);
-
 	}
 	s1.setJurados(jurados);
 	s1.setResponsavel(jurados.at(0));
