@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <map>
 
+
+
 using namespace std;
 
 class Pessoa;
@@ -17,7 +19,6 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
-
 class Data {
 private:
 	int dia;
@@ -35,17 +36,17 @@ public:
 	*/
 	int getMes();
 	/**
-	@brief function to get the year 
+	@brief function to get the year
 	@return the year of the phase
 	*/
 	int getAno();
 	/**
-	@brief function to set the day 
+	@brief function to set the day
 	@param dia - The day to set
 	*/
 	void setDia(int dia);
 	/**
-	@brief function to set the month 
+	@brief function to set the month
 	@param mes - The month to set
 	*/
 	void setMes(int mes);
@@ -66,7 +67,7 @@ public:
 	@return true if the date to establish is lower than the first date
 	*/
 	bool operator<(Data &d1) const;
-	/**	
+	/**
 	@brief function to overload the = operator by declaring the Date to establish to the first one
 	@param Data &d1 - The year to settled
 	*/
@@ -77,7 +78,9 @@ public:
 	@return a print of the date estabilished, all divided by "-"
 	*/
 	friend ostream & operator<<(ostream &os, const Data & d1);
+	
 };
+
 class Pessoa {
 protected:
 	string nome;
@@ -242,6 +245,8 @@ public:
 	*/
 	vector<Pontuacao> getPontuacoes();
 
+	//bool operator<(pair<string, Candidato*>&p1);
+	
 };
 
 
@@ -471,12 +476,14 @@ private:
 	vector<Jurado*> jurados;
 	vector <Candidato*> candidatos;
 	vector<Sessao> sessoes;
+	vector<string>generos;
 	vector<Pontuacao> pontuacoes;
 	vector<string> vencedores;
 	string ficheiroCandidatos;
 	string ficheiroJurados;
 	string ficheiroSessoes;
 	string ficheiroPontuacoes;
+	multimap<string, Candidato*> candidatos_genero;
 public:
 	/**
 	@brief Default Constructor of an Audition
@@ -506,7 +513,14 @@ public:
 	@brief function to get winners in the present session and audition
 	@return the vector of the winners in the present session and audition
 	*/
+	;
 	vector<string> getVencedores();
+	/**
+	@brief
+	@return
+	*/
+	multimap<string, Candidato*> getCandidatos_genero();
+
 	/**
 	@brief function to test if a specific jury exists
 	@param Jurado * j1 - jury
@@ -522,13 +536,13 @@ public:
 	/**
 	@brief function to test if a specific candidate exists
 	@param Candidato * c1 - candidate
-	@return -1 if the candidate doesn't exist in the vector; returns index if exists
+	@return -1 if the candidate doesn't exist in the vector; returns 0 if exists
 	*/
 	int candidatoExiste(Candidato * c1);
 	/**
 	@brief function to test if a specific candidate exists
 	@param Candidato * c1 - candidate
-	@return -1 if the candidate doesn't exist in the vector; returns index if exists
+	@return -1 if the candidate doesn't exist in the vector; returns 0 if exists
 	*/
 	int candidatoExiste(string nome);
 	/**
@@ -647,6 +661,15 @@ public:
 	@brief function to eliminate a Session from program
 	*/
 	void eliminarSessao();
+	/**
+	@brief function that show information present in binary tree
+	*/
+	void informacao_map();
+	void informacao_genero(string genero);
+	vector<string>getGeneros();
+	void adicionarGenero(string genero);
+
+
 };
 
 /**
@@ -661,3 +684,5 @@ bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
 @return a print of the names of all candidates on the whole audition program all divided by ","
 */
 ostream & operator<<(ostream & os, const vector<string> & c1);
+
+
