@@ -92,4 +92,5 @@ void txt_sessoes();
 @brief function to show winners of the auditions
 */
 void mostrarVencedores();
+void genero();
 string nome();

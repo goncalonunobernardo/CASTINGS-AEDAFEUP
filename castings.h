@@ -246,6 +246,8 @@ public:
 	vector<Pontuacao> getPontuacoes();
 
 	//bool operator<(pair<string, Candidato*>&p1);
+	friend ostream & operator<<(ostream &os, const Candidato *c1);
+
 	
 };
 

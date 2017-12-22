@@ -438,7 +438,7 @@ void Termina_Programa() {
 void Menu_Informacoes() {
 	int opcao;
 	opcao = -1;
-
+	int opcaoCandidato = -1;
 	cout << "=============================================================\n";
 	cout << "Indique o elemento que pretende visualizar no programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
@@ -456,16 +456,33 @@ void Menu_Informacoes() {
 			Menu_Principal();
 			break;
 		case 1:
-			C.ordenaCandidatosData();
-			txt_candidatos();
-			//FUNCAO QUE LE CANDIDATOS E INFO BASICAS DELES + TIPO DE SESSAO
+			cout << "1) Por genero\n";
+			cout << "2) Todos\n";
+			cout << "0) Menu Informacoes\n";
+			cin >> opcaoCandidato;
+			switch (opcaoCandidato) {
+			case 1:
+				genero();
+				Menu_Informacoes();
+				break;
+			case 2:
+				txt_candidatos();
+				break;
+			case 0: 
+				Menu_Informacoes();
+				break;
+			}
 			break;
 		case 2:
 			txt_jurados();
 			//FUNCAO QUE LE JURADOS E INFO BASICAS
 			break;
 		case 3:
-			Menu_Artes();
+			//Menu_Artes();
+			//sort(C.getGeneros().begin(),C.getGeneros().end());
+				for (size_t i = 0; i < C.getGeneros().size(); i++) {
+				cout << C.getGeneros().at(i) << "    ";
+			}
 			break;
 		case 4:
 			txt_sessoes();
@@ -519,7 +536,29 @@ void Menu_Artes() {
 	}
 }
 
+void genero() {
+	string genero;
+	cout << "Insira genero" << endl;
+	cin >> genero;
+	int op = -1;
+	bool existe = false;
+	for (size_t i = 0; i < C.getGeneros().size(); i++) {
+		if (genero == C.getGeneros().at(i))
+			existe = true;
+	}
+	if (existe) {
+		C.informacao_genero(genero);
+	}
+	else {
 
+		cout << "Genero inexistente.Pretende adicionar?\n";
+		cout << "SIM[0] NÃO[1]\n";
+		cin >> op;
+		if (op == 0) {
+			C.adicionarGenero(genero);
+		}
+	}
+}
 //FUNCOES SAVE DE FICHEIROS
 void Menu_Gravar_Ficheiro() {
 	int opcao;

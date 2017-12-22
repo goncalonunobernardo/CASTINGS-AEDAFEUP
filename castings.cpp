@@ -565,11 +565,9 @@ bool Castings::eliminaCandidato(string nome)
 {
 	
 	
-	bool existe=false;
 	for (size_t i = 0; i < sessoes.size(); i++) {
 		for (size_t j = 0; j < sessoes.at(i).getConcorrentes_iniciais().size(); j++) {
 			if (sessoes.at(i).getConcorrentes_iniciais().at(j) == nome) {
-				existe = true;
 				sessoes.at(i).getConcorrentes_iniciais().erase(sessoes.at(i).getConcorrentes_iniciais().begin() + j);
 			}
 		}
@@ -583,16 +581,8 @@ bool Castings::eliminaCandidato(string nome)
 
 	}
 
-	/*for (size_t i = 0; i < candidatos.size(); i++) {
-		if (candidatos.at(i)->getNome()==nome) {
-			delete candidatos.at(i);
-			candidatos.erase(candidatos.begin() + i);
-			return true;
-		}*/
 
-	if (!existe) {
 		throw CandidatoInexistente(nome);
-	}
 	return false;
 }
 
@@ -665,6 +655,7 @@ void Castings::setUpCandidatos()
 {
 	ifstream file(ficheiroCandidatos);
 	string candidato,genero;
+	bool existe = false;
 	vector <Candidato*>temp;
 	while (getline(file, candidato))
 	{
@@ -677,6 +668,13 @@ void Castings::setUpCandidatos()
 	for (size_t i = 0; i < temp.size(); i++) {
 		genero = temp.at(i)->getGenero();
 		candidatos_genero.insert(pair<string, Candidato*>(genero, temp.at(i)));
+		for (size_t j = 0; j < generos.size(); j++) {
+			if (generos.at(j) == genero)
+				existe = true;
+		}
+		if (!existe)
+			generos.push_back(genero);
+		existe = false;
 	}
 }
 
@@ -975,7 +973,7 @@ void Castings::informacao_genero(string genero)
 {
 	for (auto it : candidatos_genero) {
 		if (it.first == genero)
-			cout << it.second << endl;
+			cout << it.second<< endl;
 	}
 }
 
@@ -990,6 +988,7 @@ void Castings::adicionarGenero(string genero)
 		if (generos.at(i) == genero)
 			return;
 	}
+	generos.push_back(genero);
 }
 
 
@@ -1151,6 +1150,12 @@ ostream & operator<<(ostream & os, const Data & d1)
 	 return os;
 
 	// TODO: inserir instrucao de retorno aqui
+}
+
+ostream & operator<<(ostream & os, const Candidato * c1)
+{
+	os << c1->getNome() << " ; " << c1->getMorada() << " ; " << c1->getGenero() << " ; " << c1->getDataNascimento() << endl;
+	return os;
 }
 
 ostream & operator<<(ostream & os, const vector<string> & c1) {
