@@ -93,3 +93,8 @@ void txt_sessoes();
 */
 void mostrarVencedores();
 string nome();
+
+
+//
+void getCandidatosparaEntrevistas(string genero);
+//

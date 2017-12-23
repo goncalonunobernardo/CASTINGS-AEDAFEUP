@@ -8,6 +8,7 @@
 #include <fstream>
 #include <algorithm>
 #include <map>
+#include <queue>
 
 
 
@@ -329,6 +330,8 @@ protected:
 	vector <string> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
 	vector <string> concorrentes_finais; //concorrentes que passam  2fase;
 	vector <Pontuacao> pontuacoes;
+	priority_queue<Candidato> entrevistas;
+
 public:
 	/**
 	@brief Default Constructor of a Session
@@ -466,7 +469,18 @@ public:
 	@return True if the specific jury is present
 	*/
 	bool juradoPresente(string nome);
+	/**
+	@brief function to overload the < operator
+	@param Sessao &s1 - the session estabilished
+	@return True if one session is more recent to another existent
+	*/
+	bool operator<(Sessao &s1);
 	
+	//
+	priority_queue<Candidato> &getEntrevistas();
+	priority_queue<Candidato> setEntrevistas(priority_queue<Candidato> entrevista);
+
+	//
 };
 
 
@@ -669,7 +683,6 @@ public:
 	vector<string>getGeneros();
 	void adicionarGenero(string genero);
 
-
 };
 
 /**
@@ -684,5 +697,4 @@ bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
 @return a print of the names of all candidates on the whole audition program all divided by ","
 */
 ostream & operator<<(ostream & os, const vector<string> & c1);
-
 

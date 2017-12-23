@@ -256,6 +256,22 @@ bool Sessao::juradoPresente(string nome)
 	return false;
 }
 
+bool Sessao::operator<(Sessao & s1)
+{
+	if (s1.getGenero() == this->genero)
+	return (this->data < s1.getData());
+}
+
+priority_queue<Candidato>& Sessao::getEntrevistas()
+{
+	return entrevistas;
+}
+
+priority_queue<Candidato> Sessao::setEntrevistas(priority_queue<Candidato> entrevista)
+{
+	this->entrevistas = entrevista;
+}
+
 
 
 void Sessao::setConcorrentes_finais(vector<string> finais) {
@@ -991,9 +1007,6 @@ void Castings::adicionarGenero(string genero)
 			return;
 	}
 }
-
-
-
 
 
 Pontuacao::Pontuacao()

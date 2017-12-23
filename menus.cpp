@@ -5,7 +5,7 @@
 
 Castings C;
 int main() {
-	
+
 	time_t t = time(0);   // get time now
 	struct tm * now = localtime(&t);
 	cout << (now->tm_year + 1900) << '-'
@@ -56,7 +56,7 @@ void Menu() {
 }
 
 void Menu_Principal() {
-	int opcao = -1;	
+	int opcao = -1;
 
 	cout << "=============================================================================================================\n\n";
 	cout << "Por favor escolha um numero como opcao. \n";
@@ -98,7 +98,7 @@ void Menu_Principal() {
 		return;
 	}
 }
-	
+
 void Menu_Adicionar() {
 	int opcao;
 	Candidato novo;
@@ -107,7 +107,7 @@ void Menu_Adicionar() {
 	string genero;
 
 	opcao = -1;
-	
+
 	cout << "=============================================================\n";
 	cout << "Indique o elemento que pretende adicionar ao programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
@@ -178,6 +178,9 @@ void Menu_Adicionar() {
 				Menu_Adicionar();
 				break;
 			}
+
+			s1.getEntrevistas().push(novo);
+
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado a Sessao! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
@@ -198,8 +201,8 @@ void Menu_Adicionar() {
 			cout << "=============================================================\n";
 			Menu_Principal();
 			break;
-		case 4: 
-{
+		case 4:
+		{
 			Jurado jurado;
 			Sessao s1;
 			try {
@@ -262,7 +265,7 @@ void Menu_Adicionar() {
 				s1 = criarSessao();
 				C.adicionaSessao(s1);
 				Menu_Adicionar();
-				
+
 			}
 			catch (SessaoRepetida sessao) {
 				sessao.handler();
@@ -273,7 +276,7 @@ void Menu_Adicionar() {
 			cout << "Sessao adicionada! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
-			
+
 		default:
 			InvalidInputMenu();
 			break;
@@ -317,11 +320,11 @@ void Menu_Remover() {
 				Menu_Remover();
 				break;
 			}
-				cout << "=============================================================\n";
-				cout << "Candidato removido do CASTINGTORIUM2000... \nRetornando ao Menu Principal...\n";
-				cout << "=============================================================\n";
-				Menu_Principal();
-				break;
+			cout << "=============================================================\n";
+			cout << "Candidato removido do CASTINGTORIUM2000... \nRetornando ao Menu Principal...\n";
+			cout << "=============================================================\n";
+			Menu_Principal();
+			break;
 		case 2:
 			try {
 				string genero;
@@ -386,7 +389,7 @@ void Menu_Remover() {
 			cout << "Jurado removido da Sessao... \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
-		
+
 		case 5:
 			try {
 				C.eliminarSessao();
@@ -426,17 +429,18 @@ void InvalidInputMenu() {
 	}
 }
 void Termina_Programa() {
-		cout << "=============================================================\n";
-		cout << "Terminando programa, aguarde...\n";
-		cout << "\nObrigado pela sua colaboracao, volte em breve!\n";
-		cout << "=============================================================";
-		cout << "\n\n";
-		system("PAUSE");
-		exit(0);
+	cout << "=============================================================\n";
+	cout << "Terminando programa, aguarde...\n";
+	cout << "\nObrigado pela sua colaboracao, volte em breve!\n";
+	cout << "=============================================================";
+	cout << "\n\n";
+	system("PAUSE");
+	exit(0);
 }
 
 void Menu_Informacoes() {
 	int opcao;
+	string genero;
 	opcao = -1;
 
 	cout << "=============================================================\n";
@@ -446,6 +450,7 @@ void Menu_Informacoes() {
 	cout << "2) Jurados\n";
 	cout << "3) Tipos de Sessao\n";
 	cout << "4) Sessoes\n";
+	cout << "5) Entrevistas\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -470,6 +475,10 @@ void Menu_Informacoes() {
 		case 4:
 			txt_sessoes();
 			break;
+		case 5:
+			cout << "Insira o género da arte cujas entrevistas vão ocorrer: ";
+			cin >> genero;
+			getCandidatosparaEntrevistas(genero);
 		default:
 			InvalidInputMenu();
 			break;
@@ -536,18 +545,18 @@ void Menu_Gravar_Ficheiro() {
 	while (!cin.fail()) {
 		cin >> opcao;
 		switch (opcao) {
-            case 0:
-				Menu_Principal();
-				break;
-			case 1:
-				Grava_Ficheiro_Candidatos();
-				break;
-			case 2:
-				Grava_Ficheiro_Jurados();
-				break;
-			case 3:
-				Grava_Ficheiro_Sessoes();
-				break;
+		case 0:
+			Menu_Principal();
+			break;
+		case 1:
+			Grava_Ficheiro_Candidatos();
+			break;
+		case 2:
+			Grava_Ficheiro_Jurados();
+			break;
+		case 3:
+			Grava_Ficheiro_Sessoes();
+			break;
 		default:
 			InvalidInputMenu();
 			break;
@@ -568,7 +577,7 @@ void Grava_Ficheiro_Candidatos() {
 
 	for (unsigned int i = 0; i < C.getCandidatos().size(); i++)
 	{
-		Ficheiro_Candidato << C.getCandidatos().at(i)->getNome() << " ; " << C.getCandidatos().at(i)->getMorada() << " ; " << C.getCandidatos().at(i)->getGenero() << " ; " << C.getCandidatos().at(i)->getDataNascimento().getDia() << "-" << C.getCandidatos().at(i)->getDataNascimento().getMes() << "-" <<C.getCandidatos().at(i)->getDataNascimento().getAno() << endl;
+		Ficheiro_Candidato << C.getCandidatos().at(i)->getNome() << " ; " << C.getCandidatos().at(i)->getMorada() << " ; " << C.getCandidatos().at(i)->getGenero() << " ; " << C.getCandidatos().at(i)->getDataNascimento().getDia() << "-" << C.getCandidatos().at(i)->getDataNascimento().getMes() << "-" << C.getCandidatos().at(i)->getDataNascimento().getAno() << endl;
 	}
 	Ficheiro_Candidato.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -587,7 +596,7 @@ void Grava_Ficheiro_Jurados() {
 	Ficheiro_Jurado.open(ficheiro_jurados);
 	for (unsigned int i = 0; i < C.getJurados().size(); i++)
 	{
-		Ficheiro_Jurado <<C.getJurados().at(i)->getNome() << " ; " << C.getJurados().at(i)->getMorada() << " ; " << C.getJurados().at(i)->getGenero() << " ; " << C.getJurados().at(i)->getTelemovel() << endl;
+		Ficheiro_Jurado << C.getJurados().at(i)->getNome() << " ; " << C.getJurados().at(i)->getMorada() << " ; " << C.getJurados().at(i)->getGenero() << " ; " << C.getJurados().at(i)->getTelemovel() << endl;
 	}
 	Ficheiro_Jurado.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -606,9 +615,9 @@ void Grava_Ficheiro_Sessoes() {
 	Ficheiro_Sessoes.open(ficheiro_sessoes);
 	for (unsigned int i = 0; i < C.getSessao().size(); i++)
 	{
-		Ficheiro_Sessoes << C.getSessao().at(i).getId() << " ; " << C.getSessao().at(i).getFase() << " ; " << C.getSessao().at(i).getGenero() << " ; " <<C.getSessao().at(i).getNumVagas() << " ; ";
+		Ficheiro_Sessoes << C.getSessao().at(i).getId() << " ; " << C.getSessao().at(i).getFase() << " ; " << C.getSessao().at(i).getGenero() << " ; " << C.getSessao().at(i).getNumVagas() << " ; ";
 		int sizep = C.getSessao().at(i).getConcorrentes_iniciais().size() - 1;
-		for (size_t k = 0; i < C.getSessao().at(i).getConcorrentes_iniciais().size()-1; i++) {
+		for (size_t k = 0; i < C.getSessao().at(i).getConcorrentes_iniciais().size() - 1; i++) {
 			Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_iniciais().at(k) << ", ";
 
 		}
@@ -618,12 +627,12 @@ void Grava_Ficheiro_Sessoes() {
 			Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_finais().at(j) << ", ";
 
 		}
-		sizep= C.getSessao().at(i).getJurados_sessao().size() - 1;
+		sizep = C.getSessao().at(i).getJurados_sessao().size() - 1;
 		for (size_t l = 0; C.getSessao().at(i).getJurados_sessao().size() - 1; i++) {
 			Ficheiro_Sessoes << C.getSessao().at(i).getJurados_sessao().at(l) << ",";
 		}
 		Ficheiro_Sessoes << C.getSessao().at(i).getJurados_sessao().at(sizep) << " ; ";
-		Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_finais().at( sizep) << " ; " <<C.getSessao().at(i).getData();
+		Ficheiro_Sessoes << C.getSessao().at(i).getConcorrentes_finais().at(sizep) << " ; " << C.getSessao().at(i).getData();
 		Ficheiro_Sessoes << endl;
 	}
 	Ficheiro_Sessoes.close();
@@ -644,7 +653,7 @@ Candidato criar_Candidato() {
 	getline(cin, nome);
 
 	for (auto it : C.getCandidatos_genero()) {
-		if (it.second->getNome()==nome)throw CandidatoRepetido(nome);
+		if (it.second->getNome() == nome)throw CandidatoRepetido(nome);
 	}
 	/*int j = C.getCandidatos().size();
 	for (size_t i = 0; i < C.getCandidatos().size(); i++) {
@@ -719,7 +728,7 @@ void txt_candidatos() {
 	int input = -1;
 	for (auto it : C.getCandidatos_genero()) {
 
-		cout << it.second->getNome()<< " ; " << it.second->getMorada() << " ; " << it.second->getGenero() << " ; " << it.second->getDataNascimento() << endl;
+		cout << it.second->getNome() << " ; " << it.second->getMorada() << " ; " << it.second->getGenero() << " ; " << it.second->getDataNascimento() << endl;
 
 	}
 	cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
@@ -734,7 +743,7 @@ void txt_candidatos() {
 
 void txt_jurados() {
 	int input = -1;
-	for (unsigned int i = 0; i <C.getJurados().size(); i++)
+	for (unsigned int i = 0; i < C.getJurados().size(); i++)
 	{
 		cout << C.getJurados().at(i)->getNome() << " ; " << C.getJurados().at(i)->getMorada() << " ; " << C.getJurados().at(i)->getGenero() << " ; " << C.getJurados().at(i)->getTelemovel() << endl;
 	}
@@ -778,6 +787,57 @@ string nome() {
 	getline(cin, nome);
 	return nome;
 }
+
+
+void getCandidatosparaEntrevistas(string genero)
+{
+	int input;
+
+	for (size_t i = 0; i < C.getSessao().size(); i++)
+	{
+		if (C.getSessao().at(i).getGenero() == genero)
+		{
+			vector<Candidato> temp_fila;
+			while (!C.getSessao().at(i).getEntrevistas().empty())
+			{
+				temp_fila.push_back(C.getSessao().at(i).getEntrevistas().top());
+				C.getSessao().at(i).getEntrevistas().pop();
+			}
+			cout << "===============================================================" << endl;
+			cout << "# \t\t CANDIDATO \t\t DATA DE ENTREVISTA \t\t DATA DE SESSAO" << endl;
+
+			for (size_t j = 0; j < temp_fila.size(); j++)
+			{
+				for (size_t k = 0; k < temp_fila.at(j).getSessoes().size(); k++)
+				{
+					cout << "[" << j + 1 << "]\t\t" << temp_fila.at(j).getNome() << "\t\t";
+					cout << temp_fila.at(j).getSessoes().at(j).getData().getDia() - 1 << "-";
+					cout << temp_fila.at(j).getSessoes().at(j).getData().getMes() << "-";
+					cout << temp_fila.at(j).getSessoes().at(j).getData().getAno();
+					cout << "\t\t";
+					cout << temp_fila.at(j).getSessoes().at(j).getData().getDia() << "-";
+					cout << temp_fila.at(j).getSessoes().at(j).getData().getMes() << "-";
+					cout << temp_fila.at(j).getSessoes().at(j).getData().getAno() << endl;
+				}
+			}
+
+			cout << "===============================================================" << endl;
+
+			for (size_t j = 0; j < temp_fila.size(); j++)
+			{
+				C.getSessao().at(i).getEntrevistas().push(temp_fila.at(j));
+			}
+
+			cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
+			cin >> input;
+			if (input == 0)
+				Menu_Informacoes();
+			else
+				Menu_Principal();
+		}
+	}
+}
+
 Data dataSessao() {
 	string datastr, dia, mes, ano;
 	Data d;
@@ -798,15 +858,15 @@ Data dataSessao() {
 }
 Sessao criarSessao() {
 	Sessao s1;
-	string genero,nome;
-	vector<string> jurados,concorrentes_iniciais, concorrentes_finais;
-	int continuar=0;
+	string genero, nome;
+	vector<string> jurados, concorrentes_iniciais, concorrentes_finais;
+	int continuar = 0;
 	string responsavel;
 	s1.setFase(1);
 	s1.setData(dataSessao());
 	cout << "Genero: ";
 	cin >> genero;
-	s1.setGenero(genero); 
+	s1.setGenero(genero);
 	if (C.sessaoExiste(s1) != -1) throw SessaoRepetida();
 	cout << "Numero maximo de candidatos: ";
 	int num;
@@ -834,7 +894,7 @@ Sessao criarSessao() {
 		while (C.juradoExiste(nome) == -1) {
 			cout << "Jurado inexistente." << endl;
 			cout << "Nome do jurado: ";
- 			getline(cin, nome);
+			getline(cin, nome);
 		}
 		jurados.push_back(nome);
 	}
