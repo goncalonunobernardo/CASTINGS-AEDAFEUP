@@ -267,7 +267,7 @@ priority_queue<Candidato>& Sessao::getEntrevistas()
 	return entrevistas;
 }
 
-priority_queue<Candidato> Sessao::setEntrevistas(priority_queue<Candidato> entrevista)
+void Sessao::setEntrevistas(priority_queue<Candidato> entrevista)
 {
 	this->entrevistas = entrevista;
 }

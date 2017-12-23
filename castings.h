@@ -480,7 +480,7 @@ public:
 	
 	//
 	priority_queue<Candidato> &getEntrevistas();
-	priority_queue<Candidato> setEntrevistas(priority_queue<Candidato> entrevista);
+	void setEntrevistas(priority_queue<Candidato> entrevista);
 
 	//
 };
