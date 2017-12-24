@@ -262,12 +262,12 @@ bool Sessao::operator<(Sessao & s1)
 	return (this->data < s1.getData());
 }
 
-priority_queue<Candidato>& Sessao::getEntrevistas()
+priority_queue<Candidato*>& Sessao::getEntrevistas()
 {
 	return entrevistas;
 }
 
-void Sessao::setEntrevistas(priority_queue<Candidato> entrevista)
+void Sessao::setEntrevistas(priority_queue<Candidato*> entrevista)
 {
 	this->entrevistas = entrevista;
 }
@@ -361,6 +361,15 @@ void Candidato::adicionarSessao(Sessao &s1) {
 vector<Pontuacao> Candidato::getPontuacoes()
 {
 	return pontuacoes;
+}
+
+bool Candidato::operator<(Candidato * c1)
+{
+	sort(this->sessoes.begin(), this->sessoes.end(),comparaDataSessao);
+	sort(c1->sessoes.begin(), c1->sessoes.end(), comparaDataSessao);
+	if (this->sessoes.at(0).getData() == c1->sessoes.at(0).getData()) return (this->sessoes.at(0).getGenero() < c1->sessoes.at(0).getGenero());
+	else
+		return (this->sessoes.at(0).getData() < c1->sessoes.at(0).getData());
 }
 
 
@@ -1099,6 +1108,8 @@ double Pontuacao::getClassificacao()
 	return classificacao;
 }
 
+
+
 // definicao da classe Data
 
 int Data::getDia()
@@ -1181,6 +1192,11 @@ ostream & operator<<(ostream & os, const vector<string> & c1) {
 		os << c1.at(i) << ", ";
 	}
 	return os;
+}
+
+bool comparaDataSessao(Sessao & s1, Sessao & s2)
+{
+	return (s2.getData() <  s1.getData());
 }
 
 

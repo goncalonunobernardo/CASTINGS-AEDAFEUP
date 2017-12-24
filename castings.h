@@ -246,7 +246,7 @@ public:
 	*/
 	vector<Pontuacao> getPontuacoes();
 
-	//bool operator<(pair<string, Candidato*>&p1);
+	bool operator<(Candidato *c1);
 	friend ostream & operator<<(ostream &os, const Candidato *c1);
 
 	
@@ -316,6 +316,7 @@ public:
 	@return The score of a candidate
 	*/
 	double getClassificacao();
+	
 };
 
 class Sessao {
@@ -332,7 +333,7 @@ protected:
 	vector <string> concorrentes_iniciais; //vector composto por todos os candidatos a 1fase
 	vector <string> concorrentes_finais; //concorrentes que passam  2fase;
 	vector <Pontuacao> pontuacoes;
-	priority_queue<Candidato> entrevistas;
+	priority_queue<Candidato*> entrevistas;
 
 public:
 	/**
@@ -479,8 +480,8 @@ public:
 	bool operator<(Sessao &s1);
 	
 	//
-	priority_queue<Candidato> &getEntrevistas();
-	void setEntrevistas(priority_queue<Candidato> entrevista);
+	priority_queue<Candidato*> &getEntrevistas();
+	void setEntrevistas(priority_queue<Candidato*> entrevista);
 
 	//
 };
@@ -700,3 +701,5 @@ bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
 */
 ostream & operator<<(ostream & os, const vector<string> & c1);
 
+
+bool comparaDataSessao(Sessao &s1, Sessao &s2);

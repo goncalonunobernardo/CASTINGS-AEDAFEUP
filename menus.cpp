@@ -179,7 +179,7 @@ void Menu_Adicionar() {
 				break;
 			}
 
-			s1.getEntrevistas().push(novo);
+			s1.getEntrevistas().push(&novo);
 
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado a Sessao! \nRetornando ao Menu Principal...\n";
@@ -467,7 +467,7 @@ void Menu_Informacoes() {
 			cin >> opcaoCandidato;
 			switch (opcaoCandidato) {
 			case 1:
-				genero();
+				generoX();
 				Menu_Informacoes();
 				break;
 			case 2:
@@ -545,7 +545,7 @@ void Menu_Artes() {
 	}
 }
 
-void genero() {
+void generoX() {
 	string genero;
 	cout << "Insira genero" << endl;
 	cin >> genero;
@@ -836,7 +836,7 @@ void getCandidatosparaEntrevistas(string genero)
 	{
 		if (C.getSessao().at(i).getGenero() == genero)
 		{
-			vector<Candidato> temp_fila;
+			vector<Candidato*> temp_fila;
 			while (!C.getSessao().at(i).getEntrevistas().empty())
 			{
 				temp_fila.push_back(C.getSessao().at(i).getEntrevistas().top());
@@ -847,16 +847,18 @@ void getCandidatosparaEntrevistas(string genero)
 
 			for (size_t j = 0; j < temp_fila.size(); j++)
 			{
-				for (size_t k = 0; k < temp_fila.at(j).getSessoes().size(); k++)
+				cout << "[" << j + 1 << "]\t\t" << temp_fila.at(j)->getNome() << "\t\t";
+				for (size_t k = 0; k < temp_fila.at(j)->getSessoes().size(); k++)
 				{
-					cout << "[" << j + 1 << "]\t\t" << temp_fila.at(j).getNome() << "\t\t";
-					cout << temp_fila.at(j).getSessoes().at(j).getData().getDia() - 1 << "-";
+					cout << "[" << j + 1 << "]\t\t" << temp_fila.at(j)->getNome() << "\t\t";
+					cout << temp_fila.at(j)->getSessoes().at(k).getData() << "\t\t";
+					/*cout << temp_fila.at(j)->getSessoes().at(j).getData().getDia() - 1 << "-";
 					cout << temp_fila.at(j).getSessoes().at(j).getData().getMes() << "-";
 					cout << temp_fila.at(j).getSessoes().at(j).getData().getAno();
-					cout << "\t\t";
-					cout << temp_fila.at(j).getSessoes().at(j).getData().getDia() << "-";
-					cout << temp_fila.at(j).getSessoes().at(j).getData().getMes() << "-";
-					cout << temp_fila.at(j).getSessoes().at(j).getData().getAno() << endl;
+					cout << "\t\t";*/
+					cout << temp_fila.at(j)->getSessoes().at(j).getData().getDia() << "-";
+					cout << temp_fila.at(j)->getSessoes().at(j).getData().getMes() << "-";
+					cout << temp_fila.at(j)->getSessoes().at(j).getData().getAno() << endl;
 				}
 			}
 
