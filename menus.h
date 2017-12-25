@@ -95,6 +95,7 @@ void mostrarVencedores();
 void genero();
 string nome();
 
+Data lerData(string datastr);
 
 //
 void getCandidatosparaEntrevistas(string genero);

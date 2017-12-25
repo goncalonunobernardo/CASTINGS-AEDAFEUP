@@ -9,8 +9,8 @@
 #include <algorithm>
 #include <map>
 #include <queue>
-
-
+#include <unordered_set>
+#include <utility>
 
 using namespace std;
 
@@ -20,6 +20,19 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
+
+struct eqstr {
+	bool operator() (const Candidato * c1, const Candidato * c2) const {
+		return c1 == c2;
+	}
+};
+
+struct hstr {
+	int operator() (const Candidato * c1) const {
+		return 0;  // a modificar
+	}
+};
+
 class Data {
 private:
 	int dia;
@@ -178,6 +191,7 @@ private:
 	static int numInscricoesAtual; //atribuido  automaticamente quando realizam a 1a inscricao
 	vector<Sessao> sessoes;
 	vector<Pontuacao> pontuacoes;
+	pair<pair<Data, Data>, string> indisponibilidade; 
 public:
 	/**
 	@brief Default Constructor of a candidate
@@ -218,12 +232,20 @@ public:
 	@brief function to set the date in which the candidates was born
 	@param data - the date in which the candidates was born
 	*/
+
+	pair<pair<Data, Data>, string> getIndisponibilidade() const;
+
 	void setDataNascimento(Data data);
 	/**
 	@brief function to set the number of sign-ups of a candidate
 	@param num - the number of sign-ups of a candidate
 	*/
 	void setNumInscricoes(int num); 
+
+	void setIndisponibilidade(pair<pair<Data, Data>, string> indisp);
+
+	void setIndisponibilidade(Data dataI, Data dataF, string razao);
+
 	/**
 	@brief function to get all sessions, according to the vector estabilished
 	@return the vector all sessions available
@@ -495,6 +517,7 @@ private:
 	vector<string>generos;
 	vector<Pontuacao> pontuacoes;
 	vector<string> vencedores;
+	unordered_set<Candidato*, hstr, eqstr> indisponiveis;
 	string ficheiroCandidatos;
 	string ficheiroJurados;
 	string ficheiroSessoes;
@@ -681,10 +704,16 @@ public:
 	@brief function that show information present in binary tree
 	*/
 	void informacao_map();
+
 	void informacao_genero(string genero);
+
 	vector<string>getGeneros();
+
 	void adicionarGenero(string genero);
 
+	unordered_set<Candidato*> getIndisponiveis() const;
+
+	void adicionarIndisponivel(Candidato * c1);
 };
 
 /**
