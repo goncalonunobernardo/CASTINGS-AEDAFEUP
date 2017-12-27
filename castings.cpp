@@ -357,7 +357,6 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
-
 vector<Pontuacao> Candidato::getPontuacoes()
 {
 	return pontuacoes;
@@ -389,6 +388,20 @@ double Candidato::getPontuacao(int sessaoId, int fase) {
 			return pontuacoes.at(i).getClassificacao();
 	}
 	return -1;
+}
+
+pair<pair<Data, Data>, string> Candidato::getIndisponibilidade() const {
+	return indisponibilidade;
+}
+
+void Candidato::setIndisponibilidade(pair<pair<Data, Data>, string> indisp) {
+	indisponibilidade = indisp;
+}
+
+void Candidato::setIndisponibilidade(Data dataI, Data dataF, string razao) {
+	pair<Data, Data> periodo(dataI, dataF);
+	pair<pair<Data, Data>, string> indisp(periodo, razao);
+	setIndisponibilidade(indisp);
 }
 
 // Classe Castings
@@ -732,9 +745,6 @@ void Castings::setUpPontuacoes()
 	}
 }
 
-
-
-
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
 	vector<string> temp(3);
@@ -927,6 +937,7 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 	}
 	
 }
+
 void Castings::eliminaJuradoSessao(string nome, Sessao & s1)
 {
 	int index = -1;
@@ -956,6 +967,7 @@ void Castings::adicionaSessao(Sessao s1)
 {
 	sessoes.push_back(s1);
 }
+
 void Castings::eliminarSessao()
 {
 	Sessao s1;
@@ -1016,12 +1028,20 @@ void Castings::adicionarGenero(string genero)
 	generos.push_back(genero);
 }
 
+unordered_set<Candidato*> Castings::getIndisponiveis() const {
+	return indisponiveis;
+}
+
+void Castings::adicionarIndisponivel(Candidato * c1) {
+	indisponiveis.insert(c1);
+}
+
+// Classe Pontuacao
 
 Pontuacao::Pontuacao()
 {
 }
 
-// Classe Pontuacao
 Pontuacao::Pontuacao(string ficheiroPontuacao) {
 	istringstream pontuacaoStream(ficheiroPontuacao);
 	string id, fase, nome, p1, p2, p3, pontuacoesS;
@@ -1042,8 +1062,6 @@ Pontuacao::Pontuacao(string ficheiroPontuacao) {
 	}
 
 }
-
-
 
 Pontuacao::Pontuacao(string nomeCandidato, int id_sessao, int fase, vector<int> classificacoes)
 {

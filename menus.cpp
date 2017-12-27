@@ -723,8 +723,35 @@ Candidato criar_Candidato() {
 	d.setAno(anoI);
 	novo.setDataNascimento(d);
 
+	char i;
+	string lixo;
+	cout << "Indisponibilidade para sessões? (s/n) \n";
+	cin >> i;
+	getline(cin, lixo);
+	
+	string strdata, razao;
+	Data d1, d2;
+
+	switch (i) {
+	case 's':
+		cout << "Período de indisponibilidade: \n data de começo: (dd-mm-aaaa) \n";
+		getline(cin, strdata);
+		d1 = lerData(strdata);
+		cout << "data de fim: (dd-mm-aaaa) \n";
+		getline(cin, strdata);
+		d2 = lerData(strdata);
+		cout << "Motivo de indisponibilidade: \n";
+		getline(cin, razao);
+		novo.setIndisponibilidade(d1, d2, razao);
+		C.adicionarIndisponivel(&novo);
+		break;
+		
+	default:
+		break;
+	}
+
 	cout << "Candidato criado. O numero de inscricao do candidato e: " << novo.getNumInscricao() << endl;
-	cout << "=============================================================\n";
+	cout << "=============================================================\n\n";
 
 	return novo;
 }
@@ -956,4 +983,22 @@ void mostrarVencedores() {
 
 		cout << C.getVencedores().at(i) << endl;
 	}
+}
+
+Data lerData(string datastr) {
+	string dia, mes, ano;
+	Data d;
+	istringstream dataS(datastr);
+
+	getline(dataS, dia, '-');
+	int diaI = stoi(dia);
+	d.setDia(diaI);
+	getline(dataS, mes, '-');
+	int mesI = stoi(mes);
+	d.setMes(mesI);
+	getline(dataS, ano);
+	int anoI = stoi(ano);
+	d.setAno(anoI);
+
+	return d;
 }
