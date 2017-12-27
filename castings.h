@@ -503,6 +503,7 @@ public:
 	
 	//
 	priority_queue<Candidato*> &getEntrevistas();
+	void adicionarEntrevista(Candidato * c1);
 	void setEntrevistas(priority_queue<Candidato*> entrevista);
 
 	//
@@ -711,10 +712,10 @@ public:
 	vector<string>getGeneros();
 
 	void adicionarGenero(string genero);
-
-	unordered_set<Candidato*> getIndisponiveis() const;
-
+	
+	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
 	void adicionarIndisponivel(Candidato * c1);
+	void informacao_genero_queue(string genero);
 };
 
 /**

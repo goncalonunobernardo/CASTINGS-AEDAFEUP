@@ -94,13 +94,15 @@ bool Jurado::operator==(Jurado & j1)
 
 int Sessao::ids = 0;
 
-Sessao::Sessao() { this->id = ++ids; }
+Sessao::Sessao() { this->id = ++ids; 
+
+
+}
 
 Sessao::Sessao(string ficheiro_sessao)
 {
 	string concorrentes_I, inicial_temp, concorrentes_F, final_temp, jurados_S, resp, jurado_push;
 	string d, dia, mes, ano;
-
 	istringstream sessaoStream(ficheiro_sessao);
 	sessaoStream >> id;
 	sessaoStream.ignore(1000, ';');
@@ -116,6 +118,7 @@ Sessao::Sessao(string ficheiro_sessao)
 	{
 		inicial_temp = inicial_temp.substr(1, inicial_temp.size()-2);
 		concorrentes_iniciais.push_back(inicial_temp);
+
 	}
 	getline(sessaoStream, concorrentes_F, ';');
 	istringstream concorrentesF_stream(concorrentes_F);
@@ -256,10 +259,13 @@ bool Sessao::juradoPresente(string nome)
 	return false;
 }
 
+
+
 bool Sessao::operator<(Sessao & s1)
 {
 	if (s1.getGenero() == this->genero)
 	return (this->data < s1.getData());
+	else return (this->genero < s1.getGenero());
 }
 
 priority_queue<Candidato*>& Sessao::getEntrevistas()
@@ -270,6 +276,11 @@ priority_queue<Candidato*>& Sessao::getEntrevistas()
 void Sessao::setEntrevistas(priority_queue<Candidato*> entrevista)
 {
 	this->entrevistas = entrevista;
+}
+
+void Sessao::adicionarEntrevista(Candidato * c1)
+{
+	entrevistas.push(c1);
 }
 
 
@@ -357,6 +368,7 @@ void Candidato::adicionarSessao(Sessao &s1) {
 	sessoes.push_back(s1);
 }
 
+
 vector<Pontuacao> Candidato::getPontuacoes()
 {
 	return pontuacoes;
@@ -390,24 +402,23 @@ double Candidato::getPontuacao(int sessaoId, int fase) {
 	return -1;
 }
 
-pair<pair<Data, Data>, string> Candidato::getIndisponibilidade() const {
-	return indisponibilidade;
-}
-
-void Candidato::setIndisponibilidade(pair<pair<Data, Data>, string> indisp) {
-	indisponibilidade = indisp;
-}
-
-void Candidato::setIndisponibilidade(Data dataI, Data dataF, string razao) {
-	pair<Data, Data> periodo(dataI, dataF);
-	pair<pair<Data, Data>, string> indisp(periodo, razao);
-	setIndisponibilidade(indisp);
-}
-
 // Classe Castings
 
 Castings::Castings() {}
 
+pair<pair<Data, Data>, string> Candidato::getIndisponibilidade() const {
+	return indisponibilidade;
+}
+
+void Candidato::setIndisponibilidade(pair<pair<Data, Data>, string> indisp) {
+	indisponibilidade.first.first = indisp.first.first;	indisponibilidade.first.second = indisp.first.second;	indisponibilidade.second = indisp.second;
+}
+
+void Candidato::setIndisponibilidade(Data dataI, Data dataF, string razao) {
+	pair<Data, Data> periodo(dataI, dataF);
+	pair<pair<Data, Data>, string> indisp(periodo, razao);
+	setIndisponibilidade(indisp);
+}
 Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes)
 {
 	this->ficheiroCandidatos = ficheiroCandidatos;
@@ -729,9 +740,24 @@ void Castings::setUpSessoes()
 {
 	ifstream file(ficheiroSessoes);
 	string sessao;
+	Sessao aux;
+	int count = 0;
 	sessao.clear();
 	while (getline(file, sessao)) {
-		sessoes.push_back(Sessao(sessao));
+		priority_queue<Candidato*>eq;
+		aux = Sessao(sessao);
+		for (size_t count = 0; count < Sessao(sessao).getConcorrentes_iniciais().size(); count++) {
+			for (size_t i = 0; i < candidatos.size(); i++) {
+				string temp = candidatos.at(i)->getNome();
+				string x = aux.getConcorrentes_iniciais().at(count);
+				if (candidatos.at(i)->getNome() == aux.getConcorrentes_iniciais().at(count)) {
+					candidatos.at(i)->adicionarSessao(aux);
+					aux.adicionarEntrevista(candidatos.at(i));
+			
+				}
+			}
+		}
+		sessoes.push_back(aux);
 	}
 }
 
@@ -741,9 +767,12 @@ void Castings::setUpPontuacoes()
 	string pontuacao;
 	while (getline(file, pontuacao)) {
 		pontuacoes.push_back(Pontuacao(pontuacao));
-		
+
 	}
 }
+
+
+
 
 bool Castings::tornaJuradoResponsavel(Jurado * j1, Sessao &s1) {
 	size_t i = sessaoExiste(s1), j = juradoExisteSessao(j1, s1);
@@ -937,7 +966,6 @@ void Castings::atribuirPontuacao(Sessao & s1) {
 	}
 	
 }
-
 void Castings::eliminaJuradoSessao(string nome, Sessao & s1)
 {
 	int index = -1;
@@ -967,7 +995,6 @@ void Castings::adicionaSessao(Sessao s1)
 {
 	sessoes.push_back(s1);
 }
-
 void Castings::eliminarSessao()
 {
 	Sessao s1;
@@ -1028,20 +1055,38 @@ void Castings::adicionarGenero(string genero)
 	generos.push_back(genero);
 }
 
-unordered_set<Candidato*> Castings::getIndisponiveis() const {
-	return indisponiveis;
+void Castings::informacao_genero_queue(string genero)
+{
+	priority_queue<Candidato*>aux;
+	for (size_t i = 0; i < sessoes.size(); i++) {
+		if (sessoes.at(i).getGenero() == genero) {
+			aux = sessoes.at(i).getEntrevistas();
+			cout << sessoes.at(i).getFase() << endl;
+			cout << sessoes.at(i).getData() << endl;
+			while (!aux.empty()) {
+				cout << aux.top() << endl;
+				aux.pop();
+			}
+
+		}
+	}
 }
 
-void Castings::adicionarIndisponivel(Candidato * c1) {
-	indisponiveis.insert(c1);
-}
 
-// Classe Pontuacao
+
+unordered_set<Candidato*,hstr,eqstr> Castings::getIndisponiveis() const {
+	return indisponiveis;
+}
+
+void Castings::adicionarIndisponivel(Candidato * c1) {
+	indisponiveis.insert(c1);
+}
 
 Pontuacao::Pontuacao()
 {
 }
 
+// Classe Pontuacao
 Pontuacao::Pontuacao(string ficheiroPontuacao) {
 	istringstream pontuacaoStream(ficheiroPontuacao);
 	string id, fase, nome, p1, p2, p3, pontuacoesS;
@@ -1062,6 +1107,8 @@ Pontuacao::Pontuacao(string ficheiroPontuacao) {
 	}
 
 }
+
+
 
 Pontuacao::Pontuacao(string nomeCandidato, int id_sessao, int fase, vector<int> classificacoes)
 {

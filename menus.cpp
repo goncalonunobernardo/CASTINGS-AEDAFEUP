@@ -23,11 +23,12 @@ int main() {
 
 	//Funcao para tratar do Menu Principal
 	//C.informacao_map();
-	/*string genero;
+	string genero;
 	cin >> genero;
 	cout << endl;
-	C.informacao_genero(genero);*/
-	Menu();
+	C.informacao_genero_queue(genero);
+
+	//Menu();
 	system("PAUSE");
 	return 0;
 }
