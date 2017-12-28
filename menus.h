@@ -39,6 +39,7 @@ void Menu_Artes();
 /**
 @brief function to end program
 */
+void Menu_Alterar();
 void Termina_Programa();
 /**
 @brief function to display option on what files to save
@@ -71,7 +72,7 @@ Sessao criar_Sessao();
 /**
 @brief object to create Dates
 */
-Data dataSessao();
+Data data();
 /**
 @brief object to create Sessions
 */

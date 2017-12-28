@@ -716,6 +716,10 @@ public:
 	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
 	void adicionarIndisponivel(Candidato * c1);
 	void informacao_genero_queue(string genero);
+	void alterarMorada(string nome, string morada);
+	void alterarGenero(string nome, string genero);
+	void alterarDataNascimento(string nome, Data data);
+	void sort_map();
 };
 
 /**

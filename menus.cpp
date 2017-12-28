@@ -22,13 +22,8 @@ int main() {
 	C.setUpPontuacoes();
 
 	//Funcao para tratar do Menu Principal
-	//C.informacao_map();
-	string genero;
-	cin >> genero;
-	cout << endl;
-	C.informacao_genero_queue(genero);
 
-	//Menu();
+	Menu();
 	system("PAUSE");
 	return 0;
 }
@@ -63,9 +58,10 @@ void Menu_Principal() {
 	cout << "Por favor escolha um numero como opcao. \n";
 	cout << " 1) Adicionar...\n";
 	cout << " 2) Remover...\n";
-	cout << " 3) Informacoes.\n";
-	cout << " 4) Gravar Ficheiro\n";
-	cout << " 5) Exibir vencedores \n";
+	cout << " 3) Alterar...\n";
+	cout << " 4) Informacoes.\n";
+	cout << " 5) Gravar Ficheiro\n";
+	cout << " 6) Exibir vencedores \n";
 	cout << " 0) Terminar programa.\n";
 	cout << "=============================================================================================================\n";
 	while (!cin.fail())
@@ -83,12 +79,15 @@ void Menu_Principal() {
 			Menu_Remover();
 			break;
 		case 3:
-			Menu_Informacoes();
+			Menu_Alterar();
 			break;
 		case 4:
-			Menu_Gravar_Ficheiro();
+			Menu_Informacoes();
 			break;
 		case 5:
+			Menu_Gravar_Ficheiro();
+			break;
+		case 6:
 			mostrarVencedores();
 			Menu_Principal();
 			break;
@@ -138,6 +137,7 @@ void Menu_Adicionar() {
 			}
 			try {
 				C.adicionaCandidato(&novo);
+				
 			}
 			catch (CandidatoRepetido c1) {
 				c1.handler();
@@ -160,7 +160,7 @@ void Menu_Adicionar() {
 			}
 			cout << endl;
 			s1.setGenero(genero);
-			s1.setData(dataSessao());
+			s1.setData(data());
 			try {
 				C.adicionaCandidatoSessao(&novo, s1);
 			}
@@ -211,7 +211,7 @@ void Menu_Adicionar() {
 				cin >> genero;
 				cout << endl;
 				s1.setGenero(genero);
-				s1.setData(dataSessao());
+				s1.setData(data());
 				C.adicionaJuradoSessao(nome(), s1);
 			}
 			catch (JuradoInexistente jurado) {
@@ -246,7 +246,7 @@ void Menu_Adicionar() {
 				cin >> genero;
 				cout << endl;
 				s1.setGenero(genero);
-				s1.setData(dataSessao());
+				s1.setData(data());
 				C.atribuirPontuacao(s1);
 			}
 			catch (JuradosIncompleto jurado) {
@@ -333,7 +333,7 @@ void Menu_Remover() {
 				cin >> genero;
 				cout << endl;
 				s1.setGenero(genero);
-				s1.setData(dataSessao());
+				s1.setData(data());
 				C.eliminaCandidatoSessao(nome(), s1);
 			}
 			catch (CandidatoInexistente candidato) {
@@ -373,7 +373,7 @@ void Menu_Remover() {
 				cin >> genero;
 				cout << endl;
 				s1.setGenero(genero);
-				s1.setData(dataSessao());
+				s1.setData(data());
 				C.eliminaJuradoSessao(nome(), s1);
 			}
 			catch (JuradoInexistente jurado) {
@@ -390,7 +390,7 @@ void Menu_Remover() {
 			cout << "Jurado removido da Sessao... \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
 			Menu_Principal();
-
+			break;
 		case 5:
 			try {
 				C.eliminarSessao();
@@ -427,6 +427,81 @@ void InvalidInputMenu() {
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		Menu_Principal();
+	}
+}
+void Menu_Alterar()
+{
+	cout << "=============================================================\n";
+	cout << "Indique o elemento que pretende alterar ao Candidato: \n";
+	cout << "Por favor escolha um numero como opcao. \n";
+	cout << "1) Data de nascimento\n";
+	cout << "2) Morada\n";
+	cout << "3) Genero\n";
+	cout << "0) Menu Principal\n";
+	cout << "=============================================================\n";
+	int opcao;
+	string genero, morada, nome_a;
+	Data data_a;
+	while (!cin.fail()) {
+		cin >> opcao;
+		switch (opcao) {
+		case 1:
+			nome_a = nome();
+			data_a = data();
+			try {
+				C.alterarDataNascimento(nome_a, data_a);
+			}
+			catch (CandidatoInexistente candidato) {
+				candidato.handler();
+				Menu_Alterar();
+			}
+			C.sort_map();
+			cout << "===============================================================\n";
+			cout << "Data de nascimento alterada... \nRetornando ao Menu Principal...\n";
+			cout << "===============================================================\n";
+			Menu_Principal();
+			break;
+		case 2:
+			nome_a = nome();
+			cout << "Morada : ";
+			getline(cin, morada);
+			cout << endl;
+			try {
+				C.alterarMorada(nome_a, morada);
+			}
+			catch (CandidatoInexistente candidato) {
+				candidato.handler();
+				Menu_Alterar();
+			}
+			C.sort_map();
+			cout << "===============================================================\n";
+			cout << "Morada alterada... \nRetornando ao Menu Principal...\n";
+			cout << "===============================================================\n";
+			Menu_Principal();
+			break;
+		case 3:
+			nome_a = nome();
+			cout << "Genero: ";
+			getline(cin, genero);
+			cout << endl;
+			try {
+				C.alterarGenero(nome_a, genero);
+			}
+			catch (CandidatoInexistente candidato) {
+				candidato.handler();
+				Menu_Alterar();
+			}
+			C.sort_map();
+			cout << "===============================================================\n";
+			cout << "Genero alterado... \nRetornando ao Menu Principal...\n";
+			cout << "===============================================================\n";
+			Menu_Principal();
+			break;
+		case 0:
+			Menu_Principal();
+			break;
+
+		}
 	}
 }
 void Termina_Programa() {
@@ -615,9 +690,10 @@ void Grava_Ficheiro_Candidatos() {
 
 	Ficheiro_Candidato.open(ficheiro_candidatos);
 
-	for (unsigned int i = 0; i < C.getCandidatos().size(); i++)
-	{
-		Ficheiro_Candidato << C.getCandidatos().at(i)->getNome() << " ; " << C.getCandidatos().at(i)->getMorada() << " ; " << C.getCandidatos().at(i)->getGenero() << " ; " << C.getCandidatos().at(i)->getDataNascimento().getDia() << "-" << C.getCandidatos().at(i)->getDataNascimento().getMes() << "-" << C.getCandidatos().at(i)->getDataNascimento().getAno() << endl;
+	for (auto it : C.getCandidatos_genero()) {
+
+		Ficheiro_Candidato << it.second->getNome() << " ; " << it.second->getMorada() << " ; " << it.second->getGenero() << " ; " << it.second->getDataNascimento() << endl;
+
 	}
 	Ficheiro_Candidato.close();
 	cout << "\n\nFicheiro gravado! Retornando ao Menu Principal...\n";
@@ -695,12 +771,6 @@ Candidato criar_Candidato() {
 	for (auto it : C.getCandidatos_genero()) {
 		if (it.second->getNome() == nome)throw CandidatoRepetido(nome);
 	}
-	/*int j = C.getCandidatos().size();
-	for (size_t i = 0; i < C.getCandidatos().size(); i++) {
-		string n = C.getCandidatos().at(i)->getNome();
-		if (C.getCandidatos().at(i)->getNome() == nome)
-			throw CandidatoRepetido(nome);
-	}*/
 
 	Candidato novo;
 	novo.setNome(nome);
@@ -907,7 +977,7 @@ void getCandidatosparaEntrevistas(string genero)
 	}
 }
 
-Data dataSessao() {
+Data data() {
 	string datastr, dia, mes, ano;
 	Data d;
 	cout << "Data (dd-mm-aaaa): ";
@@ -932,7 +1002,7 @@ Sessao criarSessao() {
 	int continuar = 0;
 	string responsavel;
 	s1.setFase(1);
-	s1.setData(dataSessao());
+	s1.setData(data());
 	cout << "Genero: ";
 	cin >> genero;
 	s1.setGenero(genero);

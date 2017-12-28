@@ -1072,6 +1072,85 @@ void Castings::informacao_genero_queue(string genero)
 	}
 }
 
+void Castings::alterarMorada(string nome, string morada)
+{
+	int op;
+	for (auto it = candidatos_genero.begin(); it != candidatos_genero.end(); it++)
+	{
+		if (it->second->getNome() == nome) {
+			auto aux = it;
+			candidatos_genero.erase(it);
+			cout << "Morada atual : " << (*aux).second->getMorada() << endl;
+			cout << "Pretende alterar ? SIM[0] NAO[1]" << endl;
+			cin >> op;
+			if (op == 0) {
+				(*aux).second->setMorada(morada);
+				candidatos_genero.insert(pair<string, Candidato*>((*aux).first, (*aux).second));
+			}
+			return;
+		}
+
+	}
+	throw CandidatoInexistente(nome);
+}
+
+void Castings::alterarGenero(string nome, string genero)
+{
+	int op;
+	for (auto it = candidatos_genero.begin(); it != candidatos_genero.end(); it++)
+	{
+		if (it->second->getNome() == nome) {
+			auto aux = it;
+			candidatos_genero.erase(it);
+			cout << "Genero atual : " << (*aux).second->getGenero() << endl;
+			cout << "Pretende alterar ? SIM[0] NAO[1]" << endl;
+			cin >> op;
+			if (op == 0) {
+				(*aux).second->setGenero(genero);
+				candidatos_genero.insert(pair<string, Candidato*>((*aux).first, (*aux).second));
+			}
+			return;
+		}
+
+	}
+	throw CandidatoInexistente(nome);
+}
+
+void Castings::alterarDataNascimento(string nome, Data data)
+{
+	int op;
+	for (auto it = candidatos_genero.begin(); it != candidatos_genero.end(); it++)
+	{
+		if (it->second->getNome() == nome) {
+			auto aux = it;
+			candidatos_genero.erase(it);
+			cout << "Data de nascimento atual : " << (*aux).second->getDataNascimento() << endl;
+			cout << "Pretende alterar ? SIM[0] NAO[1]" << endl;
+			cin >> op;
+			if (op == 0) {
+				(*aux).second->setDataNascimento(data);
+				candidatos_genero.insert(pair<string, Candidato*>((*aux).first, (*aux).second));
+			}
+			return;
+		}
+	}
+	throw CandidatoInexistente(nome);
+}
+
+void Castings::sort_map()
+{
+	vector<Candidato*>temp;
+	for (auto it : candidatos_genero) {
+		temp.push_back(it.second);
+	}
+	candidatos_genero.erase(candidatos_genero.begin(), candidatos_genero.end());
+	sort(temp.begin(), temp.end(), comparaDataNascimento);
+	for (size_t i = 0; i < temp.size(); i++) {
+		candidatos_genero.insert(pair <string, Candidato*>(temp.at(i)->getGenero(), temp.at(i)));
+	}
+}
+
+
 
 
 unordered_set<Candidato*,hstr,eqstr> Castings::getIndisponiveis() const {
