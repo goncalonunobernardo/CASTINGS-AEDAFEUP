@@ -303,6 +303,26 @@ void Sessao::setFase(int fase) {
 	this->fase = fase;
 }
 
+//NOTCOMPLETE
+void Sessao::realizar_entrevista(string genero, unsigned int n_entrevistas)
+{
+	priority_queue<Candidato*> aux = entrevistas;
+	unsigned int i = 0;
+	//current interview must be different than the second one, and so on...
+	aux.pop();
+
+	while(i < n_entrevistas)
+	{
+		if (entrevistas.top() != aux.top())
+		{
+			entrevistas.pop();
+			i++;
+		}
+		else
+			break;
+	}
+}
+
 // Classe Candidato
 
 int Candidato::numInscricoesAtual = 0;

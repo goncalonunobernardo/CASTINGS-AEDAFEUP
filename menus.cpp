@@ -153,11 +153,6 @@ void Menu_Adicionar() {
 			novo.setNome(nome());
 			cout << "Genero da sessao: ";
 			cin >> genero;
-			if (genero != "Escultura" && genero != "Danca" && genero != "Teatro" && genero != "Musica" && genero != "Malabarismo" && genero != "Cinema" && genero != "Speedrun" && genero != "Comedia")
-			{
-				cout << "Tente novamente!... Retornando ao Menu Principal\n";
-				Menu_Principal();
-			}
 			cout << endl;
 			s1.setGenero(genero);
 			s1.setData(data());
@@ -519,6 +514,8 @@ void Menu_Informacoes() {
 	string genero;
 	opcao = -1;
 	int opcaoCandidato = -1;
+	unsigned int n_entrevistas;
+	Sessao s1;
 	cout << "=============================================================\n";
 	cout << "Indique o elemento que pretende visualizar no programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
@@ -527,6 +524,7 @@ void Menu_Informacoes() {
 	cout << "3) Tipos de Sessao\n";
 	cout << "4) Sessoes\n";
 	cout << "5) Entrevistas\n";
+	cout << "6) Realizar Entrevista";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -569,9 +567,25 @@ void Menu_Informacoes() {
 			txt_sessoes();
 			break;
 		case 5:
-			cout << "Insira o género da arte cujas entrevistas vão ocorrer: ";
+			cout << "Insira o genero da arte cujas entrevistas vao ocorrer: ";
 			cin >> genero;
 			getCandidatosparaEntrevistas(genero);
+		case 6:
+			cout << "Insira o genero da arte cujas entrevistas vao ocorrer: ";
+			cin >> genero;
+			cout << "Pretende realizar quantas entrevistas?\n";
+			cin >> n_entrevistas;
+			if (n_entrevistas > s1.getNumMaxCandidatos())
+			{
+				cout << "Valor ultrapassa limite de candidatos...Retornando ao Menu Principal...";
+				Menu_Principal();
+			}
+			s1.realizar_entrevista(genero, n_entrevistas);
+			cout << "===============================================================\n";
+			cout <<  "Entrevista realizada!!! \nRetornando ao Menu Principal...\n";
+			cout << "===============================================================\n";
+			Menu_Principal();
+			break;
 		default:
 			InvalidInputMenu();
 			break;
