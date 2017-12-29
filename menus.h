@@ -37,9 +37,12 @@ void Menu_Informacoes();
 */
 void Menu_Artes();
 /**
-@brief function to end program
+@brief function to change elements
 */
 void Menu_Alterar();
+/**
+@brief function to end program
+*/
 void Termina_Programa();
 /**
 @brief function to display option on what files to save
@@ -93,11 +96,17 @@ void txt_sessoes();
 @brief function to show winners of the auditions
 */
 void mostrarVencedores();
+/**
+@brief function in order to create new genres
+*/
 void generoX();
-string nome();
-
+/**
+@brief function to read the data of an event
+*/
 Data lerData(string datastr);
 
-//
+/**
+@brief function to get candidates info for interviews
+*/
 void getCandidatosparaEntrevistas(string genero);
-//
+string nome();

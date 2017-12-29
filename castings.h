@@ -232,20 +232,22 @@ public:
 	@brief function to set the date in which the candidates was born
 	@param data - the date in which the candidates was born
 	*/
-
-	pair<pair<Data, Data>, string> getIndisponibilidade() const;
-
 	void setDataNascimento(Data data);
 	/**
 	@brief function to set the number of sign-ups of a candidate
 	@param num - the number of sign-ups of a candidate
 	*/
 	void setNumInscricoes(int num); 
-
+	/**
+	@brief function to set the unavailability of sessions
+	@param indisp - string
+	*/
 	void setIndisponibilidade(pair<pair<Data, Data>, string> indisp);
-
+	/**
+	@brief function to set the unavailability of sessions
+	@param Data: dataI, dataF, razao
+	*/
 	void setIndisponibilidade(Data dataI, Data dataF, string razao);
-
 	/**
 	@brief function to get all sessions, according to the vector estabilished
 	@return the vector all sessions available
@@ -267,11 +269,22 @@ public:
 	@return the vector scores of the candidates, according to the vector
 	*/
 	vector<Pontuacao> getPontuacoes();
-
+	/**
+	@brief function to overload the < operator
+	@param Candidato *c1 - the candidate estabilished
+	@return True if the session of one candidate is more recent than one another
+	*/
 	bool operator<(Candidato *c1);
+	/**
+	@brief function to overload the << operator
+	@param ostream &os, const Candidato *c1
+	@return an ostream with the information of a candidate
+	*/
 	friend ostream & operator<<(ostream &os, const Candidato *c1);
 
-	
+	//
+	pair<pair<Data, Data>, string> getIndisponibilidade() const;
+	//
 };
 
 
@@ -500,13 +513,21 @@ public:
 	@return True if one session is more recent to another existent
 	*/
 	bool operator<(Sessao &s1);
-	
-	//
-	priority_queue<Candidato*> &getEntrevistas();
+	/**
+	@brief function to add an interview to the priority queue
+	@param Candidato *c1 - candidate in which has the interview
+	*/
 	void adicionarEntrevista(Candidato * c1);
+	/**
+	@brief function to set the interviews of a certain genre
+	@param priority_queue<Candidato*> entrevista - a priority queue of candidates in which it represents the interviews available of each genre
+	*/
 	void setEntrevistas(priority_queue<Candidato*> entrevista);
-
-	//
+	/**
+	@brief function to get the interviews according to a genre and according to the vector
+	@return the vector of the interviews according to a genre and according to the vector
+	*/
+	priority_queue<Candidato*> &getEntrevistas();
 };
 
 
@@ -631,7 +652,7 @@ public:
 	*/
 	void setUpSessoes();
 	/**
-		@brief function to open the Scores' file and push the information to the corresponding vector
+	@brief function to open the Scores' file and push the information to the corresponding vector
 	*/
 	void setUpPontuacoes();
 	/**
@@ -706,20 +727,48 @@ public:
 	@brief function that show information present in binary tree
 	*/
 	void informacao_map();
-
+	/**
+	@brief function that show information about all genres
+	@param string genero - genre
+	*/
 	void informacao_genero(string genero);
-
+	/**
+	@brief function to get total genres made, according to the vector
+	@return the vector of total genres made
+	*/
 	vector<string>getGeneros();
-
+	/**
+	@brief function that adds a new genre to the program
+	@param string genero - genre
+	*/
 	void adicionarGenero(string genero);
+	/**
+	@brief function that checks the information of a genre placed in queue
+	@param string genero - the genre in which we want to know information about
+	*/
+	void informacao_genero_queue(string genero);
+	/**
+	@brief function that changes the address of a candidate
+	@param string nome - name of candidate; string morada - address of candidate
+	*/
+	void alterarMorada(string nome, string morada);
+	/**
+	@brief function that changes the genre in which the candidate is participating
+	@param string nome - name of candidate; string genero - genre of the candidate
+	*/
+	void alterarGenero(string nome, string genero);
+	/**
+	@brief function that changes the birthdate of a candidate
+	@param string nome - name of candidate; Data data - the date in which we want to set
+	*/
+	void alterarDataNascimento(string nome, Data data);
 	
+	
+	//
+	void sort_map();
 	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
 	void adicionarIndisponivel(Candidato * c1);
-	void informacao_genero_queue(string genero);
-	void alterarMorada(string nome, string morada);
-	void alterarGenero(string nome, string genero);
-	void alterarDataNascimento(string nome, Data data);
-	void sort_map();
+	//
 };
 
 /**
@@ -735,5 +784,9 @@ bool  comparaDataNascimento(Candidato *c1, Candidato *c2);
 */
 ostream & operator<<(ostream & os, const vector<string> & c1);
 
-
+/**
+@brief function to compare the dates of two sessions in order to sort them out
+@param Sessao &s1 - 1st session; Sessao &s2 - 2nd session
+@return True if one session is more recent than one another
+*/
 bool comparaDataSessao(Sessao &s1, Sessao &s2);
