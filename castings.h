@@ -531,6 +531,11 @@ public:
 	@return the vector of the interviews according to a genre and according to the vector
 	*/
 	priority_queue<Candidato*> &getEntrevistas();
+	/**
+	@brief function to remove interviews that are NOW complete
+	@param string genero - genre of the session in regards to the interviews, unsigned int n_entrevistas - number of interviews in which the user wants to do
+	*/
+	void realizar_entrevista(string genero, unsigned int n_entrevistas);
 };
 
 
