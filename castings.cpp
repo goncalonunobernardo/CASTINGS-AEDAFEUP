@@ -311,18 +311,19 @@ void Sessao::realizar_entrevista(string genero, unsigned int n_entrevistas)
 	//current interview must be different than the second one, and so on...
 	aux.pop();
 
-	while(i < n_entrevistas)
+	while (i < n_entrevistas)
 	{
 		if (entrevistas.top() != aux.top())
 		{
 			if (data_atual < data)
 			{
-					entrevistas.pop();
-					i++;
-					aux.pop();
+				entrevistas.pop();
+				i++;
+				aux.pop();
 			}
-		else
-			break;
+			else
+				break;
+		}
 	}
 }
 
