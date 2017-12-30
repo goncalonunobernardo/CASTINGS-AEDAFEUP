@@ -19,7 +19,7 @@ int main() {
 	C.mostrar_data_atual();
 	//Funcao para tratar do Menu Principal
 
-	//Menu();
+	Menu();
 	system("PAUSE");
 	return 0;
 }
@@ -520,7 +520,7 @@ void Menu_Informacoes() {
 	cout << "3) Tipos de Sessao\n";
 	cout << "4) Sessoes\n";
 	cout << "5) Entrevistas\n";
-	cout << "6) Realizar Entrevista";
+	cout << "6) Realizar Entrevista\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -942,41 +942,36 @@ void getCandidatosparaEntrevistas(string genero)
 
 	for (size_t i = 0; i < C.getSessao().size(); i++)
 	{
+		vector<Candidato*> temp_fila;
 		if (C.getSessao().at(i).getGenero() == genero)
 		{
-			vector<Candidato*> temp_fila;
-			while (!C.getSessao().at(i).getEntrevistas().empty())
+			priority_queue<Candidato*> aux;
+			aux = C.getSessao().at(i).getEntrevistas();
+		
+			while (!aux.empty())
 			{
-				temp_fila.push_back(C.getSessao().at(i).getEntrevistas().top());
-				C.getSessao().at(i).getEntrevistas().pop();
+				temp_fila.push_back(aux.top());
+				aux.pop();
 			}
-			cout << "===============================================================" << endl;
-			cout << "# \t\t CANDIDATO \t\t DATA DE ENTREVISTA \t\t DATA DE SESSAO" << endl;
+			cout << "================================================================================================" << endl;
+			cout << "# \t\t CANDIDATO \t\t DATA DE ENTREVISTA \t\t\t DATA DE SESSAO" << endl;
 
 			for (size_t j = 0; j < temp_fila.size(); j++)
 			{
-				cout << "[" << j + 1 << "]\t\t" << temp_fila.at(j)->getNome() << "\t\t";
 				for (size_t k = 0; k < temp_fila.at(j)->getSessoes().size(); k++)
 				{
-					cout << "[" << j + 1 << "]\t\t" << temp_fila.at(j)->getNome() << "\t\t";
-					cout << temp_fila.at(j)->getSessoes().at(k).getData() << "\t\t";
-					/*cout << temp_fila.at(j)->getSessoes().at(j).getData().getDia() - 1 << "-";
-					cout << temp_fila.at(j).getSessoes().at(j).getData().getMes() << "-";
-					cout << temp_fila.at(j).getSessoes().at(j).getData().getAno();
-					cout << "\t\t";*/
-					cout << temp_fila.at(j)->getSessoes().at(j).getData().getDia() << "-";
-					cout << temp_fila.at(j)->getSessoes().at(j).getData().getMes() << "-";
-					cout << temp_fila.at(j)->getSessoes().at(j).getData().getAno() << endl;
+					
+					cout << "[" << k + 1 << "]\t\t" << temp_fila.at(j)->getNome() << "\t\t\t";
+					cout << temp_fila.at(j)->getSessoes().at(k).getData().getDia() - 1 << "-";
+					cout << temp_fila.at(j)->getSessoes().at(k).getData().getMes() << "-";
+					cout << temp_fila.at(j)->getSessoes().at(k).getData().getAno();
+					cout << "\t\t\t";
+					cout << temp_fila.at(j)->getSessoes().at(k).getData() << endl;
+					
 				}
 			}
 
-			cout << "===============================================================" << endl;
-
-			for (size_t j = 0; j < temp_fila.size(); j++)
-			{
-				C.getSessao().at(i).getEntrevistas().push(temp_fila.at(j));
-			}
-
+			cout << "================================================================================================" << endl;
 			cout << "\nVoltar atras? [0] SIM \t [1] MENU PRINCIPAL \n";
 			cin >> input;
 			if (input == 0)
