@@ -3,8 +3,8 @@
 
 using namespace std;
 
+Data data_atual;
 // Classe Pessoa
-
 Pessoa::Pessoa() {} // DEFAULT CONSTRUCTOR
 
 string Pessoa::getNome() const
@@ -1159,6 +1159,17 @@ unordered_set<Candidato*,hstr,eqstr> Castings::getIndisponiveis() const {
 
 void Castings::adicionarIndisponivel(Candidato * c1) {
 	indisponiveis.insert(c1);
+}
+
+void Castings::obter_data_atual()
+{
+	time_t t = time(0);   // get time now
+	struct tm * now = localtime(&t);
+	data_atual.setDia(now->tm_mday);	data_atual.setMes(now->tm_mon + 1);	data_atual.setAno(now->tm_year + 1900);}
+
+void Castings::mostrar_data_atual()
+{
+	cout << data_atual << endl;
 }
 
 Pontuacao::Pontuacao()

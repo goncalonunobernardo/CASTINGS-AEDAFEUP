@@ -6,12 +6,7 @@
 Castings C;
 int main() {
 
-	time_t t = time(0);   // get time now
-	struct tm * now = localtime(&t);
-	cout << (now->tm_year + 1900) << '-'
-		<< (now->tm_mon + 1) << '-'
-		<< now->tm_mday
-		<< endl;
+	
 	C.setFicheiroCandidatos("candidatos.txt");
 	C.setFicheiroJurados("jurados.txt");
 	C.setFicheiroPontuacoes("pontuacoes.txt");
@@ -20,10 +15,11 @@ int main() {
 	C.setUpJurados();
 	C.setUpSessoes();
 	C.setUpPontuacoes();
-
+	C.obter_data_atual();
+	C.mostrar_data_atual();
 	//Funcao para tratar do Menu Principal
 
-	Menu();
+	//Menu();
 	system("PAUSE");
 	return 0;
 }

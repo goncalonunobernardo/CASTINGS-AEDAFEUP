@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(disable:4996)
+
 
 #include <iostream>
 #include <iomanip>
@@ -20,6 +22,7 @@ class Candidato;
 class Sessao;
 class Pontuacao;
 class Castings;
+
 
 struct eqstr {
 	bool operator() (const Candidato * c1, const Candidato * c2) const {
@@ -768,7 +771,8 @@ public:
 	void sort_map();
 	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
 	void adicionarIndisponivel(Candidato * c1);
-	//
+	void obter_data_atual();
+	void mostrar_data_atual();
 };
 
 /**
