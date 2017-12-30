@@ -770,14 +770,20 @@ public:
 	@param string nome - name of candidate; Data data - the date in which we want to set
 	*/
 	void alterarDataNascimento(string nome, Data data);
-	
+	/**
+	@brief function that gets the current date
+	*/
+	void obter_data_atual();
+	/**
+	@brief function that shows the current date
+	*/
+	void mostrar_data_atual();
 	
 	//
 	void sort_map();
 	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
 	void adicionarIndisponivel(Candidato * c1);
-	void obter_data_atual();
-	void mostrar_data_atual();
+	//
 };
 
 /**

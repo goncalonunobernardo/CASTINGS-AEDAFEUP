@@ -315,8 +315,21 @@ void Sessao::realizar_entrevista(string genero, unsigned int n_entrevistas)
 	{
 		if (entrevistas.top() != aux.top())
 		{
-			entrevistas.pop();
-			i++;
+			if (data_atual.getMes() == data.getMes())
+			{
+				if (data_atual.getDia() < data.getDia())
+				{
+					entrevistas.pop();
+					i++;
+					aux.pop();
+				}
+			}else
+				if (data_atual.getMes() < data.getMes())
+				{
+					entrevistas.pop();
+					i++;
+					aux.pop();
+				}
 		}
 		else
 			break;
