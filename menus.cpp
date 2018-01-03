@@ -18,7 +18,6 @@ int main() {
 	C.obter_data_atual();
 	C.mostrar_data_atual();
 	//Funcao para tratar do Menu Principal
-
 	Menu();
 	system("PAUSE");
 	return 0;
@@ -986,7 +985,7 @@ Data data() {
 	string datastr, dia, mes, ano;
 	Data d;
 	cout << "Data (dd-mm-aaaa): ";
-	cin.ignore(1000, '\n');
+	//cin.ignore(1000, '\n');
 	getline(cin, datastr);
 	istringstream dataS(datastr);
 	getline(dataS, dia, '-');

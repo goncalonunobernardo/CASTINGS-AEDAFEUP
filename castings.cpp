@@ -1099,17 +1099,14 @@ void Castings::informacao_genero_queue(string genero)
 void Castings::alterarMorada(string nome, string morada)
 {
 	int op;
-	for (auto it = candidatos_genero.begin(); it != candidatos_genero.end(); it++)
+	for (auto it : candidatos_genero)
 	{
-		if (it->second->getNome() == nome) {
-			auto aux = it;
-			candidatos_genero.erase(it);
-			cout << "Morada atual : " << (*aux).second->getMorada() << endl;
+		if (it.second->getNome() == nome) {
+			cout << "Morada atual : " << it.second->getMorada() << endl;
 			cout << "Pretende alterar ? SIM[0] NAO[1]" << endl;
 			cin >> op;
 			if (op == 0) {
-				(*aux).second->setMorada(morada);
-				candidatos_genero.insert(pair<string, Candidato*>((*aux).first, (*aux).second));
+				it.second->setMorada(morada);
 			}
 			return;
 		}
@@ -1121,17 +1118,16 @@ void Castings::alterarMorada(string nome, string morada)
 void Castings::alterarGenero(string nome, string genero)
 {
 	int op;
-	for (auto it = candidatos_genero.begin(); it != candidatos_genero.end(); it++)
+	for (auto it : candidatos_genero)
 	{
-		if (it->second->getNome() == nome) {
-			auto aux = it;
-			candidatos_genero.erase(it);
-			cout << "Genero atual : " << (*aux).second->getGenero() << endl;
+		if (it.second->getNome() == nome) {
+			
+			
+			cout << "Genero atual : " << it.second->getGenero() << endl;
 			cout << "Pretende alterar ? SIM[0] NAO[1]" << endl;
 			cin >> op;
 			if (op == 0) {
-				(*aux).second->setGenero(genero);
-				candidatos_genero.insert(pair<string, Candidato*>((*aux).first, (*aux).second));
+				it.second->setGenero(genero);
 			}
 			return;
 		}
@@ -1143,17 +1139,15 @@ void Castings::alterarGenero(string nome, string genero)
 void Castings::alterarDataNascimento(string nome, Data data)
 {
 	int op;
-	for (auto it = candidatos_genero.begin(); it != candidatos_genero.end(); it++)
+	for (auto it : candidatos_genero)
 	{
-		if (it->second->getNome() == nome) {
-			auto aux = it;
-			candidatos_genero.erase(it);
-			cout << "Data de nascimento atual : " << (*aux).second->getDataNascimento() << endl;
+		if (it.second->getNome() == nome) {
+		
+			cout << "Data de nascimento atual : " << it.second->getDataNascimento() << endl;
 			cout << "Pretende alterar ? SIM[0] NAO[1]" << endl;
 			cin >> op;
 			if (op == 0) {
-				(*aux).second->setDataNascimento(data);
-				candidatos_genero.insert(pair<string, Candidato*>((*aux).first, (*aux).second));
+				it.second->setDataNascimento(data);
 			}
 			return;
 		}
