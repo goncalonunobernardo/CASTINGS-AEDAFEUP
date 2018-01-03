@@ -1185,11 +1185,11 @@ void Castings::adicionarIndisponivel(Candidato * c1) {
 	indisponiveis.insert(c1);
 }
 
-void Castings::obter_data_atual()
+Data Castings::obter_data_atual()
 {
 	time_t t = time(0);   // get time now
 	struct tm * now = localtime(&t);
-	data_atual.setDia(now->tm_mday);	data_atual.setMes(now->tm_mon + 1);	data_atual.setAno(now->tm_year + 1900);}
+	data_atual.setDia(now->tm_mday);	data_atual.setMes(now->tm_mon + 1);	data_atual.setAno(now->tm_year + 1900);	return data_atual;}
 
 void Castings::mostrar_data_atual()
 {

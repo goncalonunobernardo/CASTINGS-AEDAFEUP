@@ -1007,7 +1007,14 @@ Sessao criarSessao() {
 	int continuar = 0;
 	string responsavel;
 	s1.setFase(1);
-	s1.setData(data());
+	
+	Data data_aux = data();
+	Data atual = C.obter_data_atual();
+	while ((data_aux < atual) || data_aux==atual) {
+		cout << "Data invalida! Insira uma nova"<< endl;
+		data_aux = data();
+	}
+	s1.setData(data_aux);
 	cout << "Genero: ";
 	cin >> genero;
 	s1.setGenero(genero);

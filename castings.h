@@ -783,7 +783,8 @@ public:
 	void sort_map();
 	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
 	void adicionarIndisponivel(Candidato * c1);
-	//
+	Data obter_data_atual();
+	void mostrar_data_atual();
 };
 
 /**
