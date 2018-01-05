@@ -426,23 +426,42 @@ double Candidato::getPontuacao(int sessaoId, int fase) {
 	return -1;
 }
 
+void Candidato::setRazao(string razao) {
+	this->indisponibilidade.second = razao;
+}
+
 // Classe Castings
 
 Castings::Castings() {}
 
-pair<pair<Data, Data>, string> Candidato::getIndisponibilidade() const {
-	return indisponibilidade;
-}
-
-void Candidato::setIndisponibilidade(pair<pair<Data, Data>, string> indisp) {
-	indisponibilidade.first.first = indisp.first.first;	indisponibilidade.first.second = indisp.first.second;	indisponibilidade.second = indisp.second;
-}
-
-void Candidato::setIndisponibilidade(Data dataI, Data dataF, string razao) {
-	pair<Data, Data> periodo(dataI, dataF);
-	pair<pair<Data, Data>, string> indisp(periodo, razao);
-	setIndisponibilidade(indisp);
-}
+pair<pair<Data, Data>, string> Candidato::getIndisponibilidade() const {
+
+	return indisponibilidade;
+
+}
+
+
+
+void Candidato::setIndisponibilidade(pair<pair<Data, Data>, string> indisp) {
+
+	indisponibilidade.first.first = indisp.first.first;
+	indisponibilidade.first.second = indisp.first.second;
+	indisponibilidade.second = indisp.second;
+
+}
+
+
+
+void Candidato::setIndisponibilidade(Data dataI, Data dataF, string razao) {
+
+	pair<Data, Data> periodo(dataI, dataF);
+
+	pair<pair<Data, Data>, string> indisp(periodo, razao);
+
+	setIndisponibilidade(indisp);
+
+}
+
 Castings::Castings(string ficheiroCandidatos, string ficheiroJurados, string ficheiroSessoes,string ficheiroPontuacoes)
 {
 	this->ficheiroCandidatos = ficheiroCandidatos;
@@ -1169,26 +1188,45 @@ void Castings::sort_map()
 }
 
 
+unordered_set<Candidato*, hstr, eqstr> Castings::getIndisponiveis() const {
+	//for (auto lol = indisponiveis.begin(); lol != indisponiveis.end(); lol++) {
+	//	cout << (*lol)->getDataNascimento() << endl;
+	//	cout << (*lol)->getNome() << endl;
+	//}
+
+	return indisponiveis;
+}
 
 
-unordered_set<Candidato*,hstr,eqstr> Castings::getIndisponiveis() const {
-	return indisponiveis;
-}
-
-void Castings::adicionarIndisponivel(Candidato * c1) {
-	indisponiveis.insert(c1);
+
+bool Castings::adicionarIndisponivel(Candidato * c1) {
+	pair<unordered_set<Candidato*, hstr, eqstr>::iterator, bool> res;
+	res = indisponiveis.insert(c1);
+	return res.second;
 }
 
 Data Castings::obter_data_atual()
 {
 	time_t t = time(0);   // get time now
 	struct tm * now = localtime(&t);
-	data_atual.setDia(now->tm_mday);	data_atual.setMes(now->tm_mon + 1);	data_atual.setAno(now->tm_year + 1900);	return data_atual;}
+	data_atual.setDia(now->tm_mday);
+	data_atual.setMes(now->tm_mon + 1);
+	data_atual.setAno(now->tm_year + 1900);
+	return data_atual;
+}
 
 void Castings::mostrar_data_atual()
 {
 	cout << data_atual << endl;
-}
+}
+
+void Castings::updateIndisponiveis() {
+	for (auto it = indisponiveis.begin(); it != indisponiveis.end(); it++) {
+		Data d1 = (*it)->getIndisponibilidade().first.first, d2 = (*it)->getIndisponibilidade().first.second, datual = obter_data_atual();
+		if (datual<d1 || datual>d2)
+			adicionaCandidato((*it));
+	}
+}
 
 Pontuacao::Pontuacao()
 {
@@ -1285,17 +1323,17 @@ double Pontuacao::getClassificacao()
 
 // definicao da classe Data
 
-int Data::getDia()
+int Data::getDia() const
 {
 	return dia;
 }
 
-int Data::getMes()
+int Data::getMes() const
 {
 	return mes;
 }
 
-int Data::getAno()
+int Data::getAno() const
 {
 	return ano;
 }
@@ -1315,7 +1353,7 @@ void Data::setAno(int ano)
 	this->ano = ano;
 }
 
-bool Data::operator==(Data & d1)
+bool Data::operator==(Data & d1) const
 {
 	if (this->getDia() == d1.getDia() && this->getMes() == d1.getMes() && this->getAno() == d1.getAno())return true;
 	return false;
@@ -1333,6 +1371,12 @@ bool Data::operator<(Data & d1) const
 	return false;
 }
 
+bool Data::operator>(Data &d1) const {
+	if (!((*this) < d1) && !((*this) == d1))
+		return true;
+	return false;
+}
+
 void Data::operator=(Data & d1)
 {
 	this->dia = d1.dia;
@@ -1343,7 +1387,7 @@ void Data::operator=(Data & d1)
  
 ostream & operator<<(ostream & os, const Data & d1)
 {
-	 os << d1.dia << "-" << d1.mes << "-" << d1.ano;
+	 os << setfill('0') << setw(2) << d1.dia << "-" << setfill('0') << setw(2) << d1.mes << "-" << d1.ano;
 	 return os;
 
 	// TODO: inserir instrucao de retorno aqui

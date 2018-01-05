@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "castings.h"
+#include <unordered_set>
 using namespace std;
 
 /**
@@ -110,3 +111,7 @@ Data lerData(string datastr);
 */
 void getCandidatosparaEntrevistas(string genero);
 string nome();
+/**
+@brief function to show unavailable candidates at the time
+*/
+void mostrarIndisponiveis();

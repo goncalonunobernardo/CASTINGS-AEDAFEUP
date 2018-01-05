@@ -124,6 +124,8 @@ void Menu_Adicionar() {
 		case 1:
 			try {
 				novo = criar_Candidato();
+
+				C.getIndisponiveis();
 			}
 			catch (CandidatoRepetido c1) {
 				c1.handler();
@@ -131,7 +133,8 @@ void Menu_Adicionar() {
 				break;
 			}
 			try {
-				C.adicionaCandidato(&novo);
+				if(novo.getIndisponibilidade().second=="")
+					C.adicionaCandidato(&novo);
 				
 			}
 			catch (CandidatoRepetido c1) {
@@ -142,6 +145,7 @@ void Menu_Adicionar() {
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado ao CASTINGTORIUM 200! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
+
 			Menu_Principal();
 			break;
 		case 2:
@@ -511,6 +515,7 @@ void Menu_Informacoes() {
 	int opcaoCandidato = -1;
 	unsigned int n_entrevistas;
 	Sessao s1;
+
 	cout << "=============================================================\n";
 	cout << "Indique o elemento que pretende visualizar no programa: \n";
 	cout << "Por favor escolha um numero como opcao. \n";
@@ -520,6 +525,7 @@ void Menu_Informacoes() {
 	cout << "4) Sessoes\n";
 	cout << "5) Entrevistas\n";
 	cout << "6) Realizar Entrevista\n";
+	cout << "7) Candidatos indisponíveis\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -581,6 +587,12 @@ void Menu_Informacoes() {
 			cout << "===============================================================\n";
 			Menu_Principal();
 			break;
+
+		case 7:
+			mostrarIndisponiveis();
+			Menu_Principal();
+			break;
+
 		default:
 			InvalidInputMenu();
 			break;
@@ -805,7 +817,7 @@ Candidato criar_Candidato() {
 
 	char i;
 	string lixo;
-	cout << "Indisponibilidade para sessões? (s/n) \n";
+	cout << "Indisponibilidade para sessoes? (s/n) \n";
 	cin >> i;
 	getline(cin, lixo);
 	
@@ -814,7 +826,7 @@ Candidato criar_Candidato() {
 
 	switch (i) {
 	case 's':
-		cout << "Período de indisponibilidade: \n data de começo: (dd-mm-aaaa) \n";
+		cout << "Periodo de indisponibilidade: \n data de comeco: (dd-mm-aaaa) \n";
 		getline(cin, strdata);
 		d1 = lerData(strdata);
 		cout << "data de fim: (dd-mm-aaaa) \n";
@@ -824,7 +836,11 @@ Candidato criar_Candidato() {
 		getline(cin, razao);
 		novo.setIndisponibilidade(d1, d2, razao);
 		C.adicionarIndisponivel(&novo);
+		C.getIndisponiveis();
 		break;
+
+	case 'n':
+		novo.setRazao("");
 		
 	default:
 		break;
@@ -1083,4 +1099,35 @@ Data lerData(string datastr) {
 	d.setAno(anoI);
 
 	return d;
+}
+
+void mostrarIndisponiveis() {
+
+	//C.updateIndisponiveis();
+	int max = 0;
+
+	if (C.getIndisponiveis().empty()) {
+		cout << "Neste momento nao existem candidatos indisponiveis. \n" << endl;
+		return;
+	}
+
+	unordered_set<Candidato*, hstr, eqstr> indisps = C.getIndisponiveis();
+
+	for (auto it = indisps.begin(); it != indisps.end(); it++) {
+		Candidato * cand = (*it);
+		cout << cand->getDataNascimento();
+	}
+
+	cout << setiosflags(ios::left) << setw(max) << "CANDIDATO";
+	cout << "|" << setiosflags(ios::left) << setw(25) << setfill(' ') << "INDISPONIBILIDADE";
+	cout << "|" << setiosflags(ios::left) << "MOTIVO \n";
+
+	for (auto it = C.getIndisponiveis().begin(); it != C.getIndisponiveis().end(); it++) {
+		Candidato * cand = (*it);
+		cout << setiosflags(ios::left) << setw(max) << cand->getNome();
+		cout << "|" << setiosflags(ios::left) << setw(25) << cand->getIndisponibilidade().first.first << " - " << cand->getIndisponibilidade().first.second;
+		cout << "|" << setiosflags(ios::left) << cand->getIndisponibilidade().second << endl;
+	}
+
+	cout << "\n Retornando ao menu principal... \n \n";
 }

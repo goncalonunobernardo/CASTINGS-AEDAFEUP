@@ -26,7 +26,7 @@ class Castings;
 
 struct eqstr {
 	bool operator() (const Candidato * c1, const Candidato * c2) const {
-		return c1 == c2;
+		return (c1 == c2);
 	}
 };
 
@@ -46,17 +46,17 @@ public:
 	@brief function to get the day
 	@return the day
 	*/
-	int getDia();
+	int getDia() const;
 	/**
 	@brief function to get the month
 	@return the month of the phase
 	*/
-	int getMes();
+	int getMes() const;
 	/**
 	@brief function to get the year
 	@return the year of the phase
 	*/
-	int getAno();
+	int getAno() const;
 	/**
 	@brief function to set the day
 	@param dia - The day to set
@@ -77,13 +77,20 @@ public:
 	@param Data &d1 - The date settled
 	@return true if the whole date is equal to the second one to establish
 	*/
-	bool operator==(Data &d1);
+	bool operator==(Data &d1) const;
 	/**
 	@brief function to overload the < operator
 	@param Data &d1 - The date settled
 	@return true if the date to establish is lower than the first date
 	*/
 	bool operator<(Data &d1) const;
+	/**
+	@brief function to overload the > operator
+	@param d1 Date settled
+	@return Returns true if the date is higher that the second date
+	*/
+	bool operator>(Data &d1) const;
+
 	/**
 	@brief function to overload the = operator by declaring the Date to establish to the first one
 	@param Data &d1 - The year to settled
@@ -251,6 +258,12 @@ public:
 	@param Data: dataI, dataF, razao
 	*/
 	void setIndisponibilidade(Data dataI, Data dataF, string razao);
+
+	/**
+	@brief Function to set the reason of unavailability
+	*/
+	void setRazao(string razao);
+
 	/**
 	@brief function to get all sessions, according to the vector estabilished
 	@return the vector all sessions available
@@ -285,9 +298,11 @@ public:
 	*/
 	friend ostream & operator<<(ostream &os, const Candidato *c1);
 
-	//
+	/**
+	@brief Returns the pair with the unavailability of the candidate. The pair consists of another pair with two dates (period of unavailability) and a string with the reason
+	*/
 	pair<pair<Data, Data>, string> getIndisponibilidade() const;
-	//
+	
 };
 
 
@@ -773,7 +788,7 @@ public:
 	/**
 	@brief function that gets the current date
 	*/
-	void obter_data_atual();
+	Data obter_data_atual();
 	/**
 	@brief function that shows the current date
 	*/
@@ -781,10 +796,17 @@ public:
 	
 	//
 	void sort_map();
+	/**
+	@brief returns the set of unavailable candidates at the time
+	*/
 	unordered_set<Candidato*, hstr, eqstr> getIndisponiveis() const;
-	void adicionarIndisponivel(Candidato * c1);
-	Data obter_data_atual();
-	void mostrar_data_atual();
+
+	/**
+	@brief Adds the candidate c1 to the set of unavailable candidates at the time
+	*/
+	bool adicionarIndisponivel(Candidato * c1);
+
+	void updateIndisponiveis();
 };
 
 /**
