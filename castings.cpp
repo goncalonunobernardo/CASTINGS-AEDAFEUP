@@ -418,6 +418,11 @@ void Candidato::setNumInscricoes(int num) {
 	numInscricoesAtual = num;
 }
 
+void Candidato::setNumInscricao() {
+	++numInscricoesAtual;
+	numInscricao = numInscricoesAtual;
+}
+
 double Candidato::getPontuacao(int sessaoId, int fase) {
 	for (size_t i = 0; i < pontuacoes.size(); i++) {
 		if (pontuacoes.at(i).getId() == sessaoId && pontuacoes.at(i).getFase() == fase)
@@ -1189,11 +1194,6 @@ void Castings::sort_map()
 
 
 unordered_set<Candidato*, hstr, eqstr> Castings::getIndisponiveis() const {
-	//for (auto lol = indisponiveis.begin(); lol != indisponiveis.end(); lol++) {
-	//	cout << (*lol)->getDataNascimento() << endl;
-	//	cout << (*lol)->getNome() << endl;
-	//}
-
 	return indisponiveis;
 }
 
@@ -1221,10 +1221,15 @@ void Castings::mostrar_data_atual()
 }
 
 void Castings::updateIndisponiveis() {
-	for (auto it = indisponiveis.begin(); it != indisponiveis.end(); it++) {
+	unordered_set<Candidato*, hstr, eqstr>::iterator it = indisponiveis.begin();
+
+	while (it != indisponiveis.end()) {
 		Data d1 = (*it)->getIndisponibilidade().first.first, d2 = (*it)->getIndisponibilidade().first.second, datual = obter_data_atual();
-		if (datual<d1 || datual>d2)
+		if (datual<d1 || datual>d2) {
 			adicionaCandidato((*it));
+			it = indisponiveis.erase(it);
+		}
+		else it++;
 	}
 }
 
@@ -1387,10 +1392,14 @@ void Data::operator=(Data & d1)
  
 ostream & operator<<(ostream & os, const Data & d1)
 {
-	 os << setfill('0') << setw(2) << d1.dia << "-" << setfill('0') << setw(2) << d1.mes << "-" << d1.ano;
-	 return os;
+	if (d1.dia < 10)
+		os << "0";
+	os << d1.dia << "-";
+	if (d1.mes < 10)
+		os << "0";
+	os << d1.mes << "-" << d1.ano;
 
-	// TODO: inserir instrucao de retorno aqui
+	 return os;
 }
 
 ostream & operator<<(ostream & os, const Candidato * c1)

@@ -64,11 +64,11 @@ void Grava_Ficheiro_Sessoes();
 /**
 @brief object to create Candidates
 */
-Candidato criar_Candidato();
+void criar_Candidato(Candidato * cand);
 /**
 @brief object to create Juries
 */
-Jurado criar_Jurado();
+void criar_Jurado(Jurado * juri);
 /**
 @brief object to create Sessions
 */

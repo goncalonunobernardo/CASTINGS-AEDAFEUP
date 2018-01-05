@@ -96,8 +96,8 @@ void Menu_Principal() {
 
 void Menu_Adicionar() {
 	int opcao;
-	Candidato novo;
-	Jurado jurado;
+	Candidato * novo = new Candidato;
+	Jurado * jurado = new Jurado;
 	Sessao s1;
 	string genero;
 
@@ -123,9 +123,7 @@ void Menu_Adicionar() {
 			break;
 		case 1:
 			try {
-				novo = criar_Candidato();
-
-				C.getIndisponiveis();
+				criar_Candidato(novo);
 			}
 			catch (CandidatoRepetido c1) {
 				c1.handler();
@@ -133,8 +131,8 @@ void Menu_Adicionar() {
 				break;
 			}
 			try {
-				if(novo.getIndisponibilidade().second=="")
-					C.adicionaCandidato(&novo);
+				if(novo->getIndisponibilidade().second=="")
+					C.adicionaCandidato(novo);
 				
 			}
 			catch (CandidatoRepetido c1) {
@@ -149,14 +147,15 @@ void Menu_Adicionar() {
 			Menu_Principal();
 			break;
 		case 2:
-			novo.setNome(nome());
+			C.updateIndisponiveis();
+			novo->setNome(nome());
 			cout << "Genero da sessao: ";
 			cin >> genero;
 			cout << endl;
 			s1.setGenero(genero);
 			s1.setData(data());
 			try {
-				C.adicionaCandidatoSessao(&novo, s1);
+				C.adicionaCandidatoSessao(novo, s1);
 			}
 			catch (CandidatoInexistente candidato) {
 				candidato.handler();
@@ -174,7 +173,7 @@ void Menu_Adicionar() {
 				break;
 			}
 
-			s1.getEntrevistas().push(&novo);
+			s1.getEntrevistas().push(novo);
 
 			cout << "=============================================================\n";
 			cout << "Candidato adicionado a Sessao! \nRetornando ao Menu Principal...\n";
@@ -183,14 +182,14 @@ void Menu_Adicionar() {
 			break;
 		case 3:
 			try {
-				jurado = criar_Jurado();
+				criar_Jurado(jurado);
 			}
 			catch (JuradoRepetido &j1) {
 				j1.handler();
 				Menu_Adicionar();
 				break;
 			}
-			C.adicionaJurado(&jurado);
+			C.adicionaJurado(jurado);
 			cout << "=============================================================\n";
 			cout << "Jurado adicionado ao CASTINGTORIUM 200! \nRetornando ao Menu Principal...\n";
 			cout << "=============================================================\n";
@@ -525,7 +524,7 @@ void Menu_Informacoes() {
 	cout << "4) Sessoes\n";
 	cout << "5) Entrevistas\n";
 	cout << "6) Realizar Entrevista\n";
-	cout << "7) Candidatos indisponíveis\n";
+	cout << "7) Candidatos indisponiveis\n";
 	cout << "0) Menu Principal\n";
 	cout << "=============================================================\n";
 	while (!cin.fail())
@@ -779,7 +778,7 @@ void Grava_Ficheiro_Sessoes() {
 }
 
 // nota: esta funçao lança excecoes ---> chamar esta funcao dentro de um try
-Candidato criar_Candidato() {
+void criar_Candidato(Candidato * cand) {
 	string nome, morada, genero, datastr;
 	Data d;
 	string dia, mes, ano;
@@ -793,14 +792,13 @@ Candidato criar_Candidato() {
 		if (it.second->getNome() == nome)throw CandidatoRepetido(nome);
 	}
 
-	Candidato novo;
-	novo.setNome(nome);
+	cand->setNome(nome);
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
-	novo.setMorada(morada);
+	cand->setMorada(morada);
 	cout << "Insira o genero de arte performativa em que o candidato e mais forte. \n";
 	getline(cin, genero);
-	novo.setGenero(genero);
+	cand->setGenero(genero);
 	cout << "Insira a data de nascimento. (no formato dd-mm-aaaa) \n";
 	getline(cin, datastr);
 	istringstream dataS(datastr);
@@ -813,7 +811,7 @@ Candidato criar_Candidato() {
 	getline(dataS, ano);
 	int anoI = stoi(ano);
 	d.setAno(anoI);
-	novo.setDataNascimento(d);
+	cand->setDataNascimento(d);
 
 	char i;
 	string lixo;
@@ -826,34 +824,33 @@ Candidato criar_Candidato() {
 
 	switch (i) {
 	case 's':
-		cout << "Periodo de indisponibilidade: \n data de comeco: (dd-mm-aaaa) \n";
+		cout << "Periodo de indisponibilidade: \n data de comeco: (dd-mm-aaaa) \n ";
 		getline(cin, strdata);
 		d1 = lerData(strdata);
-		cout << "data de fim: (dd-mm-aaaa) \n";
+		cout << " data de fim: (dd-mm-aaaa) \n ";
 		getline(cin, strdata);
 		d2 = lerData(strdata);
 		cout << "Motivo de indisponibilidade: \n";
 		getline(cin, razao);
-		novo.setIndisponibilidade(d1, d2, razao);
-		C.adicionarIndisponivel(&novo);
+		cand->setIndisponibilidade(d1, d2, razao);
+		C.adicionarIndisponivel(cand);
 		C.getIndisponiveis();
 		break;
 
 	case 'n':
-		novo.setRazao("");
+		cand->setRazao("");
 		
 	default:
 		break;
 	}
 
-	cout << "Candidato criado. O numero de inscricao do candidato e: " << novo.getNumInscricao() << endl;
+	cout << "Candidato criado. O numero de inscricao do candidato e: " << cand->getNumInscricao() << endl;
 	cout << "=============================================================\n\n";
 
-	return novo;
 }
 
 // nota: esta funçao lança excecoes ---> chamar esta funcao dentro de um try
-Jurado criar_Jurado() {
+void criar_Jurado(Jurado * juri) {
 	string nome, morada, genero, telemovel;
 
 	cout << "=============================================================\n";
@@ -863,23 +860,21 @@ Jurado criar_Jurado() {
 
 	if (C.juradoExiste(nome) != -1)
 		throw JuradoRepetido(nome);
-	Jurado novo;
-	novo.setNome(nome);
+
+	juri->setNome(nome);
 
 	cout << "Insira o numero de telemovel. \n";
 	getline(cin, telemovel);
-	novo.setTelemovel(telemovel);
+	juri->setTelemovel(telemovel);
 	cout << "Insira a morada. \n";
 	getline(cin, morada);
-	novo.setMorada(morada);
+	juri->setMorada(morada);
 	cout << "Insira o genero de arte performativa em que o jurado e mais forte. \n";
 	getline(cin, genero);
-	novo.setGenero(genero);
+	juri->setGenero(genero);
 
 	cout << "Jurado criado. \n";
 	cout << "=============================================================\n";
-
-	return novo;
 }
 Sessao criar_Sessao() {
 	Sessao s1;
@@ -1103,7 +1098,7 @@ Data lerData(string datastr) {
 
 void mostrarIndisponiveis() {
 
-	//C.updateIndisponiveis();
+	C.updateIndisponiveis();
 	int max = 0;
 
 	if (C.getIndisponiveis().empty()) {
@@ -1115,18 +1110,23 @@ void mostrarIndisponiveis() {
 
 	for (auto it = indisps.begin(); it != indisps.end(); it++) {
 		Candidato * cand = (*it);
-		cout << cand->getDataNascimento();
+		if (cand->getNome().length() > max)
+			max = cand->getNome().length();
 	}
+	
+	cout << endl << endl;
+	cout << setiosflags(ios::left) << setw(max) << setfill(' ') << "CANDIDATO";
+	cout << "|" << setiosflags(ios::left) << setw(23) << setfill(' ') << "INDISPONIBILIDADE";
+	cout << "|" << setiosflags(ios::left) << setfill(' ')<< "MOTIVO \n";
 
-	cout << setiosflags(ios::left) << setw(max) << "CANDIDATO";
-	cout << "|" << setiosflags(ios::left) << setw(25) << setfill(' ') << "INDISPONIBILIDADE";
-	cout << "|" << setiosflags(ios::left) << "MOTIVO \n";
-
-	for (auto it = C.getIndisponiveis().begin(); it != C.getIndisponiveis().end(); it++) {
+	for (auto it = indisps.begin(); it != indisps.end(); it++) {
 		Candidato * cand = (*it);
-		cout << setiosflags(ios::left) << setw(max) << cand->getNome();
-		cout << "|" << setiosflags(ios::left) << setw(25) << cand->getIndisponibilidade().first.first << " - " << cand->getIndisponibilidade().first.second;
-		cout << "|" << setiosflags(ios::left) << cand->getIndisponibilidade().second << endl;
+		cout << setiosflags(ios::left) << setw(max) << setfill(' ') << cand->getNome();
+		cout << "|" << setiosflags(ios::left);
+		cout << cand->getIndisponibilidade().first.first;
+		cout << " - ";
+		cout << cand->getIndisponibilidade().first.second;
+		cout << "|" << setiosflags(ios::left) << setfill(' ') << cand->getIndisponibilidade().second << endl;
 	}
 
 	cout << "\n Retornando ao menu principal... \n \n";

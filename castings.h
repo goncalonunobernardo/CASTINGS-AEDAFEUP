@@ -23,19 +23,6 @@ class Sessao;
 class Pontuacao;
 class Castings;
 
-
-struct eqstr {
-	bool operator() (const Candidato * c1, const Candidato * c2) const {
-		return (c1 == c2);
-	}
-};
-
-struct hstr {
-	int operator() (const Candidato * c1) const {
-		return 0;  // a modificar
-	}
-};
-
 class Data {
 private:
 	int dia;
@@ -223,8 +210,8 @@ public:
 	*/
 	Data getDataNascimento() const;
 	/**
-	@brief function to get the number of sign-ups of a candidate
-	@return the number of sign-ups of a candidate
+	@brief function to get sign-up number of a candidate
+	@return sign-up number
 	*/
 	int getNumInscricao() const;
 	/**
@@ -234,8 +221,8 @@ public:
 	*/
 	double getPontuacao(int sessaoId, int fase);
 	/**
-	@brief function to get the number of sign-ups of a candidate
-	@return the number of sign-ups of a candidate
+	@brief function to get the number of candidate sign-ups up until now
+	@return the number of sign-ups
 	*/
 	static int getNumInscricoes();
 	/**
@@ -244,10 +231,16 @@ public:
 	*/
 	void setDataNascimento(Data data);
 	/**
-	@brief function to set the number of sign-ups of a candidate
-	@param num - the number of sign-ups of a candidate
+	@brief function to set the number of candidate sign-ups up until now
+	@param num - the number of sign-ups
 	*/
 	void setNumInscricoes(int num); 
+
+	/**
+	@brief function to set sign-up number of a candidate
+	*/
+	void setNumInscricao();
+
 	/**
 	@brief function to set the unavailability of sessions
 	@param indisp - string
@@ -554,6 +547,19 @@ public:
 };
 
 
+struct eqstr {
+	bool operator() (const Candidato * c1, const Candidato * c2) const {
+		return (c1 == c2);
+	}
+};
+
+struct hstr {
+	size_t operator() (const Candidato * c1) const {
+		size_t ind;
+		ind = c1->getMorada().length() % 47 + c1->getNumInscricao();
+		return ind;
+	}
+};
 
 class Castings {
 private:
@@ -803,9 +809,13 @@ public:
 
 	/**
 	@brief Adds the candidate c1 to the set of unavailable candidates at the time
+	@param c1 Candidate
+	@return Returns true upon success and false otherwise
 	*/
 	bool adicionarIndisponivel(Candidato * c1);
-
+	/**
+	@brief Updates unavailable candidates depending on the current date
+	*/
 	void updateIndisponiveis();
 };
 
